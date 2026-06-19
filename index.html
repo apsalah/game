@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>약국 미니게임 - 약리학 MCQ 대화체</title>
+  <style>
+    :root {
+      --stage-max-width: 1400px;
+
+      /* 손님 캐릭터 위치: 사용자가 조절한 기준값 */
+      --customer-width: 22.8%;
+      --customer-right: 14.2%;
+      --desk-top-y: 62.3%;
+      --crop-height-ratio: 1024 / 1295;
+
+      /* 말풍선 글상자 위치: 사용자가 조절한 기준값 */
+      --speech-left: 21.0%;
+      --speech-top: 17.8%;
+      --speech-width: 35.0%;
+      --speech-height: 14.8%;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #eef7ff, #f8edd9);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      padding: 20px;
+      color: #4f3829;
+    }
+
+    .wrap {
+      width: min(var(--stage-max-width), 96vw);
+    }
+
+    .stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1672 / 941;
+      overflow: hidden;
+      border-radius: 24px;
+      box-shadow: 0 24px 56px rgba(63, 44, 28, 0.18);
+      background: #f6efe5;
+      user-select: none;
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    .customer-crop {
+      position: absolute;
+      right: var(--customer-right);
+      bottom: calc(100% - var(--desk-top-y));
+      width: var(--customer-width);
+      aspect-ratio: var(--crop-height-ratio);
+      overflow: hidden;
+      z-index: 10;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .customer-crop img {
+      width: 100%;
+      height: auto;
+      display: block;
+      pointer-events: none;
+      filter: drop-shadow(0 10px 14px rgba(0,0,0,0.08));
+    }
+
+    .speech-text {
+      position: absolute;
+      left: var(--speech-left);
+      top: var(--speech-top);
+      width: var(--speech-width);
+      height: var(--speech-height);
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.0% 1.6%;
+      text-align: center;
+      font-weight: 900;
+      font-size: clamp(14px, 1.7vw, 30px);
+      line-height: 1.28;
+      color: #5a3a29;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+      white-space: pre-line;
+      pointer-events: none;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.55);
+      overflow: hidden;
+    }
+
+    .med-name {
+      position: absolute;
+      z-index: 19;
+      height: 5.3%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 900;
+      font-size: clamp(12px, 1.18vw, 21px);
+      color: #5d3f2c;
+      pointer-events: none;
+      letter-spacing: -0.04em;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+      padding: 0 0.35%;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    /* 약 이름 위치: 사용자가 조절한 기준값 */
+    .med-name[data-med="cough"] { left: 21.9%; top: 78.3%; width: 10.8%; }
+    .med-name[data-med="pain"] { left: 34.9%; top: 78.3%; width: 10.9%; }
+    .med-name[data-med="stomach"] { left: 48.1%; top: 78.3%; width: 10.9%; }
+    .med-name[data-med="allergy"] { left: 61.5%; top: 78.3%; width: 11.5%; }
+    .med-name[data-med="cold"] { left: 75.7%; top: 78.3%; width: 11.0%; }
+
+    .hit {
+      position: absolute;
+      z-index: 25;
+      border: 0;
+      background: rgba(255,255,255,0);
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 0;
+      outline: none;
+    }
+
+    .hit:hover {
+      background: rgba(255,255,255,0.12);
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.28);
+    }
+
+    .hit:active {
+      background: rgba(255,255,255,0.20);
+    }
+
+    /* 클릭 영역 위치: 사용자가 조절한 기준값 */
+    .hit[data-med="cough"]   { left: 25.0%; top: 61.2%; width: 5.6%; height: 15.5%; }
+    .hit[data-med="pain"]    { left: 37.8%; top: 61.2%; width: 5.6%; height: 15.5%; }
+    .hit[data-med="stomach"] { left: 50.8%; top: 61.2%; width: 5.6%; height: 15.5%; }
+    .hit[data-med="allergy"] { left: 64.6%; top: 61.2%; width: 5.6%; height: 15.5%; }
+    .hit[data-med="cold"]    { left: 78.0%; top: 61.2%; width: 5.6%; height: 15.5%; }
+
+    .judge {
+      position: absolute;
+      z-index: 40;
+      right: 12%;
+      top: 20%;
+      width: clamp(74px, 8.8vw, 132px);
+      height: clamp(74px, 8.8vw, 132px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      transform: scale(0.9);
+      animation: pop 0.22s ease forwards;
+      filter: drop-shadow(0 12px 20px rgba(58, 39, 24, 0.18));
+    }
+
+    .judge.show { display: flex; }
+
+    .judge img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+    }
+
+@keyframes pop {
+      from { opacity: 0; transform: scale(0.78); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .top-ui {
+      position: absolute;
+      left: 1.2%;
+      top: 1.4%;
+      z-index: 35;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .ui-card {
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(68,43,28,0.14);
+      padding: 10px 14px;
+      font-weight: 900;
+      color: #563b2a;
+      font-size: clamp(12px, 1.0vw, 16px);
+    }
+
+    .nav-controls {
+      position: absolute;
+      right: 2.0%;
+      bottom: 2.2%;
+      z-index: 42;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .circle-btn {
+      width: clamp(52px, 5.2vw, 78px);
+      height: clamp(52px, 5.2vw, 78px);
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.88);
+      box-shadow: 0 10px 22px rgba(68,43,28,0.20);
+      color: #563b2a;
+      font-weight: 1000;
+      font-size: clamp(26px, 3vw, 42px);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.14s ease, background 0.14s ease;
+    }
+
+    .circle-btn:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.98);
+    }
+
+    .next-btn { color: #2f7f62; }
+
+    .restart {
+      border: 0;
+      background: rgba(255,255,255,0.86);
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(68,43,28,0.14);
+      padding: 10px 14px;
+      font-weight: 900;
+      color: #563b2a;
+      cursor: pointer;
+      font-size: clamp(12px, 1.0vw, 16px);
+    }
+
+    .restart:hover { background: rgba(255,255,255,0.96); }
+
+    .popup-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 70;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 3%;
+      background: rgba(54, 35, 24, 0.34);
+      backdrop-filter: blur(4px);
+    }
+
+    .popup-overlay.show { display: flex; }
+
+    .popup-card {
+      width: min(760px, 92vw);
+      max-height: min(78vh, 720px);
+      overflow: auto;
+      background: rgba(255,255,255,0.96);
+      border-radius: 26px;
+      box-shadow: 0 20px 50px rgba(54,35,24,0.28);
+      padding: 26px 28px;
+      color: #4f3829;
+    }
+
+    .popup-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .popup-title {
+      font-size: 24px;
+      font-weight: 1000;
+      line-height: 1.25;
+    }
+
+    .popup-source {
+      color: #846858;
+      font-size: 14px;
+      font-weight: 800;
+      margin-top: 6px;
+    }
+
+    .close-btn {
+      border: 0;
+      border-radius: 12px;
+      background: #f2e6da;
+      color: #563b2a;
+      font-weight: 1000;
+      font-size: 20px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .popup-question {
+      margin: 16px 0;
+      padding: 14px 16px;
+      background: #fff4e7;
+      border-radius: 16px;
+      font-weight: 850;
+      line-height: 1.55;
+    }
+
+    .core-line {
+      margin: 12px 0 14px;
+      padding: 12px 14px;
+      background: #eff8ef;
+      border-radius: 14px;
+      font-weight: 800;
+      line-height: 1.55;
+      color: #346341;
+    }
+
+    .answer-line {
+      margin: 12px 0 16px;
+      font-weight: 1000;
+      color: #16805c;
+      font-size: 18px;
+    }
+
+    .explanation-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .explanation-list li {
+      padding: 10px 12px;
+      background: #f8f2eb;
+      border-radius: 12px;
+      line-height: 1.55;
+      font-weight: 650;
+    }
+
+    .end-panel {
+      position: absolute;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(54, 35, 24, 0.34);
+      backdrop-filter: blur(4px);
+    }
+
+    .end-panel.show { display: flex; }
+
+    .end-card {
+      width: min(460px, 88vw);
+      background: rgba(255,255,255,0.96);
+      border-radius: 28px;
+      padding: 30px 24px;
+      box-shadow: 0 20px 50px rgba(54,35,24,0.28);
+      text-align: center;
+    }
+
+    .end-card h2 {
+      margin: 0 0 10px;
+      font-size: 32px;
+      color: #4f3829;
+    }
+
+    .end-card p {
+      margin: 8px 0;
+      color: #735a49;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .final-score {
+      margin: 14px 0 18px;
+      font-size: 52px;
+      font-weight: 1000;
+      color: #249a67;
+    }
+
+    .guide {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #715c4a;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 900px) {
+      body { padding: 0; }
+      .wrap { width: 100vw; }
+      .stage { border-radius: 0; }
+      .top-ui { transform: scale(0.85); transform-origin: left top; }
+      .nav-controls { transform: scale(0.86); transform-origin: right bottom; }
+      .popup-card { max-height: 80vh; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="stage" id="stage">
+      <img class="bg" src="image/background.png" alt="약국 배경" />
+
+      <div class="top-ui">
+        <div class="ui-card">점수 <span id="score">0</span> / <span id="total">50</span></div>
+        <div class="ui-card">문제 <span id="round">1</span> / <span id="totalRound">50</span></div>
+        <button class="restart" id="restartTop">다시 시작</button>
+      </div>
+
+      <div class="customer-crop" aria-hidden="true">
+        <img id="customerImg" src="image/customers/customer_00.png" alt="손님 캐릭터" />
+      </div>
+
+      <div class="speech-text" id="speechText"></div>
+
+      <div class="med-name" data-med="cough" id="label0"></div>
+      <div class="med-name" data-med="pain" id="label1"></div>
+      <div class="med-name" data-med="stomach" id="label2"></div>
+      <div class="med-name" data-med="allergy" id="label3"></div>
+      <div class="med-name" data-med="cold" id="label4"></div>
+
+      <button class="hit" data-med="cough" data-slot="0" aria-label="1번 약"></button>
+      <button class="hit" data-med="pain" data-slot="1" aria-label="2번 약"></button>
+      <button class="hit" data-med="stomach" data-slot="2" aria-label="3번 약"></button>
+      <button class="hit" data-med="allergy" data-slot="3" aria-label="4번 약"></button>
+      <button class="hit" data-med="cold" data-slot="4" aria-label="5번 약"></button>
+
+      <div class="judge" id="judge"><img id="judgeImg" alt="정오 표시" /></div>
+
+      <div class="nav-controls">
+        <button class="circle-btn help-btn" id="helpBtn" aria-label="해설 보기">?</button>
+        <button class="circle-btn next-btn" id="nextBtn" aria-label="다음 문제">➜</button>
+      </div>
+
+      <div class="popup-overlay" id="explainPopup">
+        <div class="popup-card">
+          <div class="popup-head">
+            <div>
+              <div class="popup-title" id="popupTitle">해설</div>
+              <div class="popup-source" id="popupSource"></div>
+            </div>
+            <button class="close-btn" id="closePopup" aria-label="닫기">×</button>
+          </div>
+          <div class="popup-question" id="popupQuestion"></div>
+          <div class="core-line" id="popupCore"></div>
+          <div class="answer-line" id="popupAnswer"></div>
+          <ul class="explanation-list" id="popupExplanation"></ul>
+        </div>
+      </div>
+
+      <div class="end-panel" id="endPanel">
+        <div class="end-card">
+          <h2>게임 종료</h2>
+          <p>업로드한 대화체 문제 50개를 모두 풀었습니다.</p>
+          <div class="final-score"><span id="finalScore">0</span> / 50</div>
+          <button class="restart" id="restartBottom" style="font-size:18px;padding:14px 22px;">다시 시작</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+  <script>
+    const QUESTIONS = [
+  {
+    "number": 1,
+    "source": "54. 알코올의 약리작용",
+    "question": "환자: \"메탄올을 마셨어요. 해독제가 필요해요.\"",
+    "dialogue": "메탄올을 마셨어요. 해독제가 필요해요.",
+    "options": [
+      "Fomepizole",
+      "Disulfiram",
+      "Naltrexone",
+      "Acamprosate",
+      "Topiramate"
+    ],
+    "answer": "Fomepizole",
+    "core": "alcohol dehydrogenase 경쟁적 억제가 핵심. ALDH 억제제나 알코올 의존 치료 약물과 구분한다.",
+    "explanation": [
+      "① Fomepizole / 정답 / alcohol dehydrogenase를 경쟁적으로 억제하여 methanol/ethylene glycol의 독성 대사산물 생성을 줄이는 해독제이다.",
+      "② Disulfiram / 오답 / ALDH를 억제하여 acetaldehyde 축적을 유도하고 음주 시 불쾌반응을 일으킨다.",
+      "③ Naltrexone / 오답 / μ-opioid receptor antagonist로 알코올 섭취의 보상효과를 낮춘다.",
+      "④ Acamprosate / 오답 / mGluR5 관련 glutamate 조절 약물로 금주 유지에 쓰이며 심한 신부전에서 금기이다.",
+      "⑤ Topiramate / 오답 / 전압의존성 Na+ channel 차단과 관련되며 체중감소가 특징으로 정리된 알코올 의존 치료 보조약이다."
+    ]
+  },
+  {
+    "number": 2,
+    "source": "54. 알코올의 약리작용",
+    "question": "환자: \"술을 마시면 일부러 불쾌한 반응이 나게 하는 치료를 하고 싶어요.\"",
+    "dialogue": "술을 마시면 일부러 불쾌한 반응이 나게 하는 치료를 하고 싶어요.",
+    "options": [
+      "Naltrexone",
+      "Disulfiram",
+      "Fomepizole",
+      "Acamprosate",
+      "Topiramate"
+    ],
+    "answer": "Disulfiram",
+    "core": "ALDH 억제를 통한 aversive therapy가 핵심.",
+    "explanation": [
+      "① Naltrexone / 오답 / μ-opioid receptor antagonist로 알코올 섭취의 보상효과를 낮춘다.",
+      "② Disulfiram / 정답 / ALDH를 억제하여 acetaldehyde 축적을 유도하고 음주 시 불쾌반응을 일으킨다.",
+      "③ Fomepizole / 오답 / alcohol dehydrogenase를 경쟁적으로 억제하여 methanol/ethylene glycol의 독성 대사산물 생성을 줄이는 해독제이다.",
+      "④ Acamprosate / 오답 / mGluR5 관련 glutamate 조절 약물로 금주 유지에 쓰이며 심한 신부전에서 금기이다.",
+      "⑤ Topiramate / 오답 / 전압의존성 Na+ channel 차단과 관련되며 체중감소가 특징으로 정리된 알코올 의존 치료 보조약이다."
+    ]
+  },
+  {
+    "number": 3,
+    "source": "54. 알코올의 약리작용",
+    "question": "환자: \"술을 마셨을 때 보상감이 줄어드는 약이 있나요?\"",
+    "dialogue": "술을 마셨을 때 보상감이 줄어드는 약이 있나요?",
+    "options": [
+      "Acamprosate",
+      "Topiramate",
+      "Naltrexone",
+      "Disulfiram",
+      "Fomepizole"
+    ],
+    "answer": "Naltrexone",
+    "core": "알코올 보상효과 감소는 μ-opioid receptor 길항 작용과 연결한다.",
+    "explanation": [
+      "① Acamprosate / 오답 / mGluR5 관련 glutamate 조절 약물로 금주 유지에 쓰이며 심한 신부전에서 금기이다.",
+      "② Topiramate / 오답 / 전압의존성 Na+ channel 차단과 관련되며 체중감소가 특징으로 정리된 알코올 의존 치료 보조약이다.",
+      "③ Naltrexone / 정답 / μ-opioid receptor antagonist로 알코올 섭취의 보상효과를 낮춘다.",
+      "④ Disulfiram / 오답 / ALDH를 억제하여 acetaldehyde 축적을 유도하고 음주 시 불쾌반응을 일으킨다.",
+      "⑤ Fomepizole / 오답 / alcohol dehydrogenase를 경쟁적으로 억제하여 methanol/ethylene glycol의 독성 대사산물 생성을 줄이는 해독제이다."
+    ]
+  },
+  {
+    "number": 4,
+    "source": "54. 알코올의 약리작용",
+    "question": "환자: \"금주를 계속 유지하는 데 도움 되는 약을 찾고 있어요. 신장은 괜찮아요.\"",
+    "dialogue": "금주를 계속 유지하는 데 도움 되는 약을 찾고 있어요. 신장은 괜찮아요.",
+    "options": [
+      "Topiramate",
+      "Naltrexone",
+      "Disulfiram",
+      "Acamprosate",
+      "Fomepizole"
+    ],
+    "answer": "Acamprosate",
+    "core": "금주 유지, mGluR5 관련 glutamate 조절, 심한 신부전 금기를 연결.",
+    "explanation": [
+      "① Topiramate / 오답 / 전압의존성 Na+ channel 차단과 관련되며 체중감소가 특징으로 정리된 알코올 의존 치료 보조약이다.",
+      "② Naltrexone / 오답 / μ-opioid receptor antagonist로 알코올 섭취의 보상효과를 낮춘다.",
+      "③ Disulfiram / 오답 / ALDH를 억제하여 acetaldehyde 축적을 유도하고 음주 시 불쾌반응을 일으킨다.",
+      "④ Acamprosate / 정답 / mGluR5 관련 glutamate 조절 약물로 금주 유지에 쓰이며 심한 신부전에서 금기이다.",
+      "⑤ Fomepizole / 오답 / alcohol dehydrogenase를 경쟁적으로 억제하여 methanol/ethylene glycol의 독성 대사산물 생성을 줄이는 해독제이다."
+    ]
+  },
+  {
+    "number": 5,
+    "source": "54. 알코올의 약리작용",
+    "question": "환자: \"알코올 의존 치료 중 체중이 줄 수 있는 보조약이 있다고 들었어요.\"",
+    "dialogue": "알코올 의존 치료 중 체중이 줄 수 있는 보조약이 있다고 들었어요.",
+    "options": [
+      "Disulfiram",
+      "Fomepizole",
+      "Acamprosate",
+      "Naltrexone",
+      "Topiramate"
+    ],
+    "answer": "Topiramate",
+    "core": "전압의존성 Na+ channel 차단 및 체중감소라는 단서가 중요하다.",
+    "explanation": [
+      "① Disulfiram / 오답 / ALDH를 억제하여 acetaldehyde 축적을 유도하고 음주 시 불쾌반응을 일으킨다.",
+      "② Fomepizole / 오답 / alcohol dehydrogenase를 경쟁적으로 억제하여 methanol/ethylene glycol의 독성 대사산물 생성을 줄이는 해독제이다.",
+      "③ Acamprosate / 오답 / mGluR5 관련 glutamate 조절 약물로 금주 유지에 쓰이며 심한 신부전에서 금기이다.",
+      "④ Naltrexone / 오답 / μ-opioid receptor antagonist로 알코올 섭취의 보상효과를 낮춘다.",
+      "⑤ Topiramate / 정답 / 전압의존성 Na+ channel 차단과 관련되며 체중감소가 특징으로 정리된 알코올 의존 치료 보조약이다."
+    ]
+  },
+  {
+    "number": 6,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"RAAS를 제일 위 단계에서 막는 혈압약이 필요해요.\"",
+    "dialogue": "RAAS를 제일 위 단계에서 막는 혈압약이 필요해요.",
+    "options": [
+      "Captopril",
+      "Losartan",
+      "Aliskiren",
+      "Valsartan",
+      "Sacubitril"
+    ],
+    "answer": "Aliskiren",
+    "core": "Renin inhibitor와 ACE inhibitor, ARB, neprilysin inhibitor를 구분.",
+    "explanation": [
+      "① Captopril / 오답 / ACE inhibitor로 Ang II를 감소시키고 bradykinin 증가에 따른 dry cough/angioedema가 가능하다.",
+      "② Losartan / 오답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다.",
+      "③ Aliskiren / 정답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
+      "④ Valsartan / 오답 / ARB이며 sacubitril과 함께 ARNI 조합의 ARB 성분으로 정리되어 있다.",
+      "⑤ Sacubitril / 오답 / Neprilysin inhibitor로 ANP/BNP 같은 natriuretic peptide의 분해를 억제한다."
+    ]
+  },
+  {
+    "number": 7,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"ACE inhibitor 계열 혈압약을 처방받고 싶어요.\"",
+    "dialogue": "ACE inhibitor 계열 혈압약을 처방받고 싶어요.",
+    "options": [
+      "Losartan",
+      "Captopril",
+      "Aliskiren",
+      "Valsartan",
+      "Sacubitril"
+    ],
+    "answer": "Captopril",
+    "core": "ACE inhibitor는 Ang II 감소와 bradykinin 증가를 동시에 일으킬 수 있다.",
+    "explanation": [
+      "① Losartan / 오답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다.",
+      "② Captopril / 정답 / ACE inhibitor로 Ang II를 감소시키고 bradykinin 증가에 따른 dry cough/angioedema가 가능하다.",
+      "③ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
+      "④ Valsartan / 오답 / ARB이며 sacubitril과 함께 ARNI 조합의 ARB 성분으로 정리되어 있다.",
+      "⑤ Sacubitril / 오답 / Neprilysin inhibitor로 ANP/BNP 같은 natriuretic peptide의 분해를 억제한다."
+    ]
+  },
+  {
+    "number": 8,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"의사가 -pril 계열 혈압약을 말했어요.\"",
+    "dialogue": "의사가 -pril 계열 혈압약을 말했어요.",
+    "options": [
+      "Candesartan",
+      "Aliskiren",
+      "Famotidine",
+      "Enalapril",
+      "Losartan"
+    ],
+    "answer": "Enalapril",
+    "core": "-pril 계열은 ACE inhibitor이고, -sartan 계열은 ARB이다.",
+    "explanation": [
+      "① Candesartan / 오답 / ARB로 AT1 receptor를 차단하며 hyperkalemia가 가능하다.",
+      "② Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
+      "③ Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
+      "④ Enalapril / 정답 / ACE inhibitor로 Ang II 생성을 줄이고 bradykinin을 증가시킬 수 있는 -pril 계열 약물이다.",
+      "⑤ Losartan / 오답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다."
+    ]
+  },
+  {
+    "number": 9,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"혈압약 복용 후 마른기침이 생길 수 있다고 들었어요.\"",
+    "dialogue": "혈압약 복용 후 마른기침이 생길 수 있다고 들었어요.",
+    "options": [
+      "Lisinopril",
+      "Candesartan",
+      "Tolvaptan",
+      "Aliskiren",
+      "Bosentan"
+    ],
+    "answer": "Lisinopril",
+    "core": "ACE inhibitor의 대표 부작용인 dry cough는 bradykinin 증가와 연결한다.",
+    "explanation": [
+      "① Lisinopril / 정답 / ACE inhibitor로 Ang II 감소와 bradykinin 증가가 핵심인 -pril 계열 약물이다.",
+      "② Candesartan / 오답 / ARB로 AT1 receptor를 차단하며 hyperkalemia가 가능하다.",
+      "③ Tolvaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
+      "④ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
+      "⑤ Bosentan / 오답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다."
+    ]
+  },
+  {
+    "number": 10,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"ACE inhibitor 중 하나로 혈압약을 고르고 있어요.\"",
+    "dialogue": "ACE inhibitor 중 하나로 혈압약을 고르고 있어요.",
+    "options": [
+      "Valsartan",
+      "Conivaptan",
+      "Ramipril",
+      "Aliskiren",
+      "Ambrisentan"
+    ],
+    "answer": "Ramipril",
+    "core": "ACE inhibitor와 ARB의 차이는 bradykinin 증가 여부이다.",
+    "explanation": [
+      "① Valsartan / 오답 / ARB이며 sacubitril과 함께 ARNI 조합의 ARB 성분으로 정리되어 있다.",
+      "② Conivaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
+      "③ Ramipril / 정답 / ACE inhibitor로 Ang II 감소, bradykinin 증가, dry cough/angioedema 가능성이 중요하다.",
+      "④ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
+      "⑤ Ambrisentan / 오답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다."
+    ]
+  },
+  {
+    "number": 11,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"-pril로 끝나는 RAAS 차단제를 원해요.\"",
+    "dialogue": "-pril로 끝나는 RAAS 차단제를 원해요.",
+    "options": [
+      "Losartan",
+      "Desmopressin",
+      "Sacubitril",
+      "Macitentan",
+      "Trandolapril"
+    ],
+    "answer": "Trandolapril",
+    "core": "ACE inhibitor는 -pril 접미사를 가지며 Ang II 생성을 감소시킨다.",
+    "explanation": [
+      "① Losartan / 오답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다.",
+      "② Desmopressin / 오답 / Long-acting V2 receptor agonist로 diabetes insipidus에 사용된다.",
+      "③ Sacubitril / 오답 / Neprilysin inhibitor로 ANP/BNP 같은 natriuretic peptide의 분해를 억제한다.",
+      "④ Macitentan / 오답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다.",
+      "⑤ Trandolapril / 정답 / 강의 자료에 제시된 ACE inhibitor 중 하나로 RAAS에서 ACE 단계를 억제한다."
+    ]
+  },
+  {
+    "number": 12,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"기침 때문에 ACE inhibitor 대신 다른 RAAS 차단제를 쓰고 싶어요.\"",
+    "dialogue": "기침 때문에 ACE inhibitor 대신 다른 RAAS 차단제를 쓰고 싶어요.",
+    "options": [
+      "Captopril",
+      "Aliskiren",
+      "Sacubitril",
+      "Losartan",
+      "Desmopressin"
+    ],
+    "answer": "Losartan",
+    "core": "ARB는 AT1 receptor를 차단하지만 ACE를 억제하지 않아 bradykinin 증가가 상대적으로 적다.",
+    "explanation": [
+      "① Captopril / 오답 / ACE inhibitor로 Ang II를 감소시키고 bradykinin 증가에 따른 dry cough/angioedema가 가능하다.",
+      "② Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
+      "③ Sacubitril / 오답 / Neprilysin inhibitor로 ANP/BNP 같은 natriuretic peptide의 분해를 억제한다.",
+      "④ Losartan / 정답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다.",
+      "⑤ Desmopressin / 오답 / Long-acting V2 receptor agonist로 diabetes insipidus에 사용된다."
+    ]
+  },
+  {
+    "number": 13,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"AT1 receptor를 막는 혈압약을 원해요.\"",
+    "dialogue": "AT1 receptor를 막는 혈압약을 원해요.",
+    "options": [
+      "Candesartan",
+      "Enalapril",
+      "Aliskiren",
+      "Tolvaptan",
+      "Bosentan"
+    ],
+    "answer": "Candesartan",
+    "core": "ARB는 AT1 receptor 경쟁적 저해제이며 hyperkalemia가 가능하다.",
+    "explanation": [
+      "① Candesartan / 정답 / ARB로 AT1 receptor를 차단하며 hyperkalemia가 가능하다.",
+      "② Enalapril / 오답 / ACE inhibitor로 Ang II 생성을 줄이고 bradykinin을 증가시킬 수 있는 -pril 계열 약물이다.",
+      "③ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
+      "④ Tolvaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
+      "⑤ Bosentan / 오답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다."
+    ]
+  },
+  {
+    "number": 14,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"심부전 약에서 sacubitril과 같이 쓰는 ARB 성분이 궁금해요.\"",
+    "dialogue": "심부전 약에서 sacubitril과 같이 쓰는 ARB 성분이 궁금해요.",
+    "options": [
+      "Losartan",
+      "Candesartan",
+      "Aliskiren",
+      "Captopril",
+      "Valsartan"
+    ],
+    "answer": "Valsartan",
+    "core": "ARNI는 neprilysin inhibitor와 ARB의 조합이며, 강의 자료에서는 sacubitril/valsartan으로 정리된다.",
+    "explanation": [
+      "① Losartan / 오답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다.",
+      "② Candesartan / 오답 / ARB로 AT1 receptor를 차단하며 hyperkalemia가 가능하다.",
+      "③ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
+      "④ Captopril / 오답 / ACE inhibitor로 Ang II를 감소시키고 bradykinin 증가에 따른 dry cough/angioedema가 가능하다.",
+      "⑤ Valsartan / 정답 / ARB이며 sacubitril과 함께 ARNI 조합의 ARB 성분으로 정리되어 있다."
+    ]
+  },
+  {
+    "number": 15,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"심부전에서 natriuretic peptide가 오래 작용하게 하는 약을 원해요.\"",
+    "dialogue": "심부전에서 natriuretic peptide가 오래 작용하게 하는 약을 원해요.",
+    "options": [
+      "Valsartan",
+      "Sacubitril",
+      "Losartan",
+      "Aliskiren",
+      "Captopril"
+    ],
+    "answer": "Sacubitril",
+    "core": "Neprilysin은 natriuretic peptide를 분해하며, 이를 억제하는 약물이 ARNI의 한 성분이다.",
+    "explanation": [
+      "① Valsartan / 오답 / ARB이며 sacubitril과 함께 ARNI 조합의 ARB 성분으로 정리되어 있다.",
+      "② Sacubitril / 정답 / Neprilysin inhibitor로 ANP/BNP 같은 natriuretic peptide의 분해를 억제한다.",
+      "③ Losartan / 오답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다.",
+      "④ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
+      "⑤ Captopril / 오답 / ACE inhibitor로 Ang II를 감소시키고 bradykinin 증가에 따른 dry cough/angioedema가 가능하다."
+    ]
+  },
+  {
+    "number": 16,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"요붕증 때문에 소변이 너무 많이 나와요.\"",
+    "dialogue": "요붕증 때문에 소변이 너무 많이 나와요.",
+    "options": [
+      "Conivaptan",
+      "Tolvaptan",
+      "Aliskiren",
+      "Bosentan",
+      "Desmopressin"
+    ],
+    "answer": "Desmopressin",
+    "core": "Diabetes insipidus에는 V2 receptor agonist를 연결.",
+    "explanation": [
+      "① Conivaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
+      "② Tolvaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
+      "③ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
+      "④ Bosentan / 오답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다.",
+      "⑤ Desmopressin / 정답 / Long-acting V2 receptor agonist로 diabetes insipidus에 사용된다."
+    ]
+  },
+  {
+    "number": 17,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"항이뇨호르몬 작용을 막는 약이 필요해요.\"",
+    "dialogue": "항이뇨호르몬 작용을 막는 약이 필요해요.",
+    "options": [
+      "Desmopressin",
+      "Valsartan",
+      "Conivaptan",
+      "Aliskiren",
+      "Famotidine"
+    ],
+    "answer": "Conivaptan",
+    "core": "V2 agonist와 항이뇨호르몬 antagonist를 구분.",
+    "explanation": [
+      "① Desmopressin / 오답 / Long-acting V2 receptor agonist로 diabetes insipidus에 사용된다.",
+      "② Valsartan / 오답 / ARB이며 sacubitril과 함께 ARNI 조합의 ARB 성분으로 정리되어 있다.",
+      "③ Conivaptan / 정답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
+      "④ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
+      "⑤ Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다."
+    ]
+  },
+  {
+    "number": 18,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"vaptan 계열 약을 처방받으라고 들었어요.\"",
+    "dialogue": "vaptan 계열 약을 처방받으라고 들었어요.",
+    "options": [
+      "Desmopressin",
+      "Captopril",
+      "Bosentan",
+      "Loratadine",
+      "Tolvaptan"
+    ],
+    "answer": "Tolvaptan",
+    "core": "-vaptan은 항이뇨호르몬 antagonist로 정리된다.",
+    "explanation": [
+      "① Desmopressin / 오답 / Long-acting V2 receptor agonist로 diabetes insipidus에 사용된다.",
+      "② Captopril / 오답 / ACE inhibitor로 Ang II를 감소시키고 bradykinin 증가에 따른 dry cough/angioedema가 가능하다.",
+      "③ Bosentan / 오답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다.",
+      "④ Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
+      "⑤ Tolvaptan / 정답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다."
+    ]
+  },
+  {
+    "number": 19,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"폐동맥고혈압 치료제가 필요해요.\"",
+    "dialogue": "폐동맥고혈압 치료제가 필요해요.",
+    "options": [
+      "Valsartan",
+      "Desmopressin",
+      "Montelukast",
+      "Bosentan",
+      "Fomepizole"
+    ],
+    "answer": "Bosentan",
+    "core": "PAH 치료와 endothelin receptor antagonist를 연결.",
+    "explanation": [
+      "① Valsartan / 오답 / ARB이며 sacubitril과 함께 ARNI 조합의 ARB 성분으로 정리되어 있다.",
+      "② Desmopressin / 오답 / Long-acting V2 receptor agonist로 diabetes insipidus에 사용된다.",
+      "③ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다.",
+      "④ Bosentan / 정답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다.",
+      "⑤ Fomepizole / 오답 / alcohol dehydrogenase를 경쟁적으로 억제하여 methanol/ethylene glycol의 독성 대사산물 생성을 줄이는 해독제이다."
+    ]
+  },
+  {
+    "number": 20,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"폐동맥고혈압에 쓰는 endothelin 차단제가 필요해요.\"",
+    "dialogue": "폐동맥고혈압에 쓰는 endothelin 차단제가 필요해요.",
+    "options": [
+      "Candesartan",
+      "Ambrisentan",
+      "Conivaptan",
+      "Pseudoephedrine",
+      "Loratadine"
+    ],
+    "answer": "Ambrisentan",
+    "core": "Endothelin receptor antagonist는 PAH 치료 약물군으로 정리된다.",
+    "explanation": [
+      "① Candesartan / 오답 / ARB로 AT1 receptor를 차단하며 hyperkalemia가 가능하다.",
+      "② Ambrisentan / 정답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다.",
+      "③ Conivaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
+      "④ Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
+      "⑤ Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다."
+    ]
+  },
+  {
+    "number": 21,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"폐동맥고혈압 약 중 endothelin receptor antagonist를 원해요.\"",
+    "dialogue": "폐동맥고혈압 약 중 endothelin receptor antagonist를 원해요.",
+    "options": [
+      "Losartan",
+      "Tolvaptan",
+      "Famotidine",
+      "Topiramate",
+      "Macitentan"
+    ],
+    "answer": "Macitentan",
+    "core": "Endothelin receptor antagonist와 ARB, 항이뇨호르몬 antagonist, H2 blocker를 구분.",
+    "explanation": [
+      "① Losartan / 오답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다.",
+      "② Tolvaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
+      "③ Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
+      "④ Topiramate / 오답 / 전압의존성 Na+ channel 차단과 관련되며 체중감소가 특징으로 정리된 알코올 의존 치료 보조약이다.",
+      "⑤ Macitentan / 정답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다."
+    ]
+  },
+  {
+    "number": 22,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"endothelin receptor를 막는 약으로 바꾸고 싶어요.\"",
+    "dialogue": "endothelin receptor를 막는 약으로 바꾸고 싶어요.",
+    "options": [
+      "Aprocitentan",
+      "Aliskiren",
+      "Ramipril",
+      "Desmopressin",
+      "Cromolyn"
+    ],
+    "answer": "Aprocitentan",
+    "core": "ERA는 강력한 혈관수축 peptide인 endothelin의 수용체 작용을 차단한다.",
+    "explanation": [
+      "① Aprocitentan / 정답 / Endothelin receptor antagonist 목록에 포함된 ERA이다.",
+      "② Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
+      "③ Ramipril / 오답 / ACE inhibitor로 Ang II 감소, bradykinin 증가, dry cough/angioedema 가능성이 중요하다.",
+      "④ Desmopressin / 오답 / Long-acting V2 receptor agonist로 diabetes insipidus에 사용된다.",
+      "⑤ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다."
+    ]
+  },
+  {
+    "number": 23,
+    "source": "55. Vasoactive peptides",
+    "question": "환자: \"혈관수축성 endothelin 경로를 막는 약이 필요해요.\"",
+    "dialogue": "혈관수축성 endothelin 경로를 막는 약이 필요해요.",
+    "options": [
+      "Lisinopril",
+      "Tolvaptan",
+      "Fexofenadine",
+      "Atrasentan",
+      "Disulfiram"
+    ],
+    "answer": "Atrasentan",
+    "core": "Endothelin receptor antagonist는 ACE inhibitor, 항이뇨호르몬 antagonist, H1 blocker와 구별한다.",
+    "explanation": [
+      "① Lisinopril / 오답 / ACE inhibitor로 Ang II 감소와 bradykinin 증가가 핵심인 -pril 계열 약물이다.",
+      "② Tolvaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
+      "③ Fexofenadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
+      "④ Atrasentan / 정답 / Endothelin receptor antagonist 목록에 포함된 ERA이다.",
+      "⑤ Disulfiram / 오답 / ALDH를 억제하여 acetaldehyde 축적을 유도하고 음주 시 불쾌반응을 일으킨다."
+    ]
+  },
+  {
+    "number": 24,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"알레르기 비염이 있는데 낮에 졸리지 않는 약이 필요해요.\"",
+    "dialogue": "알레르기 비염이 있는데 낮에 졸리지 않는 약이 필요해요.",
+    "options": [
+      "Diphenhydramine",
+      "Famotidine",
+      "Loratadine",
+      "Pseudoephedrine",
+      "Montelukast"
+    ],
+    "answer": "Loratadine",
+    "core": "2세대 H1 antihistamine은 1세대보다 CNS 부작용이 적다.",
+    "explanation": [
+      "① Diphenhydramine / 오답 / 1세대 H1 antihistamine으로 BBB를 잘 통과하며 motion sickness에 사용될 수 있다.",
+      "② Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
+      "③ Loratadine / 정답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
+      "④ Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
+      "⑤ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다."
+    ]
+  },
+  {
+    "number": 25,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"콧물·재채기 때문에 2세대 H1 항히스타민제가 필요해요.\"",
+    "dialogue": "콧물·재채기 때문에 2세대 H1 항히스타민제가 필요해요.",
+    "options": [
+      "Cyclizine",
+      "Cimetidine",
+      "Oxymetazoline",
+      "Cromolyn",
+      "Fexofenadine"
+    ],
+    "answer": "Fexofenadine",
+    "core": "2세대 H1 blocker와 1세대 H1 blocker, H2 blocker, decongestant를 구분.",
+    "explanation": [
+      "① Cyclizine / 오답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다.",
+      "② Cimetidine / 오답 / H2 blocker이며 hepatic CYP450 enzyme system의 강력한 억제가 특징이다.",
+      "③ Oxymetazoline / 오답 / Decongestant로 비강 충혈 완화와 관련된 약물이다.",
+      "④ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
+      "⑤ Fexofenadine / 정답 / 2세대 nonsedating H1 antihistamine이다."
+    ]
+  },
+  {
+    "number": 26,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"알레르기 약을 먹어도 낮에 졸리면 곤란해요.\"",
+    "dialogue": "알레르기 약을 먹어도 낮에 졸리면 곤란해요.",
+    "options": [
+      "Meclizine",
+      "Desloratadine",
+      "Ranitidine",
+      "Tetrahydrozoline",
+      "Prednisone"
+    ],
+    "answer": "Desloratadine",
+    "core": "지용성이 낮고 BBB 통과가 적은 2세대 H1 antihistamine을 고르는 문제이다.",
+    "explanation": [
+      "① Meclizine / 오답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다.",
+      "② Desloratadine / 정답 / 2세대 nonsedating H1 antihistamine이다.",
+      "③ Ranitidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
+      "④ Tetrahydrozoline / 오답 / Decongestant로 점막/결막 충혈 완화와 관련된 약물이다.",
+      "⑤ Prednisone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
+    ]
+  },
+  {
+    "number": 27,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"알레르기 비염에 쓸 2세대 H1 약을 찾고 있어요.\"",
+    "dialogue": "알레르기 비염에 쓸 2세대 H1 약을 찾고 있어요.",
+    "options": [
+      "Dimenhydrinate",
+      "Famotidine",
+      "Pseudoephedrine",
+      "Cetirizine",
+      "Prednisolone"
+    ],
+    "answer": "Cetirizine",
+    "core": "2세대 H1 antihistamine은 1세대보다 BBB 통과가 적다.",
+    "explanation": [
+      "① Dimenhydrinate / 오답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다.",
+      "② Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
+      "③ Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
+      "④ Cetirizine / 정답 / 2세대 H1 antihistamine으로 1세대보다 CNS 부작용이 적다.",
+      "⑤ Prednisolone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
+    ]
+  },
+  {
+    "number": 28,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"두드러기에 먹는 2세대 H1 약을 원해요.\"",
+    "dialogue": "두드러기에 먹는 2세대 H1 약을 원해요.",
+    "options": [
+      "Hydroxyzine",
+      "Nizatidine",
+      "Levocetirizine",
+      "Oxymetazoline",
+      "Montelukast"
+    ],
+    "answer": "Levocetirizine",
+    "core": "H1 blocker 안에서도 1세대와 2세대의 BBB 통과 차이를 구분.",
+    "explanation": [
+      "① Hydroxyzine / 오답 / 1세대 H1 antihistamine으로 BBB 통과와 진정 부작용이 상대적으로 크다.",
+      "② Nizatidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
+      "③ Levocetirizine / 정답 / 2세대 H1 antihistamine으로 1세대보다 BBB 통과와 진정이 적다.",
+      "④ Oxymetazoline / 오답 / Decongestant로 비강 충혈 완화와 관련된 약물이다.",
+      "⑤ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다."
+    ]
+  },
+  {
+    "number": 29,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"졸림이 적은 H1 항히스타민제 중 하나를 원해요.\"",
+    "dialogue": "졸림이 적은 H1 항히스타민제 중 하나를 원해요.",
+    "options": [
+      "Promethazine",
+      "Cimetidine",
+      "Tetrahydrozoline",
+      "Acrivastine",
+      "Cromolyn"
+    ],
+    "answer": "Acrivastine",
+    "core": "2세대 H1 antihistamine은 H2 blocker, decongestant, mast cell stabilizer와 적응증·기전이 다르다.",
+    "explanation": [
+      "① Promethazine / 오답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다.",
+      "② Cimetidine / 오답 / H2 blocker이며 hepatic CYP450 enzyme system의 강력한 억제가 특징이다.",
+      "③ Tetrahydrozoline / 오답 / Decongestant로 점막/결막 충혈 완화와 관련된 약물이다.",
+      "④ Acrivastine / 정답 / 2세대 H1 antihistamine 목록에 포함된다.",
+      "⑤ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다."
+    ]
+  },
+  {
+    "number": 30,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"배를 타면 멀미가 심해요.\"",
+    "dialogue": "배를 타면 멀미가 심해요.",
+    "options": [
+      "Loratadine",
+      "Famotidine",
+      "Pseudoephedrine",
+      "Montelukast",
+      "Diphenhydramine"
+    ],
+    "answer": "Diphenhydramine",
+    "core": "Motion sickness에는 BBB를 잘 통과하는 1세대 H1 antihistamine이 사용될 수 있다.",
+    "explanation": [
+      "① Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
+      "② Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
+      "③ Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
+      "④ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다.",
+      "⑤ Diphenhydramine / 정답 / 1세대 H1 antihistamine으로 BBB를 잘 통과하며 motion sickness에 사용될 수 있다."
+    ]
+  },
+  {
+    "number": 31,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"여행 갈 때 멀미약이 필요해요.\"",
+    "dialogue": "여행 갈 때 멀미약이 필요해요.",
+    "options": [
+      "Cetirizine",
+      "Dimenhydrinate",
+      "Cimetidine",
+      "Oxymetazoline",
+      "Cromolyn"
+    ],
+    "answer": "Dimenhydrinate",
+    "core": "1세대 H1 antihistamine은 motion sickness에 쓰이며 졸림이 생길 수 있다.",
+    "explanation": [
+      "① Cetirizine / 오답 / 2세대 H1 antihistamine으로 1세대보다 CNS 부작용이 적다.",
+      "② Dimenhydrinate / 정답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다.",
+      "③ Cimetidine / 오답 / H2 blocker이며 hepatic CYP450 enzyme system의 강력한 억제가 특징이다.",
+      "④ Oxymetazoline / 오답 / Decongestant로 비강 충혈 완화와 관련된 약물이다.",
+      "⑤ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다."
+    ]
+  },
+  {
+    "number": 32,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"차만 타면 어지럽고 토할 것 같아요.\"",
+    "dialogue": "차만 타면 어지럽고 토할 것 같아요.",
+    "options": [
+      "Fexofenadine",
+      "Nizatidine",
+      "Meclizine",
+      "Tetrahydrozoline",
+      "Prednisone"
+    ],
+    "answer": "Meclizine",
+    "core": "Motion sickness 단서가 있으면 1세대 H1 blocker를 먼저 떠올린다.",
+    "explanation": [
+      "① Fexofenadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
+      "② Nizatidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
+      "③ Meclizine / 정답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다.",
+      "④ Tetrahydrozoline / 오답 / Decongestant로 점막/결막 충혈 완화와 관련된 약물이다.",
+      "⑤ Prednisone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
+    ]
+  },
+  {
+    "number": 33,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"멀미 때문에 졸릴 수 있는 1세대 항히스타민제를 써도 괜찮아요.\"",
+    "dialogue": "멀미 때문에 졸릴 수 있는 1세대 항히스타민제를 써도 괜찮아요.",
+    "options": [
+      "Desloratadine",
+      "Ranitidine",
+      "Pseudoephedrine",
+      "Cyclizine",
+      "Prednisolone"
+    ],
+    "answer": "Cyclizine",
+    "core": "1세대 H1 blocker는 motion sickness에 쓰이고 2세대보다 진정 부작용이 크다.",
+    "explanation": [
+      "① Desloratadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
+      "② Ranitidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
+      "③ Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
+      "④ Cyclizine / 정답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다.",
+      "⑤ Prednisolone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
+    ]
+  },
+  {
+    "number": 34,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"멀미가 너무 심해서 1세대 H1 약이 필요해요.\"",
+    "dialogue": "멀미가 너무 심해서 1세대 H1 약이 필요해요.",
+    "options": [
+      "Levocetirizine",
+      "Famotidine",
+      "Oxymetazoline",
+      "Cromolyn",
+      "Promethazine"
+    ],
+    "answer": "Promethazine",
+    "core": "Promethazine은 1세대 H1 antihistamine으로 motion sickness에 쓰일 수 있다.",
+    "explanation": [
+      "① Levocetirizine / 오답 / 2세대 H1 antihistamine으로 1세대보다 BBB 통과와 진정이 적다.",
+      "② Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
+      "③ Oxymetazoline / 오답 / Decongestant로 비강 충혈 완화와 관련된 약물이다.",
+      "④ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
+      "⑤ Promethazine / 정답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다."
+    ]
+  },
+  {
+    "number": 35,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"가려움이 심한데 졸릴 수 있는 항히스타민제도 괜찮아요.\"",
+    "dialogue": "가려움이 심한데 졸릴 수 있는 항히스타민제도 괜찮아요.",
+    "options": [
+      "Acrivastine",
+      "Cimetidine",
+      "Tetrahydrozoline",
+      "Hydroxyzine",
+      "Montelukast"
+    ],
+    "answer": "Hydroxyzine",
+    "core": "1세대 H1 blocker는 지용성이 높아 BBB 통과와 진정 부작용이 크다.",
+    "explanation": [
+      "① Acrivastine / 오답 / 2세대 H1 antihistamine 목록에 포함된다.",
+      "② Cimetidine / 오답 / H2 blocker이며 hepatic CYP450 enzyme system의 강력한 억제가 특징이다.",
+      "③ Tetrahydrozoline / 오답 / Decongestant로 점막/결막 충혈 완화와 관련된 약물이다.",
+      "④ Hydroxyzine / 정답 / 1세대 H1 antihistamine으로 BBB 통과와 진정 부작용이 상대적으로 크다.",
+      "⑤ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다."
+    ]
+  },
+  {
+    "number": 36,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"감기약 먹고 졸린 성분이 H1 약이라고 들었어요.\"",
+    "dialogue": "감기약 먹고 졸린 성분이 H1 약이라고 들었어요.",
+    "options": [
+      "Loratadine",
+      "Famotidine",
+      "Pseudoephedrine",
+      "Prednisone",
+      "Chlorpheniramine"
+    ],
+    "answer": "Chlorpheniramine",
+    "core": "1세대 H1 antihistamine은 2세대보다 중추신경계 부작용이 크다.",
+    "explanation": [
+      "① Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
+      "② Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
+      "③ Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
+      "④ Prednisone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다.",
+      "⑤ Chlorpheniramine / 정답 / 1세대 H1 antihistamine으로 BBB 통과와 졸림이 문제될 수 있다."
+    ]
+  },
+  {
+    "number": 37,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"밤에 먹는 졸림이 있는 감기약 성분이 궁금해요.\"",
+    "dialogue": "밤에 먹는 졸림이 있는 감기약 성분이 궁금해요.",
+    "options": [
+      "Fexofenadine",
+      "Doxylamine",
+      "Nizatidine",
+      "Oxymetazoline",
+      "Prednisolone"
+    ],
+    "answer": "Doxylamine",
+    "core": "Doxylamine은 1세대 H1 antihistamine 목록에 포함된다.",
+    "explanation": [
+      "① Fexofenadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
+      "② Doxylamine / 정답 / 1세대 H1 antihistamine으로 졸림이 흔한 약물군에 속한다.",
+      "③ Nizatidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
+      "④ Oxymetazoline / 오답 / Decongestant로 비강 충혈 완화와 관련된 약물이다.",
+      "⑤ Prednisolone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
+    ]
+  },
+  {
+    "number": 38,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"속쓰림이 심해서 위산을 줄이는 H2 차단제가 필요해요.\"",
+    "dialogue": "속쓰림이 심해서 위산을 줄이는 H2 차단제가 필요해요.",
+    "options": [
+      "Loratadine",
+      "Pseudoephedrine",
+      "Famotidine",
+      "Montelukast",
+      "Prednisone"
+    ],
+    "answer": "Famotidine",
+    "core": "H2 receptor는 위점막에서 위산 분비 증가와 관련되므로 H2 blocker가 위산 억제에 쓰인다.",
+    "explanation": [
+      "① Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
+      "② Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
+      "③ Famotidine / 정답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
+      "④ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다.",
+      "⑤ Prednisone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
+    ]
+  },
+  {
+    "number": 39,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"제가 먹는 위산 약이 약물상호작용이 많다고 들었어요.\"",
+    "dialogue": "제가 먹는 위산 약이 약물상호작용이 많다고 들었어요.",
+    "options": [
+      "Famotidine",
+      "Nizatidine",
+      "Ranitidine",
+      "Loratadine",
+      "Cimetidine"
+    ],
+    "answer": "Cimetidine",
+    "core": "H2 blocker 중 CYP450 강력 억제 특징은 cimetidine에 연결한다.",
+    "explanation": [
+      "① Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
+      "② Nizatidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
+      "③ Ranitidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
+      "④ Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
+      "⑤ Cimetidine / 정답 / H2 blocker이며 hepatic CYP450 enzyme system의 강력한 억제가 특징이다."
+    ]
+  },
+  {
+    "number": 40,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"속쓰림에 쓰는 H2 차단제 중 하나를 처방받으려 해요.\"",
+    "dialogue": "속쓰림에 쓰는 H2 차단제 중 하나를 처방받으려 해요.",
+    "options": [
+      "Cetirizine",
+      "Pseudoephedrine",
+      "Cromolyn",
+      "Nizatidine",
+      "Ergotamine"
+    ],
+    "answer": "Nizatidine",
+    "core": "H2 blocker는 H1 antihistamine, decongestant, mast cell stabilizer와 구분한다.",
+    "explanation": [
+      "① Cetirizine / 오답 / 2세대 H1 antihistamine으로 1세대보다 CNS 부작용이 적다.",
+      "② Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
+      "③ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
+      "④ Nizatidine / 정답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
+      "⑤ Ergotamine / 오답 / Ergot alkaloid로 편두통 치료에 쓰이며 관상동맥질환/말초혈관질환에서는 주의 또는 금기이다."
+    ]
+  },
+  {
+    "number": 41,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"위산 분비를 줄이는 H2 항히스타민제가 필요해요.\"",
+    "dialogue": "위산 분비를 줄이는 H2 항히스타민제가 필요해요.",
+    "options": [
+      "Levocetirizine",
+      "Oxymetazoline",
+      "Montelukast",
+      "Bromocriptine",
+      "Ranitidine"
+    ],
+    "answer": "Ranitidine",
+    "core": "H2 antihistamine은 위점막 H2 receptor를 차단한다.",
+    "explanation": [
+      "① Levocetirizine / 오답 / 2세대 H1 antihistamine으로 1세대보다 BBB 통과와 진정이 적다.",
+      "② Oxymetazoline / 오답 / Decongestant로 비강 충혈 완화와 관련된 약물이다.",
+      "③ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다.",
+      "④ Bromocriptine / 오답 / Ergot 관련 dopamine D2 receptor agonist이다.",
+      "⑤ Ranitidine / 정답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다."
+    ]
+  },
+  {
+    "number": 42,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"코가 막혀서 충혈제거제가 필요해요.\"",
+    "dialogue": "코가 막혀서 충혈제거제가 필요해요.",
+    "options": [
+      "Loratadine",
+      "Famotidine",
+      "Pseudoephedrine",
+      "Montelukast",
+      "Prednisone"
+    ],
+    "answer": "Pseudoephedrine",
+    "core": "Decongestant는 H1/H2 blocker나 leukotriene inhibitor와 다른 약물군이다.",
+    "explanation": [
+      "① Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
+      "② Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
+      "③ Pseudoephedrine / 정답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
+      "④ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다.",
+      "⑤ Prednisone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
+    ]
+  },
+  {
+    "number": 43,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"비강 스프레이형 충혈제거제가 필요해요.\"",
+    "dialogue": "비강 스프레이형 충혈제거제가 필요해요.",
+    "options": [
+      "Fexofenadine",
+      "Cimetidine",
+      "Cromolyn",
+      "Prednisolone",
+      "Oxymetazoline"
+    ],
+    "answer": "Oxymetazoline",
+    "core": "Oxymetazoline은 강의 자료의 decongestant 목록에 포함된다.",
+    "explanation": [
+      "① Fexofenadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
+      "② Cimetidine / 오답 / H2 blocker이며 hepatic CYP450 enzyme system의 강력한 억제가 특징이다.",
+      "③ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
+      "④ Prednisolone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다.",
+      "⑤ Oxymetazoline / 정답 / Decongestant로 비강 충혈 완화와 관련된 약물이다."
+    ]
+  },
+  {
+    "number": 44,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"눈이 충혈됐어요. 충혈제거제가 필요해요.\"",
+    "dialogue": "눈이 충혈됐어요. 충혈제거제가 필요해요.",
+    "options": [
+      "Desloratadine",
+      "Tetrahydrozoline",
+      "Nizatidine",
+      "Montelukast",
+      "Acamprosate"
+    ],
+    "answer": "Tetrahydrozoline",
+    "core": "Tetrahydrozoline은 decongestant로 H1/H2 blocker와 구별한다.",
+    "explanation": [
+      "① Desloratadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
+      "② Tetrahydrozoline / 정답 / Decongestant로 점막/결막 충혈 완화와 관련된 약물이다.",
+      "③ Nizatidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
+      "④ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다.",
+      "⑤ Acamprosate / 오답 / mGluR5 관련 glutamate 조절 약물로 금주 유지에 쓰이며 심한 신부전에서 금기이다."
+    ]
+  },
+  {
+    "number": 45,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"알레르기 염증이 심해서 스테로이드가 필요하대요.\"",
+    "dialogue": "알레르기 염증이 심해서 스테로이드가 필요하대요.",
+    "options": [
+      "Loratadine",
+      "Famotidine",
+      "Cromolyn",
+      "Prednisone",
+      "Montelukast"
+    ],
+    "answer": "Prednisone",
+    "core": "Corticosteroid는 염증 조절 약물이며 H1/H2 blocker나 leukotriene inhibitor와 다르다.",
+    "explanation": [
+      "① Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
+      "② Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
+      "③ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
+      "④ Prednisone / 정답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다.",
+      "⑤ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다."
+    ]
+  },
+  {
+    "number": 46,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"염증 조절용 corticosteroid를 처방받으려 해요.\"",
+    "dialogue": "염증 조절용 corticosteroid를 처방받으려 해요.",
+    "options": [
+      "Cetirizine",
+      "Ranitidine",
+      "Pseudoephedrine",
+      "Cromolyn",
+      "Prednisolone"
+    ],
+    "answer": "Prednisolone",
+    "core": "Prednisone/Prednisolone은 강의 자료의 corticosteroid 목록에 포함된다.",
+    "explanation": [
+      "① Cetirizine / 오답 / 2세대 H1 antihistamine으로 1세대보다 CNS 부작용이 적다.",
+      "② Ranitidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
+      "③ Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
+      "④ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
+      "⑤ Prednisolone / 정답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
+    ]
+  },
+  {
+    "number": 47,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"알레르기 반응이 생기기 전에 비만세포를 안정화하는 약이 필요해요.\"",
+    "dialogue": "알레르기 반응이 생기기 전에 비만세포를 안정화하는 약이 필요해요.",
+    "options": [
+      "Montelukast",
+      "Prednisone",
+      "Cromolyn",
+      "Loratadine",
+      "Famotidine"
+    ],
+    "answer": "Cromolyn",
+    "core": "Mast cell stabilizer는 이미 분비된 histamine을 차단하는 H1 blocker와 구별한다.",
+    "explanation": [
+      "① Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다.",
+      "② Prednisone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다.",
+      "③ Cromolyn / 정답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
+      "④ Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
+      "⑤ Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다."
+    ]
+  },
+  {
+    "number": 48,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"천식·알레르기에서 leukotriene을 막는 약을 원해요.\"",
+    "dialogue": "천식·알레르기에서 leukotriene을 막는 약을 원해요.",
+    "options": [
+      "Cromolyn",
+      "Prednisolone",
+      "Fexofenadine",
+      "Cimetidine",
+      "Montelukast"
+    ],
+    "answer": "Montelukast",
+    "core": "Leukotriene inhibitor는 mast cell stabilizer, steroid, H1/H2 blocker와 구분한다.",
+    "explanation": [
+      "① Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
+      "② Prednisolone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다.",
+      "③ Fexofenadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
+      "④ Cimetidine / 오답 / H2 blocker이며 hepatic CYP450 enzyme system의 강력한 억제가 특징이다.",
+      "⑤ Montelukast / 정답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다."
+    ]
+  },
+  {
+    "number": 49,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"편두통 발작에 ergot 계열 약을 쓰고 싶어요.\"",
+    "dialogue": "편두통 발작에 ergot 계열 약을 쓰고 싶어요.",
+    "options": [
+      "Bromocriptine",
+      "Cabergoline",
+      "Loratadine",
+      "Ergotamine",
+      "Famotidine"
+    ],
+    "answer": "Ergotamine",
+    "core": "편두통 치료용 ergot alkaloid와 dopamine D2 agonist ergot 유도체를 구분.",
+    "explanation": [
+      "① Bromocriptine / 오답 / Ergot 관련 dopamine D2 receptor agonist이다.",
+      "② Cabergoline / 오답 / Ergot 관련 dopamine D2 receptor agonist이다.",
+      "③ Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
+      "④ Ergotamine / 정답 / Ergot alkaloid로 편두통 치료에 쓰이며 관상동맥질환/말초혈관질환에서는 주의 또는 금기이다.",
+      "⑤ Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다."
+    ]
+  },
+  {
+    "number": 50,
+    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
+    "question": "환자: \"도파민 D2 작용을 하는 ergot 유도체가 필요해요.\"",
+    "dialogue": "도파민 D2 작용을 하는 ergot 유도체가 필요해요.",
+    "options": [
+      "Ergotamine",
+      "Dihydroergotamine",
+      "Fexofenadine",
+      "Ranitidine",
+      "Bromocriptine"
+    ],
+    "answer": "Bromocriptine",
+    "core": "D2 agonist ergot 유도체는 편두통 치료용 ergot alkaloid와 구별한다.",
+    "explanation": [
+      "① Ergotamine / 오답 / Ergot alkaloid로 편두통 치료에 쓰이며 관상동맥질환/말초혈관질환에서는 주의 또는 금기이다.",
+      "② Dihydroergotamine / 오답 / Ergot alkaloid로 편두통 치료와 관련된다.",
+      "③ Fexofenadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
+      "④ Ranitidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
+      "⑤ Bromocriptine / 정답 / Ergot 관련 dopamine D2 receptor agonist이다."
+    ]
+  }
+];
+
+    const totalRounds = QUESTIONS.length;
+    const CORRECT_ICON = "image/correct_icon.png";
+    const WRONG_ICON = "image/wrong_icon.png";
+    const CUSTOMER_IMAGES = [
+      "image/customers/customer_00.png",
+      "image/customers/customer_01.png",
+      "image/customers/customer_02.png",
+      "image/customers/customer_03.png",
+      "image/customers/customer_04.png",
+      "image/customers/customer_05.png",
+      "image/customers/customer_06.png",
+      "image/customers/customer_07.png",
+      "image/customers/customer_08.png",
+      "image/customers/customer_09.png"
+    ];
+    const stage = document.getElementById("stage");
+    const scoreEl = document.getElementById("score");
+    const roundEl = document.getElementById("round");
+    const totalEl = document.getElementById("total");
+    const totalRoundEl = document.getElementById("totalRound");
+    const speechText = document.getElementById("speechText");
+    const judge = document.getElementById("judge");
+    const customerImg = document.getElementById("customerImg");
+    const judgeImg = document.getElementById("judgeImg");
+    const endPanel = document.getElementById("endPanel");
+    const finalScore = document.getElementById("finalScore");
+    const hitButtons = Array.from(document.querySelectorAll(".hit"));
+    const labelEls = [
+      document.getElementById("label0"),
+      document.getElementById("label1"),
+      document.getElementById("label2"),
+      document.getElementById("label3"),
+      document.getElementById("label4")
+    ];
+
+    const helpBtn = document.getElementById("helpBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const explainPopup = document.getElementById("explainPopup");
+    const closePopup = document.getElementById("closePopup");
+    const popupTitle = document.getElementById("popupTitle");
+    const popupSource = document.getElementById("popupSource");
+    const popupQuestion = document.getElementById("popupQuestion");
+    const popupCore = document.getElementById("popupCore");
+    const popupAnswer = document.getElementById("popupAnswer");
+    const popupExplanation = document.getElementById("popupExplanation");
+
+    let gameList = [];
+    let currentIndex = 0;
+    let score = 0;
+    let locked = false;
+    let currentOptions = [];
+    let answered = new Set();
+    let lastCustomerIndex = -1;
+
+    totalEl.textContent = totalRounds;
+    totalRoundEl.textContent = totalRounds;
+
+    function shuffle(array) {
+      const copy = [...array];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function setButtonsEnabled(enabled) {
+      hitButtons.forEach(btn => btn.disabled = !enabled);
+    }
+
+    function showJudge(type) {
+      judge.className = "judge show";
+      if (type === "correct") {
+        judgeImg.src = CORRECT_ICON;
+        judgeImg.alt = "정답";
+      } else {
+        judgeImg.src = WRONG_ICON;
+        judgeImg.alt = "오답";
+      }
+    }
+
+    function hideJudge() {
+      judge.className = "judge";
+      judgeImg.removeAttribute("src");
+      judgeImg.alt = "";
+    }
+
+    function pickRandomCustomer() {
+      if (CUSTOMER_IMAGES.length === 0) return "image/customers/customer_00.png";
+      let idx = Math.floor(Math.random() * CUSTOMER_IMAGES.length);
+      if (CUSTOMER_IMAGES.length > 1 && idx === lastCustomerIndex) {
+        idx = (idx + 1 + Math.floor(Math.random() * (CUSTOMER_IMAGES.length - 1))) % CUSTOMER_IMAGES.length;
+      }
+      lastCustomerIndex = idx;
+      return CUSTOMER_IMAGES[idx];
+    }
+
+    function fitTextToBox(el, maxPx, minPx, step = 1) {
+      el.style.fontSize = maxPx + "px";
+      el.style.lineHeight = "1.28";
+      let size = maxPx;
+
+      const fits = () => {
+        return el.scrollHeight <= el.clientHeight + 1 && el.scrollWidth <= el.clientWidth + 1;
+      };
+
+      while (!fits() && size > minPx) {
+        size -= step;
+        el.style.fontSize = size + "px";
+      }
+
+      if (!fits() && minPx > 8) {
+        el.style.lineHeight = "1.16";
+        size = Math.max(8, minPx - 2);
+        el.style.fontSize = size + "px";
+      }
+    }
+
+    function fitAllText() {
+      const stageWidth = stage.clientWidth || 1400;
+
+      // 말풍선: 긴 대화는 10px 근처까지 자동 축소
+      const speechMax = Math.min(32, Math.max(18, stageWidth * 0.021));
+      fitTextToBox(speechText, speechMax, 10, 1);
+
+      // 약 이름: 긴 영문 약물명은 한 줄 유지하면서 자동 축소
+      labelEls.forEach(label => {
+        const labelMax = Math.min(22, Math.max(13, stageWidth * 0.014));
+        fitTextToBox(label, labelMax, 8, 0.5);
+      });
+    }
+
+    function loadRound() {
+      const current = gameList[currentIndex];
+
+      // 문항 순서는 무작위, 선택지 위치도 매 문제마다 무작위
+      currentOptions = shuffle([...current.options]);
+      customerImg.src = pickRandomCustomer();
+
+      speechText.textContent = current.dialogue || current.question;
+      roundEl.textContent = currentIndex + 1;
+
+      currentOptions.forEach((option, idx) => {
+        labelEls[idx].textContent = option;
+        labelEls[idx].title = option;
+        hitButtons[idx].setAttribute("aria-label", option);
+      });
+
+      locked = answered.has(current.number);
+      hideJudge();
+      setButtonsEnabled(!locked);
+
+      requestAnimationFrame(fitAllText);
+    }
+
+    function nextRound() {
+      currentIndex += 1;
+      if (currentIndex >= totalRounds) {
+        finalScore.textContent = score;
+        endPanel.classList.add("show");
+        setButtonsEnabled(false);
+        return;
+      }
+      loadRound();
+    }
+
+    function selectMedicine(slotIndex) {
+      if (locked) return;
+
+      const current = gameList[currentIndex];
+      const picked = currentOptions[slotIndex];
+
+      if (picked === current.answer) {
+        locked = true;
+        answered.add(current.number);
+        score += 1;
+        scoreEl.textContent = score;
+        showJudge("correct");
+        setButtonsEnabled(false);
+      } else {
+        showJudge("wrong");
+      }
+    }
+
+    function openExplanation() {
+      const current = gameList[currentIndex];
+      popupTitle.textContent = `문항 ${current.number} 해설`;
+      popupSource.textContent = current.source ? `출처: ${current.source}` : "";
+      popupQuestion.textContent = current.question;
+      popupCore.textContent = current.core ? `핵심 개념: ${current.core}` : "";
+      popupCore.style.display = current.core ? "block" : "none";
+      popupAnswer.textContent = `정답: ${current.answer}`;
+      popupExplanation.innerHTML = "";
+
+      current.explanation.forEach(line => {
+        const li = document.createElement("li");
+        li.textContent = line;
+        popupExplanation.appendChild(li);
+      });
+
+      explainPopup.classList.add("show");
+    }
+
+    function closeExplanation() {
+      explainPopup.classList.remove("show");
+    }
+
+    function startGame() {
+      gameList = shuffle(QUESTIONS);
+      currentIndex = 0;
+      score = 0;
+      locked = false;
+      answered = new Set();
+      scoreEl.textContent = "0";
+      endPanel.classList.remove("show");
+      closeExplanation();
+      loadRound();
+    }
+
+    hitButtons.forEach(btn => {
+      btn.addEventListener("click", () => selectMedicine(Number(btn.dataset.slot)));
+    });
+
+    helpBtn.addEventListener("click", openExplanation);
+    nextBtn.addEventListener("click", nextRound);
+    closePopup.addEventListener("click", closeExplanation);
+
+    explainPopup.addEventListener("click", (event) => {
+      if (event.target === explainPopup) closeExplanation();
+    });
+
+    window.addEventListener("resize", fitAllText);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeExplanation();
+      if (event.key === "ArrowRight" && !explainPopup.classList.contains("show")) nextRound();
+    });
+
+    document.getElementById("restartTop").addEventListener("click", startGame);
+    document.getElementById("restartBottom").addEventListener("click", startGame);
+
+    startGame();
+  </script>
+</body>
+</html>
