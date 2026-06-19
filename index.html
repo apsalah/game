@@ -115,7 +115,7 @@
       justify-content: center;
       text-align: center;
       font-weight: 900;
-      font-size: clamp(12px, 1.18vw, 21px);
+      font-size: clamp(6px, 1.18vw, 21px);
       color: #5d3f2c;
       pointer-events: none;
       letter-spacing: -0.04em;
@@ -123,6 +123,7 @@
       padding: 0 0.35%;
       white-space: nowrap;
       overflow: hidden;
+      line-height: 1.02;
     }
 
     /* 약 이름 위치: 사용자가 조절한 기준값 */
@@ -164,8 +165,8 @@
       z-index: 40;
       right: 12%;
       top: 20%;
-      width: clamp(74px, 8.8vw, 132px);
-      height: clamp(74px, 8.8vw, 132px);
+      width: clamp(38px, 8.8vw, 132px);
+      height: clamp(38px, 8.8vw, 132px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -196,7 +197,7 @@
       top: 1.4%;
       z-index: 35;
       display: flex;
-      gap: 10px;
+      gap: clamp(4px, 0.8vw, 10px);
       align-items: center;
     }
 
@@ -205,10 +206,10 @@
       backdrop-filter: blur(8px);
       border-radius: 16px;
       box-shadow: 0 8px 16px rgba(68,43,28,0.14);
-      padding: 10px 14px;
+      padding: clamp(4px, 0.85vw, 10px) clamp(6px, 1.1vw, 14px);
       font-weight: 900;
       color: #563b2a;
-      font-size: clamp(12px, 1.0vw, 16px);
+      font-size: clamp(8px, 1.0vw, 16px);
     }
 
     .nav-controls {
@@ -217,20 +218,20 @@
       bottom: 2.2%;
       z-index: 42;
       display: flex;
-      gap: 12px;
+      gap: clamp(5px, 0.9vw, 12px);
       align-items: center;
     }
 
     .circle-btn {
-      width: clamp(52px, 5.2vw, 78px);
-      height: clamp(52px, 5.2vw, 78px);
+      width: clamp(32px, 5.2vw, 78px);
+      height: clamp(32px, 5.2vw, 78px);
       border: 0;
       border-radius: 50%;
       background: rgba(255,255,255,0.88);
       box-shadow: 0 10px 22px rgba(68,43,28,0.20);
       color: #563b2a;
       font-weight: 1000;
-      font-size: clamp(26px, 3vw, 42px);
+      font-size: clamp(18px, 3vw, 42px);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -250,11 +251,11 @@
       background: rgba(255,255,255,0.86);
       border-radius: 16px;
       box-shadow: 0 8px 16px rgba(68,43,28,0.14);
-      padding: 10px 14px;
+      padding: clamp(4px, 0.85vw, 10px) clamp(6px, 1.1vw, 14px);
       font-weight: 900;
       color: #563b2a;
       cursor: pointer;
-      font-size: clamp(12px, 1.0vw, 16px);
+      font-size: clamp(8px, 1.0vw, 16px);
     }
 
     .restart:hover { background: rgba(255,255,255,0.96); }
@@ -266,7 +267,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 3%;
+      padding: clamp(6px, 2.2vw, 3%);
       background: rgba(54, 35, 24, 0.34);
       backdrop-filter: blur(4px);
     }
@@ -274,90 +275,93 @@
     .popup-overlay.show { display: flex; }
 
     .popup-card {
-      width: min(760px, 92vw);
-      max-height: min(78vh, 720px);
+      width: min(760px, 94%);
+      max-height: 84%;
       overflow: auto;
       background: rgba(255,255,255,0.96);
-      border-radius: 26px;
+      border-radius: clamp(14px, 2.4vw, 26px);
       box-shadow: 0 20px 50px rgba(54,35,24,0.28);
-      padding: 26px 28px;
+      padding: clamp(12px, 2.4vw, 26px) clamp(12px, 2.6vw, 28px);
       color: #4f3829;
     }
 
     .popup-head {
       display: flex;
       justify-content: space-between;
-      gap: 16px;
+      gap: clamp(8px, 1.6vw, 16px);
       align-items: flex-start;
-      margin-bottom: 14px;
+      margin-bottom: clamp(8px, 1.6vw, 14px);
     }
 
     .popup-title {
-      font-size: 24px;
+      font-size: clamp(15px, 2.2vw, 24px);
       font-weight: 1000;
-      line-height: 1.25;
+      line-height: 1.22;
     }
 
     .popup-source {
       color: #846858;
-      font-size: 14px;
+      font-size: clamp(9px, 1.35vw, 14px);
       font-weight: 800;
-      margin-top: 6px;
+      margin-top: clamp(3px, 0.7vw, 6px);
     }
 
     .close-btn {
       border: 0;
-      border-radius: 12px;
+      border-radius: clamp(8px, 1.5vw, 12px);
       background: #f2e6da;
       color: #563b2a;
       font-weight: 1000;
-      font-size: 20px;
-      width: 40px;
-      height: 40px;
+      font-size: clamp(14px, 2.1vw, 20px);
+      width: clamp(28px, 4.0vw, 40px);
+      height: clamp(28px, 4.0vw, 40px);
       cursor: pointer;
       flex: 0 0 auto;
     }
 
     .popup-question {
-      margin: 16px 0;
-      padding: 14px 16px;
+      margin: clamp(8px, 1.6vw, 16px) 0;
+      padding: clamp(8px, 1.7vw, 14px) clamp(9px, 1.9vw, 16px);
       background: #fff4e7;
-      border-radius: 16px;
+      border-radius: clamp(10px, 1.7vw, 16px);
       font-weight: 850;
-      line-height: 1.55;
+      line-height: 1.45;
+      font-size: clamp(10px, 1.65vw, 16px);
     }
 
     .core-line {
-      margin: 12px 0 14px;
-      padding: 12px 14px;
+      margin: clamp(7px, 1.3vw, 12px) 0 clamp(8px, 1.5vw, 14px);
+      padding: clamp(8px, 1.5vw, 12px) clamp(9px, 1.7vw, 14px);
       background: #eff8ef;
-      border-radius: 14px;
+      border-radius: clamp(10px, 1.6vw, 14px);
       font-weight: 800;
-      line-height: 1.55;
+      line-height: 1.45;
       color: #346341;
+      font-size: clamp(10px, 1.55vw, 15px);
     }
 
     .answer-line {
-      margin: 12px 0 16px;
+      margin: clamp(7px, 1.3vw, 12px) 0 clamp(8px, 1.6vw, 16px);
       font-weight: 1000;
       color: #16805c;
-      font-size: 18px;
+      font-size: clamp(12px, 1.9vw, 18px);
     }
 
     .explanation-list {
       display: grid;
-      gap: 8px;
+      gap: clamp(5px, 1.0vw, 8px);
       margin: 0;
       padding: 0;
       list-style: none;
     }
 
     .explanation-list li {
-      padding: 10px 12px;
+      padding: clamp(7px, 1.35vw, 10px) clamp(8px, 1.5vw, 12px);
       background: #f8f2eb;
-      border-radius: 12px;
-      line-height: 1.55;
+      border-radius: clamp(8px, 1.3vw, 12px);
+      line-height: 1.43;
       font-weight: 650;
+      font-size: clamp(9px, 1.45vw, 15px);
     }
 
     .end-panel {
@@ -415,9 +419,163 @@
       body { padding: 0; }
       .wrap { width: 100vw; }
       .stage { border-radius: 0; }
-      .top-ui { transform: scale(0.85); transform-origin: left top; }
-      .nav-controls { transform: scale(0.86); transform-origin: right bottom; }
-      .popup-card { max-height: 80vh; }
+
+      .top-ui {
+        left: 0.8%;
+        top: 0.8%;
+        gap: clamp(3px, 0.9vw, 7px);
+        transform: none;
+      }
+
+      .ui-card,
+      .restart {
+        border-radius: clamp(7px, 1.7vw, 14px);
+        padding: clamp(3px, 0.9vw, 7px) clamp(5px, 1.2vw, 10px);
+        font-size: clamp(7px, 1.7vw, 12px);
+        box-shadow: 0 4px 10px rgba(68,43,28,0.12);
+      }
+
+      .nav-controls {
+        right: 1.4%;
+        bottom: 1.5%;
+        gap: clamp(4px, 1.0vw, 8px);
+        transform: none;
+      }
+
+      .circle-btn {
+        width: clamp(28px, 7.0vw, 50px);
+        height: clamp(28px, 7.0vw, 50px);
+        font-size: clamp(16px, 4.1vw, 28px);
+        box-shadow: 0 5px 12px rgba(68,43,28,0.16);
+      }
+
+      .judge {
+        width: clamp(34px, 9.2vw, 72px);
+        height: clamp(34px, 9.2vw, 72px);
+      }
+
+      .med-name {
+        font-size: clamp(5px, 1.8vw, 13px);
+        letter-spacing: -0.07em;
+        padding: 0 0.15%;
+      }
+
+      .popup-overlay {
+        padding: 1.4%;
+        align-items: center;
+      }
+
+      .popup-card {
+        width: 96%;
+        max-height: 92%;
+        border-radius: clamp(10px, 2.4vw, 18px);
+        padding: clamp(8px, 2.0vw, 16px);
+      }
+
+      .popup-title {
+        font-size: clamp(13px, 3.2vw, 20px);
+      }
+
+      .popup-source {
+        font-size: clamp(8px, 2.0vw, 12px);
+      }
+
+      .close-btn {
+        width: clamp(24px, 6.2vw, 34px);
+        height: clamp(24px, 6.2vw, 34px);
+        font-size: clamp(13px, 3.4vw, 18px);
+      }
+
+      .popup-question {
+        font-size: clamp(9px, 2.4vw, 14px);
+        line-height: 1.38;
+        padding: clamp(6px, 1.8vw, 10px);
+        margin: clamp(6px, 1.6vw, 10px) 0;
+      }
+
+      .core-line {
+        font-size: clamp(9px, 2.2vw, 13px);
+        line-height: 1.38;
+        padding: clamp(6px, 1.8vw, 10px);
+      }
+
+      .answer-line {
+        font-size: clamp(10px, 2.5vw, 15px);
+        margin: clamp(6px, 1.5vw, 10px) 0;
+      }
+
+      .explanation-list li {
+        font-size: clamp(8px, 2.1vw, 12px);
+        line-height: 1.34;
+        padding: clamp(5px, 1.5vw, 8px);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .ui-card,
+      .restart {
+        font-size: clamp(6px, 1.9vw, 10px);
+        padding: clamp(2px, 0.8vw, 5px) clamp(3px, 1.0vw, 7px);
+        border-radius: 8px;
+      }
+
+      .circle-btn {
+        width: clamp(24px, 6.8vw, 38px);
+        height: clamp(24px, 6.8vw, 38px);
+        font-size: clamp(14px, 3.9vw, 22px);
+      }
+
+      .judge {
+        width: clamp(28px, 8.6vw, 50px);
+        height: clamp(28px, 8.6vw, 50px);
+      }
+
+      .med-name {
+        font-size: clamp(4px, 1.85vw, 10px);
+        letter-spacing: -0.09em;
+      }
+
+      .popup-overlay {
+        padding: 1%;
+      }
+
+      .popup-card {
+        width: 98%;
+        max-height: 94%;
+        padding: clamp(6px, 1.7vw, 10px);
+        border-radius: 12px;
+      }
+
+      .popup-head {
+        gap: 6px;
+        margin-bottom: 6px;
+      }
+
+      .popup-title {
+        font-size: clamp(11px, 3.1vw, 15px);
+      }
+
+      .popup-source {
+        font-size: clamp(7px, 2.0vw, 10px);
+      }
+
+      .close-btn {
+        width: clamp(22px, 5.6vw, 28px);
+        height: clamp(22px, 5.6vw, 28px);
+        font-size: clamp(12px, 3.2vw, 16px);
+      }
+
+      .popup-question,
+      .core-line,
+      .explanation-list li {
+        font-size: clamp(7px, 2.05vw, 10.5px);
+        line-height: 1.28;
+        padding: clamp(4px, 1.25vw, 7px);
+      }
+
+      .answer-line {
+        font-size: clamp(8px, 2.3vw, 12px);
+      }
     }
   </style>
 </head>
@@ -1716,7 +1874,7 @@
       // 약 이름: 긴 영문 약물명은 한 줄 유지하면서 자동 축소
       labelEls.forEach(label => {
         const labelMax = Math.min(22, Math.max(13, stageWidth * 0.014));
-        fitTextToBox(label, labelMax, 8, 0.5);
+        fitTextToBox(label, labelMax, 4, 0.5);
       });
     }
 
@@ -1741,6 +1899,7 @@
       setButtonsEnabled(!locked);
 
       requestAnimationFrame(fitAllText);
+      setTimeout(fitAllText, 80);
     }
 
     function nextRound() {
