@@ -282,7 +282,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 3%;
+      padding: clamp(5px, 1.4cqw, 42px);
       background: rgba(54, 35, 24, 0.34);
       backdrop-filter: blur(4px);
     }
@@ -290,90 +290,95 @@
     .popup-overlay.show { display: flex; }
 
     .popup-card {
-      width: min(760px, 92vw);
-      max-height: min(78vh, 720px);
+      width: min(760px, 82cqw, 92vw);
+      max-height: calc(100% - clamp(10px, 2.8cqw, 60px));
       overflow: auto;
       background: rgba(255,255,255,0.96);
-      border-radius: 26px;
-      box-shadow: 0 20px 50px rgba(54,35,24,0.28);
-      padding: 26px 28px;
+      border-radius: clamp(12px, 1.9cqw, 26px);
+      box-shadow: 0 clamp(8px, 1.45cqw, 20px) clamp(18px, 3.6cqw, 50px) rgba(54,35,24,0.28);
+      padding: clamp(8px, 1.85cqw, 26px) clamp(9px, 2.0cqw, 28px);
       color: #4f3829;
+      font-size: clamp(10px, 1.05cqw, 16px);
+      scrollbar-width: thin;
     }
 
     .popup-head {
       display: flex;
       justify-content: space-between;
-      gap: 16px;
+      gap: clamp(6px, 1.15cqw, 16px);
       align-items: flex-start;
-      margin-bottom: 14px;
+      margin-bottom: clamp(5px, 1.0cqw, 14px);
     }
 
     .popup-title {
-      font-size: 24px;
+      font-size: clamp(14px, 1.72cqw, 24px);
       font-weight: 1000;
       line-height: 1.25;
     }
 
     .popup-source {
       color: #846858;
-      font-size: 14px;
+      font-size: clamp(9px, 0.95cqw, 14px);
       font-weight: 800;
-      margin-top: 6px;
+      margin-top: clamp(2px, 0.45cqw, 6px);
     }
 
     .close-btn {
       border: 0;
-      border-radius: 12px;
+      border-radius: clamp(7px, 0.86cqw, 12px);
       background: #f2e6da;
       color: #563b2a;
       font-weight: 1000;
-      font-size: 20px;
-      width: 40px;
-      height: 40px;
+      font-size: clamp(13px, 1.43cqw, 20px);
+      width: clamp(24px, 2.86cqw, 40px);
+      height: clamp(24px, 2.86cqw, 40px);
       cursor: pointer;
       flex: 0 0 auto;
     }
 
     .popup-question {
-      margin: 16px 0;
-      padding: 14px 16px;
+      margin: clamp(6px, 1.15cqw, 16px) 0;
+      padding: clamp(6px, 1.0cqw, 14px) clamp(7px, 1.15cqw, 16px);
       background: #fff4e7;
-      border-radius: 16px;
+      border-radius: clamp(8px, 1.15cqw, 16px);
       font-weight: 850;
-      line-height: 1.55;
+      line-height: 1.45;
+      font-size: clamp(10px, 1.05cqw, 16px);
     }
 
     .core-line {
-      margin: 12px 0 14px;
-      padding: 12px 14px;
+      margin: clamp(5px, 0.86cqw, 12px) 0 clamp(6px, 1.0cqw, 14px);
+      padding: clamp(6px, 0.86cqw, 12px) clamp(7px, 1.0cqw, 14px);
       background: #eff8ef;
-      border-radius: 14px;
+      border-radius: clamp(8px, 1.0cqw, 14px);
       font-weight: 800;
-      line-height: 1.55;
+      line-height: 1.45;
       color: #346341;
+      font-size: clamp(10px, 1.0cqw, 15px);
     }
 
     .answer-line {
-      margin: 12px 0 16px;
+      margin: clamp(5px, 0.86cqw, 12px) 0 clamp(6px, 1.15cqw, 16px);
       font-weight: 1000;
       color: #16805c;
-      font-size: 18px;
+      font-size: clamp(11px, 1.28cqw, 18px);
     }
 
     .explanation-list {
       display: grid;
-      gap: 8px;
+      gap: clamp(4px, 0.58cqw, 8px);
       margin: 0;
       padding: 0;
       list-style: none;
     }
 
     .explanation-list li {
-      padding: 10px 12px;
+      padding: clamp(5px, 0.72cqw, 10px) clamp(6px, 0.86cqw, 12px);
       background: #f8f2eb;
-      border-radius: 12px;
-      line-height: 1.55;
+      border-radius: clamp(7px, 0.86cqw, 12px);
+      line-height: 1.43;
       font-weight: 650;
+      font-size: clamp(9.5px, 1.0cqw, 15px);
     }
 
     .end-panel {
@@ -424,7 +429,10 @@
       .stage { border-radius: 0; }
       .top-ui { transform: none; }
       .nav-controls { transform: none; }
-      .popup-card { max-height: 80vh; max-height: 80dvh; }
+      .popup-card {
+        width: min(92cqw, 94vw);
+        max-height: calc(100% - 10px);
+      }
     }
   </style>
 </head>
