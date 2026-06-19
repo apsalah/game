@@ -26,6 +26,7 @@
     body {
       margin: 0;
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -36,15 +37,7 @@
     }
 
     .wrap {
-      /*
-        가로로 긴 화면에서는 viewport width가 아니라 viewport height를 기준으로
-        스테이지 폭을 계산해서 전체 화면이 한 번에 보이도록 맞춘다.
-      */
-      width: min(
-        var(--stage-max-width),
-        96vw,
-        calc((100vh - 40px) * 1672 / 941)
-      );
+      width: min(96vw, calc((100dvh - 40px) * 1672 / 941));
     }
 
     .stage {
@@ -122,23 +115,37 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      font-weight: 900;
-      font-size: clamp(12px, 1.18vw, 21px);
-      color: #5d3f2c;
+      font-weight: 1000;
+      font-size: clamp(9px, 1.12vw, 21px);
+      color: #3f2a1d;
       pointer-events: none;
-      letter-spacing: -0.04em;
-      text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-      padding: 0 0.35%;
+      letter-spacing: -0.055em;
+      text-shadow:
+        0 1px 0 rgba(255,255,255,0.86),
+        0 0 4px rgba(255,247,229,0.90),
+        0 1px 2px rgba(57,35,20,0.22);
+      padding: 0 0.18%;
       white-space: nowrap;
-      overflow: hidden;
+      overflow: visible;
+      text-rendering: geometricPrecision;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .med-name-inner {
+      display: inline-block;
+      max-width: none;
+      white-space: nowrap;
+      line-height: 1.02;
+      transform-origin: center center;
+      will-change: transform, font-size;
     }
 
     /* 약 이름 위치: 사용자가 조절한 기준값 */
-    .med-name[data-med="cough"] { left: 21.9%; top: 78.3%; width: 10.8%; }
-    .med-name[data-med="pain"] { left: 34.9%; top: 78.3%; width: 10.9%; }
-    .med-name[data-med="stomach"] { left: 48.1%; top: 78.3%; width: 10.9%; }
-    .med-name[data-med="allergy"] { left: 61.5%; top: 78.3%; width: 11.5%; }
-    .med-name[data-med="cold"] { left: 75.7%; top: 78.3%; width: 11.0%; }
+    .med-name[data-med="cough"] { left: 22.44%; top: 78.3%; width: 9.72%; }
+    .med-name[data-med="pain"] { left: 35.445%; top: 78.3%; width: 9.81%; }
+    .med-name[data-med="stomach"] { left: 48.645%; top: 78.3%; width: 9.81%; }
+    .med-name[data-med="allergy"] { left: 62.075%; top: 78.3%; width: 10.35%; }
+    .med-name[data-med="cold"] { left: 76.25%; top: 78.3%; width: 9.90%; }
 
     .hit {
       position: absolute;
@@ -151,13 +158,13 @@
       outline: none;
     }
 
-    .hit:hover {
-      background: rgba(255,255,255,0.12);
-      box-shadow: 0 0 0 3px rgba(255,255,255,0.28);
-    }
-
-    .hit:active {
-      background: rgba(255,255,255,0.20);
+    .hit:hover,
+    .hit:active,
+    .hit:focus,
+    .hit:focus-visible {
+      background: rgba(255,255,255,0);
+      box-shadow: none;
+      outline: none;
     }
 
     /* 클릭 영역 위치: 사용자가 조절한 기준값 */
@@ -410,22 +417,13 @@
       color: #249a67;
     }
 
-    .guide {
-      margin-top: 10px;
-      text-align: center;
-      font-size: 13px;
-      font-weight: 700;
-      color: #715c4a;
-      line-height: 1.5;
-    }
-
     @media (max-width: 900px) {
       body { padding: 0; }
-      .wrap { width: 100vw; }
+      .wrap { width: min(100vw, calc(100dvh * 1672 / 941)); }
       .stage { border-radius: 0; }
       .top-ui { transform: scale(0.85); transform-origin: left top; }
       .nav-controls { transform: scale(0.86); transform-origin: right bottom; }
-      .popup-card { max-height: 80vh; }
+      .popup-card { max-height: 80vh; max-height: 80dvh; }
     }
   </style>
 </head>
@@ -441,7 +439,7 @@
       </div>
 
       <div class="customer-crop" aria-hidden="true">
-        <img src="image/customer.png" alt="손님 캐릭터" />
+        <img id="customerImg" src="image/customers/customer_00.png" alt="손님 캐릭터" />
       </div>
 
       <div class="speech-text" id="speechText"></div>
@@ -489,10 +487,6 @@
           <button class="restart" id="restartBottom" style="font-size:18px;padding:14px 22px;">다시 시작</button>
         </div>
       </div>
-    </div>
-
-    <div class="guide">
-      대화체 DOCX의 문제를 기준으로 다시 넣었습니다. 정답/오답 표시는 HTML 문자 대신 그림체에 맞는 이미지 아이콘을 사용하고, 말풍선 대사가 길면 자동으로 글자 크기를 줄여서 말풍선 안에 맞춥니다.
     </div>
   </div>
 
@@ -1603,6 +1597,18 @@
     const totalRounds = QUESTIONS.length;
     const CORRECT_ICON = "image/correct_icon.png";
     const WRONG_ICON = "image/wrong_icon.png";
+    const CUSTOMER_IMAGES = [
+      "image/customers/customer_00.png",
+      "image/customers/customer_01.png",
+      "image/customers/customer_02.png",
+      "image/customers/customer_03.png",
+      "image/customers/customer_04.png",
+      "image/customers/customer_05.png",
+      "image/customers/customer_06.png",
+      "image/customers/customer_07.png",
+      "image/customers/customer_08.png",
+      "image/customers/customer_09.png"
+    ];
     const stage = document.getElementById("stage");
     const scoreEl = document.getElementById("score");
     const roundEl = document.getElementById("round");
@@ -1610,6 +1616,7 @@
     const totalRoundEl = document.getElementById("totalRound");
     const speechText = document.getElementById("speechText");
     const judge = document.getElementById("judge");
+    const customerImg = document.getElementById("customerImg");
     const judgeImg = document.getElementById("judgeImg");
     const endPanel = document.getElementById("endPanel");
     const finalScore = document.getElementById("finalScore");
@@ -1639,6 +1646,14 @@
     let locked = false;
     let currentOptions = [];
     let answered = new Set();
+    let lastCustomerIndex = -1;
+
+    const labelSpans = labelEls.map(label => {
+      const span = document.createElement("span");
+      span.className = "med-name-inner";
+      label.appendChild(span);
+      return span;
+    });
 
     totalEl.textContent = totalRounds;
     totalRoundEl.textContent = totalRounds;
@@ -1673,6 +1688,16 @@
       judgeImg.alt = "";
     }
 
+    function pickRandomCustomer() {
+      if (CUSTOMER_IMAGES.length === 0) return "image/customers/customer_00.png";
+      let idx = Math.floor(Math.random() * CUSTOMER_IMAGES.length);
+      if (CUSTOMER_IMAGES.length > 1 && idx === lastCustomerIndex) {
+        idx = (idx + 1 + Math.floor(Math.random() * (CUSTOMER_IMAGES.length - 1))) % CUSTOMER_IMAGES.length;
+      }
+      lastCustomerIndex = idx;
+      return CUSTOMER_IMAGES[idx];
+    }
+
     function fitTextToBox(el, maxPx, minPx, step = 1) {
       el.style.fontSize = maxPx + "px";
       el.style.lineHeight = "1.28";
@@ -1694,6 +1719,29 @@
       }
     }
 
+    function fitLabelText(label, span, maxPx, minPx) {
+      span.style.fontSize = maxPx + "px";
+      span.style.transform = "scaleX(1)";
+      span.style.letterSpacing = "-0.055em";
+      span.style.lineHeight = "1.02";
+      let size = maxPx;
+
+      const fits = () => {
+        return span.scrollWidth <= label.clientWidth + 1 && span.scrollHeight <= label.clientHeight + 1;
+      };
+
+      while (!fits() && size > minPx) {
+        size -= 0.5;
+        span.style.fontSize = size + "px";
+      }
+
+      if (!fits()) {
+        const availableWidth = Math.max(1, label.clientWidth - 2);
+        const scaleX = Math.min(1, availableWidth / Math.max(1, span.scrollWidth));
+        span.style.transform = `scaleX(${scaleX})`;
+      }
+    }
+
     function fitAllText() {
       const stageWidth = stage.clientWidth || 1400;
 
@@ -1701,24 +1749,27 @@
       const speechMax = Math.min(32, Math.max(18, stageWidth * 0.021));
       fitTextToBox(speechText, speechMax, 10, 1);
 
-      // 약 이름: 긴 영문 약물명은 한 줄 유지하면서 자동 축소
-      labelEls.forEach(label => {
-        const labelMax = Math.min(22, Math.max(13, stageWidth * 0.014));
-        fitTextToBox(label, labelMax, 8, 0.5);
+      // 약 이름: 한 줄 유지, 작은 화면에서는 축소 + 가로 압축으로 잘림 방지
+      labelEls.forEach((label, idx) => {
+        const span = labelSpans[idx];
+        const labelMax = Math.min(22, Math.max(9, stageWidth * 0.0145));
+        const labelMin = stageWidth < 520 ? 6 : 7.5;
+        fitLabelText(label, span, labelMax, labelMin);
       });
     }
 
     function loadRound() {
       const current = gameList[currentIndex];
 
-      // 문항 순서는 무작위, 선택지 위치는 문서 순서를 유지
-      currentOptions = [...current.options];
+      // 문항 순서는 무작위, 선택지 위치도 매 문제마다 무작위
+      currentOptions = shuffle([...current.options]);
+      customerImg.src = pickRandomCustomer();
 
       speechText.textContent = current.dialogue || current.question;
       roundEl.textContent = currentIndex + 1;
 
       currentOptions.forEach((option, idx) => {
-        labelEls[idx].textContent = option;
+        labelSpans[idx].textContent = option;
         labelEls[idx].title = option;
         hitButtons[idx].setAttribute("aria-label", option);
       });
@@ -1759,6 +1810,25 @@
       }
     }
 
+    function renumberExplanationLine(line, displayIndex) {
+      const circledNumbers = ["①", "②", "③", "④", "⑤"];
+      const numberMark = circledNumbers[displayIndex] || `${displayIndex + 1}.`;
+      return String(line || "").replace(/^[①②③④⑤]\s*/, `${numberMark} `);
+    }
+
+    function getExplanationInBottleOrder(current) {
+      const explanationByOption = new Map();
+
+      current.options.forEach((option, idx) => {
+        explanationByOption.set(option, current.explanation[idx] || option);
+      });
+
+      return currentOptions.map((option, displayIndex) => {
+        const originalLine = explanationByOption.get(option) || option;
+        return renumberExplanationLine(originalLine, displayIndex);
+      });
+    }
+
     function openExplanation() {
       const current = gameList[currentIndex];
       popupTitle.textContent = `문항 ${current.number} 해설`;
@@ -1769,7 +1839,7 @@
       popupAnswer.textContent = `정답: ${current.answer}`;
       popupExplanation.innerHTML = "";
 
-      current.explanation.forEach(line => {
+      getExplanationInBottleOrder(current).forEach(line => {
         const li = document.createElement("li");
         li.textContent = line;
         popupExplanation.appendChild(li);
