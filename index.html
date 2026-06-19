@@ -114,24 +114,26 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      font-weight: 900;
-      font-size: clamp(6px, 1.18vw, 21px);
-      color: #5d3f2c;
+      font-weight: 950;
+      font-size: clamp(5px, 1.05vw, 20px);
+      color: #2f241b;
       pointer-events: none;
-      letter-spacing: -0.04em;
-      text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-      padding: 0 0.35%;
+      letter-spacing: -0.035em;
+      text-shadow:
+        0 1px 0 rgba(255,255,255,0.82),
+        0 0 3px rgba(255,248,232,0.78);
+      padding: 0 0.18%;
       white-space: nowrap;
       overflow: hidden;
       line-height: 1.02;
     }
 
     /* 약 이름 위치: 사용자가 조절한 기준값 */
-    .med-name[data-med="cough"] { left: 21.9%; top: 78.3%; width: 10.8%; }
-    .med-name[data-med="pain"] { left: 34.9%; top: 78.3%; width: 10.9%; }
-    .med-name[data-med="stomach"] { left: 48.1%; top: 78.3%; width: 10.9%; }
-    .med-name[data-med="allergy"] { left: 61.5%; top: 78.3%; width: 11.5%; }
-    .med-name[data-med="cold"] { left: 75.7%; top: 78.3%; width: 11.0%; }
+    .med-name[data-med="cough"] { left: 22.44%; top: 78.3%; width: 9.72%; }
+    .med-name[data-med="pain"] { left: 35.445%; top: 78.3%; width: 9.81%; }
+    .med-name[data-med="stomach"] { left: 48.645%; top: 78.3%; width: 9.81%; }
+    .med-name[data-med="allergy"] { left: 62.075%; top: 78.3%; width: 10.35%; }
+    .med-name[data-med="cold"] { left: 76.25%; top: 78.3%; width: 9.90%; }
 
     .hit {
       position: absolute;
@@ -455,9 +457,13 @@
       }
 
       .med-name {
-        font-size: clamp(5px, 1.8vw, 13px);
-        letter-spacing: -0.07em;
-        padding: 0 0.15%;
+        font-size: clamp(4px, 1.35vw, 11.5px);
+        letter-spacing: -0.055em;
+        padding: 0 0.08%;
+        color: #241912;
+        text-shadow:
+          0 1px 0 rgba(255,255,255,0.9),
+          0 0 3px rgba(255,248,232,0.9);
       }
 
       .popup-overlay {
@@ -531,8 +537,13 @@
       }
 
       .med-name {
-        font-size: clamp(4px, 1.85vw, 10px);
-        letter-spacing: -0.09em;
+        font-size: clamp(3px, 1.32vw, 8.5px);
+        letter-spacing: -0.07em;
+        padding: 0;
+        color: #1f150f;
+        text-shadow:
+          0 1px 0 rgba(255,255,255,0.92),
+          0 0 3px rgba(255,248,232,0.95);
       }
 
       .popup-overlay {
@@ -1871,10 +1882,10 @@
       const speechMax = Math.min(32, Math.max(18, stageWidth * 0.021));
       fitTextToBox(speechText, speechMax, 10, 1);
 
-      // 약 이름: 긴 영문 약물명은 한 줄 유지하면서 자동 축소
+      // 약 이름: 작은 화면에서는 더 작게 줄여 한 줄 안에 들어가도록 자동 축소
       labelEls.forEach(label => {
-        const labelMax = Math.min(22, Math.max(13, stageWidth * 0.014));
-        fitTextToBox(label, labelMax, 4, 0.5);
+        const labelMax = Math.min(20, Math.max(7, stageWidth * 0.0125));
+        fitTextToBox(label, labelMax, 3, 0.5);
       });
     }
 
