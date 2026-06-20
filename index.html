@@ -442,8 +442,8 @@
       <img class="bg" src="image/background.png" alt="약국 배경" />
 
       <div class="top-ui">
-        <div class="ui-card">점수 <span id="score">0</span> / <span id="total">50</span></div>
-        <div class="ui-card">문제 <span id="round">1</span> / <span id="totalRound">50</span></div>
+        <div class="ui-card">점수 <span id="score">0</span> / <span id="total">100</span></div>
+        <div class="ui-card">문제 <span id="round">1</span> / <span id="totalRound">100</span></div>
         <button class="restart" id="restartTop">다시 시작</button>
       </div>
 
@@ -491,8 +491,8 @@
       <div class="end-panel" id="endPanel">
         <div class="end-card">
           <h2>게임 종료</h2>
-          <p>업로드한 대화체 문제 50개를 모두 풀었습니다.</p>
-          <div class="final-score"><span id="finalScore">0</span> / 50</div>
+          <p>Word 파일의 문제를 모두 풀었습니다.</p>
+          <div class="final-score"><span id="finalScore">0</span> / <span id="finalTotal">100</span></div>
           <button class="restart" id="restartBottom" style="font-size:18px;padding:14px 22px;">다시 시작</button>
         </div>
       </div>
@@ -503,1105 +503,2133 @@
     const QUESTIONS = [
   {
     "number": 1,
-    "source": "54. 알코올의 약리작용",
-    "question": "환자: \"메탄올을 마셨어요. 해독제가 필요해요.\"",
-    "dialogue": "메탄올을 마셨어요. 해독제가 필요해요.",
-    "options": [
-      "Fomepizole",
-      "Disulfiram",
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"음주 후 acetaldehyde가 쌓이게 만들어 금주를 돕는 약을 주세요.\"",
+    "dialogue": "음주 후 acetaldehyde가 쌓이게 만들어 금주를 돕는 약을 주세요.",
+    "correctCandidates": [
+      "Disulfiram"
+    ],
+    "wrongCandidates": [
       "Naltrexone",
       "Acamprosate",
-      "Topiramate"
+      "Topiramate",
+      "Fomepizole",
+      "Ondansetron",
+      "Phenelzine"
     ],
-    "answer": "Fomepizole",
-    "core": "alcohol dehydrogenase 경쟁적 억제가 핵심. ALDH 억제제나 알코올 의존 치료 약물과 구분한다.",
-    "explanation": [
-      "① Fomepizole / 정답 / alcohol dehydrogenase를 경쟁적으로 억제하여 methanol/ethylene glycol의 독성 대사산물 생성을 줄이는 해독제이다.",
-      "② Disulfiram / 오답 / ALDH를 억제하여 acetaldehyde 축적을 유도하고 음주 시 불쾌반응을 일으킨다.",
-      "③ Naltrexone / 오답 / μ-opioid receptor antagonist로 알코올 섭취의 보상효과를 낮춘다.",
-      "④ Acamprosate / 오답 / mGluR5 관련 glutamate 조절 약물로 금주 유지에 쓰이며 심한 신부전에서 금기이다.",
-      "⑤ Topiramate / 오답 / 전압의존성 Na+ channel 차단과 관련되며 체중감소가 특징으로 정리된 알코올 의존 치료 보조약이다."
-    ]
+    "baseExplanation": "Disulfiram은 ALDH를 억제해 acetaldehyde 축적을 유도하므로 음주 시 불쾌반응이 생긴다."
   },
   {
     "number": 2,
-    "source": "54. 알코올의 약리작용",
-    "question": "환자: \"술을 마시면 일부러 불쾌한 반응이 나게 하는 치료를 하고 싶어요.\"",
-    "dialogue": "술을 마시면 일부러 불쾌한 반응이 나게 하는 치료를 하고 싶어요.",
-    "options": [
-      "Naltrexone",
-      "Disulfiram",
-      "Fomepizole",
-      "Acamprosate",
-      "Topiramate"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Alcohol dehydrogenase를 경쟁적으로 억제하는 약을 주세요.\"",
+    "dialogue": "Alcohol dehydrogenase를 경쟁적으로 억제하는 약을 주세요.",
+    "correctCandidates": [
+      "Fomepizole"
     ],
-    "answer": "Disulfiram",
-    "core": "ALDH 억제를 통한 aversive therapy가 핵심.",
-    "explanation": [
-      "① Naltrexone / 오답 / μ-opioid receptor antagonist로 알코올 섭취의 보상효과를 낮춘다.",
-      "② Disulfiram / 정답 / ALDH를 억제하여 acetaldehyde 축적을 유도하고 음주 시 불쾌반응을 일으킨다.",
-      "③ Fomepizole / 오답 / alcohol dehydrogenase를 경쟁적으로 억제하여 methanol/ethylene glycol의 독성 대사산물 생성을 줄이는 해독제이다.",
-      "④ Acamprosate / 오답 / mGluR5 관련 glutamate 조절 약물로 금주 유지에 쓰이며 심한 신부전에서 금기이다.",
-      "⑤ Topiramate / 오답 / 전압의존성 Na+ channel 차단과 관련되며 체중감소가 특징으로 정리된 알코올 의존 치료 보조약이다."
-    ]
+    "wrongCandidates": [
+      "Disulfiram",
+      "Naltrexone",
+      "Acamprosate",
+      "Topiramate",
+      "Cimetidine",
+      "Aspirin"
+    ],
+    "baseExplanation": "Fomepizole은 alcohol dehydrogenase를 경쟁적으로 억제해 methanol·ethylene glycol의 독성 대사산물 생성을 줄인다. Antidiuretic hormone(ADH) 길항제와 구분해야 한다."
   },
   {
     "number": 3,
-    "source": "54. 알코올의 약리작용",
-    "question": "환자: \"술을 마셨을 때 보상감이 줄어드는 약이 있나요?\"",
-    "dialogue": "술을 마셨을 때 보상감이 줄어드는 약이 있나요?",
-    "options": [
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"mu-opioid receptor antagonist로 금주 유지에 도움 되는 약을 주세요.\"",
+    "dialogue": "mu-opioid receptor antagonist로 금주 유지에 도움 되는 약을 주세요.",
+    "correctCandidates": [
+      "Naltrexone"
+    ],
+    "wrongCandidates": [
+      "Disulfiram",
       "Acamprosate",
       "Topiramate",
-      "Naltrexone",
-      "Disulfiram",
-      "Fomepizole"
+      "Fomepizole",
+      "Tramadol",
+      "Bromocriptine"
     ],
-    "answer": "Naltrexone",
-    "core": "알코올 보상효과 감소는 μ-opioid receptor 길항 작용과 연결한다.",
-    "explanation": [
-      "① Acamprosate / 오답 / mGluR5 관련 glutamate 조절 약물로 금주 유지에 쓰이며 심한 신부전에서 금기이다.",
-      "② Topiramate / 오답 / 전압의존성 Na+ channel 차단과 관련되며 체중감소가 특징으로 정리된 알코올 의존 치료 보조약이다.",
-      "③ Naltrexone / 정답 / μ-opioid receptor antagonist로 알코올 섭취의 보상효과를 낮춘다.",
-      "④ Disulfiram / 오답 / ALDH를 억제하여 acetaldehyde 축적을 유도하고 음주 시 불쾌반응을 일으킨다.",
-      "⑤ Fomepizole / 오답 / alcohol dehydrogenase를 경쟁적으로 억제하여 methanol/ethylene glycol의 독성 대사산물 생성을 줄이는 해독제이다."
-    ]
+    "baseExplanation": "Naltrexone은 mu-opioid receptor antagonist로 알코올 craving 감소에 사용된다."
   },
   {
     "number": 4,
-    "source": "54. 알코올의 약리작용",
-    "question": "환자: \"금주를 계속 유지하는 데 도움 되는 약을 찾고 있어요. 신장은 괜찮아요.\"",
-    "dialogue": "금주를 계속 유지하는 데 도움 되는 약을 찾고 있어요. 신장은 괜찮아요.",
-    "options": [
-      "Topiramate",
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"금주 유지에 쓰이며 glutamatergic 신경전달을 안정화하는 약을 주세요.\"",
+    "dialogue": "금주 유지에 쓰이며 glutamatergic 신경전달을 안정화하는 약을 주세요.",
+    "correctCandidates": [
+      "Acamprosate"
+    ],
+    "wrongCandidates": [
       "Naltrexone",
       "Disulfiram",
-      "Acamprosate",
-      "Fomepizole"
+      "Fomepizole",
+      "Zileuton",
+      "Montelukast"
     ],
-    "answer": "Acamprosate",
-    "core": "금주 유지, mGluR5 관련 glutamate 조절, 심한 신부전 금기를 연결.",
-    "explanation": [
-      "① Topiramate / 오답 / 전압의존성 Na+ channel 차단과 관련되며 체중감소가 특징으로 정리된 알코올 의존 치료 보조약이다.",
-      "② Naltrexone / 오답 / μ-opioid receptor antagonist로 알코올 섭취의 보상효과를 낮춘다.",
-      "③ Disulfiram / 오답 / ALDH를 억제하여 acetaldehyde 축적을 유도하고 음주 시 불쾌반응을 일으킨다.",
-      "④ Acamprosate / 정답 / mGluR5 관련 glutamate 조절 약물로 금주 유지에 쓰이며 심한 신부전에서 금기이다.",
-      "⑤ Fomepizole / 오답 / alcohol dehydrogenase를 경쟁적으로 억제하여 methanol/ethylene glycol의 독성 대사산물 생성을 줄이는 해독제이다."
-    ]
+    "baseExplanation": "Acamprosate의 정확한 기전은 완전히 확립되지 않았지만, alcohol dependence에서 과활성화된 glutamatergic/NMDA 관련 신경전달을 조절해 금주 유지에 도움을 준다."
   },
   {
     "number": 5,
-    "source": "54. 알코올의 약리작용",
-    "question": "환자: \"알코올 의존 치료 중 체중이 줄 수 있는 보조약이 있다고 들었어요.\"",
-    "dialogue": "알코올 의존 치료 중 체중이 줄 수 있는 보조약이 있다고 들었어요.",
-    "options": [
-      "Disulfiram",
-      "Fomepizole",
-      "Acamprosate",
-      "Naltrexone",
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"전압의존성 Na+ channel을 차단하는 금주 보조약을 주세요.\"",
+    "dialogue": "전압의존성 Na+ channel을 차단하는 금주 보조약을 주세요.",
+    "correctCandidates": [
       "Topiramate"
     ],
-    "answer": "Topiramate",
-    "core": "전압의존성 Na+ channel 차단 및 체중감소라는 단서가 중요하다.",
-    "explanation": [
-      "① Disulfiram / 오답 / ALDH를 억제하여 acetaldehyde 축적을 유도하고 음주 시 불쾌반응을 일으킨다.",
-      "② Fomepizole / 오답 / alcohol dehydrogenase를 경쟁적으로 억제하여 methanol/ethylene glycol의 독성 대사산물 생성을 줄이는 해독제이다.",
-      "③ Acamprosate / 오답 / mGluR5 관련 glutamate 조절 약물로 금주 유지에 쓰이며 심한 신부전에서 금기이다.",
-      "④ Naltrexone / 오답 / μ-opioid receptor antagonist로 알코올 섭취의 보상효과를 낮춘다.",
-      "⑤ Topiramate / 정답 / 전압의존성 Na+ channel 차단과 관련되며 체중감소가 특징으로 정리된 알코올 의존 치료 보조약이다."
-    ]
+    "wrongCandidates": [
+      "Acamprosate",
+      "Naltrexone",
+      "Disulfiram",
+      "Fomepizole",
+      "Celecoxib",
+      "Venlafaxine"
+    ],
+    "baseExplanation": "Topiramate는 전압의존성 Na+ channel 차단과 체중감소 특징이 정리본에 제시되어 있다."
   },
   {
     "number": 6,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"RAAS를 제일 위 단계에서 막는 혈압약이 필요해요.\"",
-    "dialogue": "RAAS를 제일 위 단계에서 막는 혈압약이 필요해요.",
-    "options": [
-      "Captopril",
-      "Losartan",
-      "Aliskiren",
-      "Valsartan",
-      "Sacubitril"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"직접 renin inhibitor를 주세요.\"",
+    "dialogue": "직접 renin inhibitor를 주세요.",
+    "correctCandidates": [
+      "Aliskiren"
     ],
-    "answer": "Aliskiren",
-    "core": "Renin inhibitor와 ACE inhibitor, ARB, neprilysin inhibitor를 구분.",
-    "explanation": [
-      "① Captopril / 오답 / ACE inhibitor로 Ang II를 감소시키고 bradykinin 증가에 따른 dry cough/angioedema가 가능하다.",
-      "② Losartan / 오답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다.",
-      "③ Aliskiren / 정답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
-      "④ Valsartan / 오답 / ARB이며 sacubitril과 함께 ARNI 조합의 ARB 성분으로 정리되어 있다.",
-      "⑤ Sacubitril / 오답 / Neprilysin inhibitor로 ANP/BNP 같은 natriuretic peptide의 분해를 억제한다."
-    ]
+    "wrongCandidates": [
+      "Captopril",
+      "Enalapril",
+      "Lisinopril",
+      "Ramipril",
+      "Trandolapril",
+      "Candesartan",
+      "Losartan",
+      "Valsartan",
+      "Sacubitril",
+      "Desmopressin"
+    ],
+    "baseExplanation": "Aliskiren은 직접 renin inhibitor이다. ACE inhibitor와 ARB는 RAAS의 다른 단계 또는 수용체를 억제한다."
   },
   {
     "number": 7,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"ACE inhibitor 계열 혈압약을 처방받고 싶어요.\"",
-    "dialogue": "ACE inhibitor 계열 혈압약을 처방받고 싶어요.",
-    "options": [
-      "Losartan",
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Angiotensin I이 angiotensin II로 바뀌는 과정을 막는 약을 주세요.\"",
+    "dialogue": "Angiotensin I이 angiotensin II로 바뀌는 과정을 막는 약을 주세요.",
+    "correctCandidates": [
       "Captopril",
-      "Aliskiren",
-      "Valsartan",
-      "Sacubitril"
+      "Enalapril",
+      "Lisinopril",
+      "Ramipril",
+      "Trandolapril"
     ],
-    "answer": "Captopril",
-    "core": "ACE inhibitor는 Ang II 감소와 bradykinin 증가를 동시에 일으킬 수 있다.",
-    "explanation": [
-      "① Losartan / 오답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다.",
-      "② Captopril / 정답 / ACE inhibitor로 Ang II를 감소시키고 bradykinin 증가에 따른 dry cough/angioedema가 가능하다.",
-      "③ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
-      "④ Valsartan / 오답 / ARB이며 sacubitril과 함께 ARNI 조합의 ARB 성분으로 정리되어 있다.",
-      "⑤ Sacubitril / 오답 / Neprilysin inhibitor로 ANP/BNP 같은 natriuretic peptide의 분해를 억제한다."
-    ]
+    "wrongCandidates": [
+      "Candesartan",
+      "Losartan",
+      "Valsartan",
+      "Aliskiren",
+      "Sacubitril",
+      "Bosentan",
+      "Tolvaptan"
+    ],
+    "baseExplanation": "Captopril, Enalapril, Lisinopril, Ramipril, Trandolapril은 ACE inhibitor이다."
   },
   {
     "number": 8,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"의사가 -pril 계열 혈압약을 말했어요.\"",
-    "dialogue": "의사가 -pril 계열 혈압약을 말했어요.",
-    "options": [
-      "Candesartan",
-      "Aliskiren",
-      "Famotidine",
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"마른기침이 생길 수 있는 RAAS 억제제를 주세요.\"",
+    "dialogue": "마른기침이 생길 수 있는 RAAS 억제제를 주세요.",
+    "correctCandidates": [
+      "Captopril",
       "Enalapril",
-      "Losartan"
+      "Lisinopril",
+      "Ramipril",
+      "Trandolapril"
     ],
-    "answer": "Enalapril",
-    "core": "-pril 계열은 ACE inhibitor이고, -sartan 계열은 ARB이다.",
-    "explanation": [
-      "① Candesartan / 오답 / ARB로 AT1 receptor를 차단하며 hyperkalemia가 가능하다.",
-      "② Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
-      "③ Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
-      "④ Enalapril / 정답 / ACE inhibitor로 Ang II 생성을 줄이고 bradykinin을 증가시킬 수 있는 -pril 계열 약물이다.",
-      "⑤ Losartan / 오답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다."
-    ]
+    "wrongCandidates": [
+      "Candesartan",
+      "Losartan",
+      "Valsartan",
+      "Aliskiren",
+      "Sacubitril",
+      "Cimetidine",
+      "Montelukast"
+    ],
+    "baseExplanation": "ACE inhibitor는 angiotensin II를 줄이고 bradykinin을 증가시켜 dry cough와 angioedema 위험이 있다."
   },
   {
     "number": 9,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"혈압약 복용 후 마른기침이 생길 수 있다고 들었어요.\"",
-    "dialogue": "혈압약 복용 후 마른기침이 생길 수 있다고 들었어요.",
-    "options": [
-      "Lisinopril",
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Angiotensin II type 1 receptor를 경쟁적으로 막는 약을 주세요.\"",
+    "dialogue": "Angiotensin II type 1 receptor를 경쟁적으로 막는 약을 주세요.",
+    "correctCandidates": [
       "Candesartan",
-      "Tolvaptan",
-      "Aliskiren",
-      "Bosentan"
+      "Losartan",
+      "Valsartan"
     ],
-    "answer": "Lisinopril",
-    "core": "ACE inhibitor의 대표 부작용인 dry cough는 bradykinin 증가와 연결한다.",
-    "explanation": [
-      "① Lisinopril / 정답 / ACE inhibitor로 Ang II 감소와 bradykinin 증가가 핵심인 -pril 계열 약물이다.",
-      "② Candesartan / 오답 / ARB로 AT1 receptor를 차단하며 hyperkalemia가 가능하다.",
-      "③ Tolvaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
-      "④ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
-      "⑤ Bosentan / 오답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다."
-    ]
+    "wrongCandidates": [
+      "Captopril",
+      "Enalapril",
+      "Lisinopril",
+      "Ramipril",
+      "Trandolapril",
+      "Aliskiren",
+      "Sacubitril",
+      "Desmopressin",
+      "Aprocitentan"
+    ],
+    "baseExplanation": "Candesartan, Losartan, Valsartan은 ARB로 AT1 receptor를 차단한다."
   },
   {
     "number": 10,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"ACE inhibitor 중 하나로 혈압약을 고르고 있어요.\"",
-    "dialogue": "ACE inhibitor 중 하나로 혈압약을 고르고 있어요.",
-    "options": [
-      "Valsartan",
-      "Conivaptan",
-      "Ramipril",
-      "Aliskiren",
-      "Ambrisentan"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"ACE 억제제를 쓰고 기침이 생겨서 다른 RAAS 억제제로 바꾸고 싶어요.\"",
+    "dialogue": "ACE 억제제를 쓰고 기침이 생겨서 다른 RAAS 억제제로 바꾸고 싶어요.",
+    "correctCandidates": [
+      "Candesartan",
+      "Losartan",
+      "Valsartan"
     ],
-    "answer": "Ramipril",
-    "core": "ACE inhibitor와 ARB의 차이는 bradykinin 증가 여부이다.",
-    "explanation": [
-      "① Valsartan / 오답 / ARB이며 sacubitril과 함께 ARNI 조합의 ARB 성분으로 정리되어 있다.",
-      "② Conivaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
-      "③ Ramipril / 정답 / ACE inhibitor로 Ang II 감소, bradykinin 증가, dry cough/angioedema 가능성이 중요하다.",
-      "④ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
-      "⑤ Ambrisentan / 오답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다."
-    ]
+    "wrongCandidates": [
+      "Captopril",
+      "Enalapril",
+      "Lisinopril",
+      "Ramipril",
+      "Trandolapril",
+      "Aliskiren",
+      "Sacubitril",
+      "Conivaptan",
+      "Tolvaptan"
+    ],
+    "baseExplanation": "ARB는 bradykinin 증가가 ACE inhibitor보다 적어 ACE inhibitor의 dry cough와 비교되는 약물군이다."
   },
   {
     "number": 11,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"-pril로 끝나는 RAAS 차단제를 원해요.\"",
-    "dialogue": "-pril로 끝나는 RAAS 차단제를 원해요.",
-    "options": [
-      "Losartan",
-      "Desmopressin",
-      "Sacubitril",
-      "Macitentan",
-      "Trandolapril"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Natriuretic peptide가 분해되지 않게 neprilysin을 억제하는 성분을 원해요.\"",
+    "dialogue": "Natriuretic peptide가 분해되지 않게 neprilysin을 억제하는 성분을 원해요.",
+    "correctCandidates": [
+      "Sacubitril"
     ],
-    "answer": "Trandolapril",
-    "core": "ACE inhibitor는 -pril 접미사를 가지며 Ang II 생성을 감소시킨다.",
-    "explanation": [
-      "① Losartan / 오답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다.",
-      "② Desmopressin / 오답 / Long-acting V2 receptor agonist로 diabetes insipidus에 사용된다.",
-      "③ Sacubitril / 오답 / Neprilysin inhibitor로 ANP/BNP 같은 natriuretic peptide의 분해를 억제한다.",
-      "④ Macitentan / 오답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다.",
-      "⑤ Trandolapril / 정답 / 강의 자료에 제시된 ACE inhibitor 중 하나로 RAAS에서 ACE 단계를 억제한다."
-    ]
+    "wrongCandidates": [
+      "Valsartan",
+      "Captopril",
+      "Aliskiren",
+      "Desmopressin",
+      "Conivaptan",
+      "Bosentan"
+    ],
+    "baseExplanation": "Sacubitril은 neprilysin inhibitor로 ANP, BNP 분해를 억제한다."
   },
   {
     "number": 12,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"기침 때문에 ACE inhibitor 대신 다른 RAAS 차단제를 쓰고 싶어요.\"",
-    "dialogue": "기침 때문에 ACE inhibitor 대신 다른 RAAS 차단제를 쓰고 싶어요.",
-    "options": [
-      "Captopril",
-      "Aliskiren",
-      "Sacubitril",
-      "Losartan",
-      "Desmopressin"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Sacubitril과 같이 쓰이는 ARB 성분을 골라주세요.\"",
+    "dialogue": "Sacubitril과 같이 쓰이는 ARB 성분을 골라주세요.",
+    "correctCandidates": [
+      "Valsartan"
     ],
-    "answer": "Losartan",
-    "core": "ARB는 AT1 receptor를 차단하지만 ACE를 억제하지 않아 bradykinin 증가가 상대적으로 적다.",
-    "explanation": [
-      "① Captopril / 오답 / ACE inhibitor로 Ang II를 감소시키고 bradykinin 증가에 따른 dry cough/angioedema가 가능하다.",
-      "② Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
-      "③ Sacubitril / 오답 / Neprilysin inhibitor로 ANP/BNP 같은 natriuretic peptide의 분해를 억제한다.",
-      "④ Losartan / 정답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다.",
-      "⑤ Desmopressin / 오답 / Long-acting V2 receptor agonist로 diabetes insipidus에 사용된다."
-    ]
-  },
-  {
-    "number": 13,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"AT1 receptor를 막는 혈압약을 원해요.\"",
-    "dialogue": "AT1 receptor를 막는 혈압약을 원해요.",
-    "options": [
+    "wrongCandidates": [
       "Candesartan",
-      "Enalapril",
+      "Losartan",
+      "Captopril",
       "Aliskiren",
       "Tolvaptan",
       "Bosentan"
     ],
-    "answer": "Candesartan",
-    "core": "ARB는 AT1 receptor 경쟁적 저해제이며 hyperkalemia가 가능하다.",
-    "explanation": [
-      "① Candesartan / 정답 / ARB로 AT1 receptor를 차단하며 hyperkalemia가 가능하다.",
-      "② Enalapril / 오답 / ACE inhibitor로 Ang II 생성을 줄이고 bradykinin을 증가시킬 수 있는 -pril 계열 약물이다.",
-      "③ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
-      "④ Tolvaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
-      "⑤ Bosentan / 오답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다."
-    ]
+    "baseExplanation": "Sacubitril/valsartan은 ARNI이며 valsartan이 ARB 구성 성분이다."
+  },
+  {
+    "number": 13,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Long-acting V2 receptor agonist를 주세요.\"",
+    "dialogue": "Long-acting V2 receptor agonist를 주세요.",
+    "correctCandidates": [
+      "Desmopressin"
+    ],
+    "wrongCandidates": [
+      "Conivaptan",
+      "Tolvaptan",
+      "Aliskiren",
+      "Sacubitril",
+      "Valsartan",
+      "Fomepizole"
+    ],
+    "baseExplanation": "Desmopressin은 V2 receptor agonist로 수분 재흡수를 증가시켜 diabetes insipidus에 사용된다."
   },
   {
     "number": 14,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"심부전 약에서 sacubitril과 같이 쓰는 ARB 성분이 궁금해요.\"",
-    "dialogue": "심부전 약에서 sacubitril과 같이 쓰는 ARB 성분이 궁금해요.",
-    "options": [
-      "Losartan",
-      "Candesartan",
-      "Aliskiren",
-      "Captopril",
-      "Valsartan"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Vasopressin 작용을 막는 약을 주세요.\"",
+    "dialogue": "Vasopressin 작용을 막는 약을 주세요.",
+    "correctCandidates": [
+      "Conivaptan",
+      "Tolvaptan"
     ],
-    "answer": "Valsartan",
-    "core": "ARNI는 neprilysin inhibitor와 ARB의 조합이며, 강의 자료에서는 sacubitril/valsartan으로 정리된다.",
-    "explanation": [
-      "① Losartan / 오답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다.",
-      "② Candesartan / 오답 / ARB로 AT1 receptor를 차단하며 hyperkalemia가 가능하다.",
-      "③ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
-      "④ Captopril / 오답 / ACE inhibitor로 Ang II를 감소시키고 bradykinin 증가에 따른 dry cough/angioedema가 가능하다.",
-      "⑤ Valsartan / 정답 / ARB이며 sacubitril과 함께 ARNI 조합의 ARB 성분으로 정리되어 있다."
-    ]
+    "wrongCandidates": [
+      "Desmopressin",
+      "Aliskiren",
+      "Candesartan",
+      "Lisinopril",
+      "Aprocitentan",
+      "Fomepizole"
+    ],
+    "baseExplanation": "Conivaptan과 Tolvaptan은 ADH antagonist이고 Desmopressin은 반대로 V2 agonist이다."
   },
   {
     "number": 15,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"심부전에서 natriuretic peptide가 오래 작용하게 하는 약을 원해요.\"",
-    "dialogue": "심부전에서 natriuretic peptide가 오래 작용하게 하는 약을 원해요.",
-    "options": [
-      "Valsartan",
-      "Sacubitril",
-      "Losartan",
-      "Aliskiren",
-      "Captopril"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Endothelin receptor antagonist를 주세요.\"",
+    "dialogue": "Endothelin receptor antagonist를 주세요.",
+    "correctCandidates": [
+      "Aprocitentan",
+      "Atrasentan",
+      "Bosentan",
+      "Ambrisentan",
+      "Macitentan"
     ],
-    "answer": "Sacubitril",
-    "core": "Neprilysin은 natriuretic peptide를 분해하며, 이를 억제하는 약물이 ARNI의 한 성분이다.",
-    "explanation": [
-      "① Valsartan / 오답 / ARB이며 sacubitril과 함께 ARNI 조합의 ARB 성분으로 정리되어 있다.",
-      "② Sacubitril / 정답 / Neprilysin inhibitor로 ANP/BNP 같은 natriuretic peptide의 분해를 억제한다.",
-      "③ Losartan / 오답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다.",
-      "④ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
-      "⑤ Captopril / 오답 / ACE inhibitor로 Ang II를 감소시키고 bradykinin 증가에 따른 dry cough/angioedema가 가능하다."
-    ]
+    "wrongCandidates": [
+      "Aliskiren",
+      "Candesartan",
+      "Valsartan",
+      "Desmopressin",
+      "Epoprostenol",
+      "Selexipag"
+    ],
+    "baseExplanation": "Aprocitentan, Atrasentan, Bosentan, Ambrisentan, Macitentan은 endothelin receptor antagonist이다."
   },
   {
     "number": 16,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"요붕증 때문에 소변이 너무 많이 나와요.\"",
-    "dialogue": "요붕증 때문에 소변이 너무 많이 나와요.",
-    "options": [
-      "Conivaptan",
-      "Tolvaptan",
-      "Aliskiren",
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"PAH 치료제로 정리된 endothelin receptor antagonist를 주세요.\"",
+    "dialogue": "PAH 치료제로 정리된 endothelin receptor antagonist를 주세요.",
+    "correctCandidates": [
       "Bosentan",
-      "Desmopressin"
+      "Ambrisentan",
+      "Macitentan"
     ],
-    "answer": "Desmopressin",
-    "core": "Diabetes insipidus에는 V2 receptor agonist를 연결.",
-    "explanation": [
-      "① Conivaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
-      "② Tolvaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
-      "③ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
-      "④ Bosentan / 오답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다.",
-      "⑤ Desmopressin / 정답 / Long-acting V2 receptor agonist로 diabetes insipidus에 사용된다."
-    ]
+    "wrongCandidates": [
+      "Aprocitentan",
+      "Atrasentan",
+      "Epoprostenol",
+      "Treprostinil",
+      "Iloprost",
+      "Selexipag",
+      "Aliskiren"
+    ],
+    "baseExplanation": "정리본에서 PAH 치료 ERAs로 Bosentan, Ambrisentan, Macitentan이 제시되어 있다."
   },
   {
     "number": 17,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"항이뇨호르몬 작용을 막는 약이 필요해요.\"",
-    "dialogue": "항이뇨호르몬 작용을 막는 약이 필요해요.",
-    "options": [
-      "Desmopressin",
-      "Valsartan",
-      "Conivaptan",
-      "Aliskiren",
-      "Famotidine"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"진정이 잘 생기는 H1 blocker를 주세요.\"",
+    "dialogue": "진정이 잘 생기는 H1 blocker를 주세요.",
+    "correctCandidates": [
+      "Cyclizine",
+      "Diphenhydramine",
+      "Dimenhydrinate",
+      "Hydroxyzine",
+      "Meclizine",
+      "Promethazine",
+      "Brompheniramine",
+      "Chlorpheniramine",
+      "Clemastine",
+      "Cyproheptadine",
+      "Doxylamine"
     ],
-    "answer": "Conivaptan",
-    "core": "V2 agonist와 항이뇨호르몬 antagonist를 구분.",
-    "explanation": [
-      "① Desmopressin / 오답 / Long-acting V2 receptor agonist로 diabetes insipidus에 사용된다.",
-      "② Valsartan / 오답 / ARB이며 sacubitril과 함께 ARNI 조합의 ARB 성분으로 정리되어 있다.",
-      "③ Conivaptan / 정답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
-      "④ Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
-      "⑤ Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다."
-    ]
+    "wrongCandidates": [
+      "Desloratadine",
+      "Fexofenadine",
+      "Loratadine",
+      "Acrivastine",
+      "Cetirizine",
+      "Levocetirizine",
+      "Ranitidine",
+      "Famotidine",
+      "Nizatidine",
+      "Cimetidine",
+      "Montelukast",
+      "Cromolyn"
+    ],
+    "baseExplanation": "1세대 H1 antihistamine은 지용성이 높고 BBB를 잘 통과해 진정·졸림 부작용이 크다."
   },
   {
     "number": 18,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"vaptan 계열 약을 처방받으라고 들었어요.\"",
-    "dialogue": "vaptan 계열 약을 처방받으라고 들었어요.",
-    "options": [
-      "Desmopressin",
-      "Captopril",
-      "Bosentan",
-      "Loratadine",
-      "Tolvaptan"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"멀미에 쓸 수 있는 H1 blocker를 주세요.\"",
+    "dialogue": "멀미에 쓸 수 있는 H1 blocker를 주세요.",
+    "correctCandidates": [
+      "Cyclizine",
+      "Diphenhydramine",
+      "Dimenhydrinate",
+      "Meclizine",
+      "Promethazine"
     ],
-    "answer": "Tolvaptan",
-    "core": "-vaptan은 항이뇨호르몬 antagonist로 정리된다.",
-    "explanation": [
-      "① Desmopressin / 오답 / Long-acting V2 receptor agonist로 diabetes insipidus에 사용된다.",
-      "② Captopril / 오답 / ACE inhibitor로 Ang II를 감소시키고 bradykinin 증가에 따른 dry cough/angioedema가 가능하다.",
-      "③ Bosentan / 오답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다.",
-      "④ Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
-      "⑤ Tolvaptan / 정답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다."
-    ]
+    "wrongCandidates": [
+      "Desloratadine",
+      "Fexofenadine",
+      "Loratadine",
+      "Acrivastine",
+      "Cetirizine",
+      "Levocetirizine",
+      "Ranitidine",
+      "Famotidine",
+      "Nizatidine",
+      "Cimetidine",
+      "Ondansetron",
+      "Montelukast"
+    ],
+    "baseExplanation": "Motion sickness에는 주로 Cyclizine, Diphenhydramine, Dimenhydrinate, Meclizine, Promethazine 같은 BBB 통과성 1세대 H1 blocker가 사용된다."
   },
   {
     "number": 19,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"폐동맥고혈압 치료제가 필요해요.\"",
-    "dialogue": "폐동맥고혈압 치료제가 필요해요.",
-    "options": [
-      "Valsartan",
-      "Desmopressin",
-      "Montelukast",
-      "Bosentan",
-      "Fomepizole"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Nonsedating H1 blocker를 주세요.\"",
+    "dialogue": "Nonsedating H1 blocker를 주세요.",
+    "correctCandidates": [
+      "Desloratadine",
+      "Fexofenadine",
+      "Loratadine"
     ],
-    "answer": "Bosentan",
-    "core": "PAH 치료와 endothelin receptor antagonist를 연결.",
-    "explanation": [
-      "① Valsartan / 오답 / ARB이며 sacubitril과 함께 ARNI 조합의 ARB 성분으로 정리되어 있다.",
-      "② Desmopressin / 오답 / Long-acting V2 receptor agonist로 diabetes insipidus에 사용된다.",
-      "③ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다.",
-      "④ Bosentan / 정답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다.",
-      "⑤ Fomepizole / 오답 / alcohol dehydrogenase를 경쟁적으로 억제하여 methanol/ethylene glycol의 독성 대사산물 생성을 줄이는 해독제이다."
-    ]
+    "wrongCandidates": [
+      "Cyclizine",
+      "Diphenhydramine",
+      "Dimenhydrinate",
+      "Hydroxyzine",
+      "Meclizine",
+      "Promethazine",
+      "Ranitidine",
+      "Famotidine",
+      "Nizatidine",
+      "Cimetidine",
+      "Cromolyn",
+      "Montelukast"
+    ],
+    "baseExplanation": "Desloratadine, Fexofenadine, Loratadine은 nonsedating 2세대 H1 blocker로 정리되어 있다."
   },
   {
     "number": 20,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"폐동맥고혈압에 쓰는 endothelin 차단제가 필요해요.\"",
-    "dialogue": "폐동맥고혈압에 쓰는 endothelin 차단제가 필요해요.",
-    "options": [
-      "Candesartan",
-      "Ambrisentan",
-      "Conivaptan",
-      "Pseudoephedrine",
-      "Loratadine"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"BBB 통과가 적은 H1 blocker를 주세요.\"",
+    "dialogue": "BBB 통과가 적은 H1 blocker를 주세요.",
+    "correctCandidates": [
+      "Desloratadine",
+      "Fexofenadine",
+      "Loratadine",
+      "Acrivastine",
+      "Cetirizine",
+      "Levocetirizine"
     ],
-    "answer": "Ambrisentan",
-    "core": "Endothelin receptor antagonist는 PAH 치료 약물군으로 정리된다.",
-    "explanation": [
-      "① Candesartan / 오답 / ARB로 AT1 receptor를 차단하며 hyperkalemia가 가능하다.",
-      "② Ambrisentan / 정답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다.",
-      "③ Conivaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
-      "④ Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
-      "⑤ Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다."
-    ]
+    "wrongCandidates": [
+      "Cyclizine",
+      "Diphenhydramine",
+      "Dimenhydrinate",
+      "Hydroxyzine",
+      "Meclizine",
+      "Promethazine",
+      "Brompheniramine",
+      "Chlorpheniramine",
+      "Clemastine",
+      "Cyproheptadine",
+      "Doxylamine",
+      "Ranitidine",
+      "Famotidine",
+      "Nizatidine",
+      "Cimetidine",
+      "Pseudoephedrine",
+      "Cromolyn"
+    ],
+    "baseExplanation": "2세대 H1 blocker는 지용성이 낮고 BBB를 거의 통과하지 않아 CNS 부작용이 상대적으로 적다."
   },
   {
     "number": 21,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"폐동맥고혈압 약 중 endothelin receptor antagonist를 원해요.\"",
-    "dialogue": "폐동맥고혈압 약 중 endothelin receptor antagonist를 원해요.",
-    "options": [
-      "Losartan",
-      "Tolvaptan",
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"위산 분비를 줄이는 H2 receptor blocker를 주세요.\"",
+    "dialogue": "위산 분비를 줄이는 H2 receptor blocker를 주세요.",
+    "correctCandidates": [
+      "Ranitidine",
       "Famotidine",
-      "Topiramate",
-      "Macitentan"
+      "Nizatidine",
+      "Cimetidine"
     ],
-    "answer": "Macitentan",
-    "core": "Endothelin receptor antagonist와 ARB, 항이뇨호르몬 antagonist, H2 blocker를 구분.",
-    "explanation": [
-      "① Losartan / 오답 / ARB로 Ang II type 1 receptor를 경쟁적으로 차단하며 bradykinin을 직접 증가시키지 않는다.",
-      "② Tolvaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
-      "③ Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
-      "④ Topiramate / 오답 / 전압의존성 Na+ channel 차단과 관련되며 체중감소가 특징으로 정리된 알코올 의존 치료 보조약이다.",
-      "⑤ Macitentan / 정답 / Endothelin receptor antagonist로 PAH 치료에 사용되는 ERA이다."
-    ]
+    "wrongCandidates": [
+      "Cyclizine",
+      "Diphenhydramine",
+      "Dimenhydrinate",
+      "Hydroxyzine",
+      "Meclizine",
+      "Desloratadine",
+      "Fexofenadine",
+      "Loratadine",
+      "Acrivastine",
+      "Cetirizine",
+      "Misoprostol",
+      "Cromolyn"
+    ],
+    "baseExplanation": "Ranitidine, Famotidine, Nizatidine, Cimetidine은 H2 antihistamine으로 위산 분비를 억제한다."
   },
   {
     "number": 22,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"endothelin receptor를 막는 약으로 바꾸고 싶어요.\"",
-    "dialogue": "endothelin receptor를 막는 약으로 바꾸고 싶어요.",
-    "options": [
-      "Aprocitentan",
-      "Aliskiren",
-      "Ramipril",
-      "Desmopressin",
-      "Cromolyn"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Hepatic CYP450을 강하게 억제하는 H2 blocker를 주세요.\"",
+    "dialogue": "Hepatic CYP450을 강하게 억제하는 H2 blocker를 주세요.",
+    "correctCandidates": [
+      "Cimetidine"
     ],
-    "answer": "Aprocitentan",
-    "core": "ERA는 강력한 혈관수축 peptide인 endothelin의 수용체 작용을 차단한다.",
-    "explanation": [
-      "① Aprocitentan / 정답 / Endothelin receptor antagonist 목록에 포함된 ERA이다.",
-      "② Aliskiren / 오답 / Renin inhibitor로 RAAS의 가장 위쪽 단계에서 angiotensin I 생성을 줄인다.",
-      "③ Ramipril / 오답 / ACE inhibitor로 Ang II 감소, bradykinin 증가, dry cough/angioedema 가능성이 중요하다.",
-      "④ Desmopressin / 오답 / Long-acting V2 receptor agonist로 diabetes insipidus에 사용된다.",
-      "⑤ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다."
-    ]
+    "wrongCandidates": [
+      "Ranitidine",
+      "Famotidine",
+      "Nizatidine",
+      "Loratadine",
+      "Diphenhydramine",
+      "Fluoxetine"
+    ],
+    "baseExplanation": "Cimetidine은 H2 blocker이면서 hepatic CYP450 enzyme system의 potent inhibitor이다."
   },
   {
     "number": 23,
-    "source": "55. Vasoactive peptides",
-    "question": "환자: \"혈관수축성 endothelin 경로를 막는 약이 필요해요.\"",
-    "dialogue": "혈관수축성 endothelin 경로를 막는 약이 필요해요.",
-    "options": [
-      "Lisinopril",
-      "Tolvaptan",
-      "Fexofenadine",
-      "Atrasentan",
-      "Disulfiram"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"코막힘 완화에 쓰는 decongestant를 주세요.\"",
+    "dialogue": "코막힘 완화에 쓰는 decongestant를 주세요.",
+    "correctCandidates": [
+      "Pseudoephedrine",
+      "Oxymetazoline"
     ],
-    "answer": "Atrasentan",
-    "core": "Endothelin receptor antagonist는 ACE inhibitor, 항이뇨호르몬 antagonist, H1 blocker와 구별한다.",
-    "explanation": [
-      "① Lisinopril / 오답 / ACE inhibitor로 Ang II 감소와 bradykinin 증가가 핵심인 -pril 계열 약물이다.",
-      "② Tolvaptan / 오답 / 항이뇨호르몬 antagonist로 강의 자료의 vaptan 계열 약물에 해당한다.",
-      "③ Fexofenadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
-      "④ Atrasentan / 정답 / Endothelin receptor antagonist 목록에 포함된 ERA이다.",
-      "⑤ Disulfiram / 오답 / ALDH를 억제하여 acetaldehyde 축적을 유도하고 음주 시 불쾌반응을 일으킨다."
-    ]
+    "wrongCandidates": [
+      "Cyclizine",
+      "Diphenhydramine",
+      "Dimenhydrinate",
+      "Hydroxyzine",
+      "Desloratadine",
+      "Fexofenadine",
+      "Loratadine",
+      "Acrivastine",
+      "Ranitidine",
+      "Famotidine",
+      "Nizatidine",
+      "Cimetidine",
+      "Cromolyn"
+    ],
+    "baseExplanation": "Pseudoephedrine과 Oxymetazoline은 비점막 혈관수축을 통해 코막힘 완화에 쓰는 decongestant이다. Tetrahydrozoline은 주로 안구 충혈 완화제로 구분한다."
   },
   {
     "number": 24,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"알레르기 비염이 있는데 낮에 졸리지 않는 약이 필요해요.\"",
-    "dialogue": "알레르기 비염이 있는데 낮에 졸리지 않는 약이 필요해요.",
-    "options": [
-      "Diphenhydramine",
-      "Famotidine",
-      "Loratadine",
-      "Pseudoephedrine",
-      "Montelukast"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Mast cell stabilizer를 주세요.\"",
+    "dialogue": "Mast cell stabilizer를 주세요.",
+    "correctCandidates": [
+      "Cromolyn"
     ],
-    "answer": "Loratadine",
-    "core": "2세대 H1 antihistamine은 1세대보다 CNS 부작용이 적다.",
-    "explanation": [
-      "① Diphenhydramine / 오답 / 1세대 H1 antihistamine으로 BBB를 잘 통과하며 motion sickness에 사용될 수 있다.",
-      "② Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
-      "③ Loratadine / 정답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
-      "④ Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
-      "⑤ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다."
-    ]
+    "wrongCandidates": [
+      "Diphenhydramine",
+      "Loratadine",
+      "Famotidine",
+      "Montelukast",
+      "Prednisone",
+      "Pseudoephedrine"
+    ],
+    "baseExplanation": "Cromolyn은 mast cell stabilizer로 H1/H2 receptor를 직접 막는 약이 아니다."
   },
   {
     "number": 25,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"콧물·재채기 때문에 2세대 H1 항히스타민제가 필요해요.\"",
-    "dialogue": "콧물·재채기 때문에 2세대 H1 항히스타민제가 필요해요.",
-    "options": [
-      "Cyclizine",
-      "Cimetidine",
-      "Oxymetazoline",
-      "Cromolyn",
-      "Fexofenadine"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Leukotriene receptor inhibitor를 주세요.\"",
+    "dialogue": "Leukotriene receptor inhibitor를 주세요.",
+    "correctCandidates": [
+      "Montelukast"
     ],
-    "answer": "Fexofenadine",
-    "core": "2세대 H1 blocker와 1세대 H1 blocker, H2 blocker, decongestant를 구분.",
-    "explanation": [
-      "① Cyclizine / 오답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다.",
-      "② Cimetidine / 오답 / H2 blocker이며 hepatic CYP450 enzyme system의 강력한 억제가 특징이다.",
-      "③ Oxymetazoline / 오답 / Decongestant로 비강 충혈 완화와 관련된 약물이다.",
-      "④ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
-      "⑤ Fexofenadine / 정답 / 2세대 nonsedating H1 antihistamine이다."
-    ]
+    "wrongCandidates": [
+      "Zileuton",
+      "Cromolyn",
+      "Cetirizine",
+      "Famotidine",
+      "Prednisolone",
+      "Ondansetron"
+    ],
+    "baseExplanation": "Montelukast는 leukotriene receptor inhibitor이고 Zileuton은 lipoxygenase inhibitor이다."
   },
   {
     "number": 26,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"알레르기 약을 먹어도 낮에 졸리면 곤란해요.\"",
-    "dialogue": "알레르기 약을 먹어도 낮에 졸리면 곤란해요.",
-    "options": [
-      "Meclizine",
-      "Desloratadine",
-      "Ranitidine",
-      "Tetrahydrozoline",
-      "Prednisone"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Corticosteroid 계열 항염증 약을 주세요.\"",
+    "dialogue": "Corticosteroid 계열 항염증 약을 주세요.",
+    "correctCandidates": [
+      "Prednisone",
+      "Prednisolone"
     ],
-    "answer": "Desloratadine",
-    "core": "지용성이 낮고 BBB 통과가 적은 2세대 H1 antihistamine을 고르는 문제이다.",
-    "explanation": [
-      "① Meclizine / 오답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다.",
-      "② Desloratadine / 정답 / 2세대 nonsedating H1 antihistamine이다.",
-      "③ Ranitidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
-      "④ Tetrahydrozoline / 오답 / Decongestant로 점막/결막 충혈 완화와 관련된 약물이다.",
-      "⑤ Prednisone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
-    ]
+    "wrongCandidates": [
+      "Cromolyn",
+      "Montelukast",
+      "Loratadine",
+      "Famotidine",
+      "Aspirin",
+      "Celecoxib"
+    ],
+    "baseExplanation": "Prednisone과 Prednisolone은 corticosteroid로 염증성 매개물질 생성을 억제한다."
   },
   {
     "number": 27,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"알레르기 비염에 쓸 2세대 H1 약을 찾고 있어요.\"",
-    "dialogue": "알레르기 비염에 쓸 2세대 H1 약을 찾고 있어요.",
-    "options": [
-      "Dimenhydrinate",
-      "Famotidine",
-      "Pseudoephedrine",
-      "Cetirizine",
-      "Prednisolone"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"편두통 치료에 쓰는 ergot alkaloid를 주세요.\"",
+    "dialogue": "편두통 치료에 쓰는 ergot alkaloid를 주세요.",
+    "correctCandidates": [
+      "Ergotamine",
+      "Dihydroergotamine"
     ],
-    "answer": "Cetirizine",
-    "core": "2세대 H1 antihistamine은 1세대보다 BBB 통과가 적다.",
-    "explanation": [
-      "① Dimenhydrinate / 오답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다.",
-      "② Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
-      "③ Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
-      "④ Cetirizine / 정답 / 2세대 H1 antihistamine으로 1세대보다 CNS 부작용이 적다.",
-      "⑤ Prednisolone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
-    ]
+    "wrongCandidates": [
+      "Sumatriptan",
+      "Bromocriptine",
+      "Cabergoline",
+      "Ondansetron",
+      "Amitriptyline",
+      "Celecoxib"
+    ],
+    "baseExplanation": "Ergotamine과 Dihydroergotamine은 편두통 치료용 ergot alkaloid이며 관상동맥질환·말초혈관질환에서 주의한다."
   },
   {
     "number": 28,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"두드러기에 먹는 2세대 H1 약을 원해요.\"",
-    "dialogue": "두드러기에 먹는 2세대 H1 약을 원해요.",
-    "options": [
-      "Hydroxyzine",
-      "Nizatidine",
-      "Levocetirizine",
-      "Oxymetazoline",
-      "Montelukast"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Dopamine D2 receptor agonist인 ergot 계열 약을 주세요.\"",
+    "dialogue": "Dopamine D2 receptor agonist인 ergot 계열 약을 주세요.",
+    "correctCandidates": [
+      "Bromocriptine",
+      "Cabergoline"
     ],
-    "answer": "Levocetirizine",
-    "core": "H1 blocker 안에서도 1세대와 2세대의 BBB 통과 차이를 구분.",
-    "explanation": [
-      "① Hydroxyzine / 오답 / 1세대 H1 antihistamine으로 BBB 통과와 진정 부작용이 상대적으로 크다.",
-      "② Nizatidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
-      "③ Levocetirizine / 정답 / 2세대 H1 antihistamine으로 1세대보다 BBB 통과와 진정이 적다.",
-      "④ Oxymetazoline / 오답 / Decongestant로 비강 충혈 완화와 관련된 약물이다.",
-      "⑤ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다."
-    ]
+    "wrongCandidates": [
+      "Ergotamine",
+      "Dihydroergotamine",
+      "Sumatriptan",
+      "Olanzapine",
+      "Clozapine",
+      "Ondansetron"
+    ],
+    "baseExplanation": "Bromocriptine과 Cabergoline은 dopamine D2 receptor agonist이다."
   },
   {
     "number": 29,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"졸림이 적은 H1 항히스타민제 중 하나를 원해요.\"",
-    "dialogue": "졸림이 적은 H1 항히스타민제 중 하나를 원해요.",
-    "options": [
-      "Promethazine",
-      "Cimetidine",
-      "Tetrahydrozoline",
-      "Acrivastine",
-      "Cromolyn"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"SSRI를 주세요.\"",
+    "dialogue": "SSRI를 주세요.",
+    "correctCandidates": [
+      "Fluoxetine",
+      "Paroxetine",
+      "Sertraline"
     ],
-    "answer": "Acrivastine",
-    "core": "2세대 H1 antihistamine은 H2 blocker, decongestant, mast cell stabilizer와 적응증·기전이 다르다.",
-    "explanation": [
-      "① Promethazine / 오답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다.",
-      "② Cimetidine / 오답 / H2 blocker이며 hepatic CYP450 enzyme system의 강력한 억제가 특징이다.",
-      "③ Tetrahydrozoline / 오답 / Decongestant로 점막/결막 충혈 완화와 관련된 약물이다.",
-      "④ Acrivastine / 정답 / 2세대 H1 antihistamine 목록에 포함된다.",
-      "⑤ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다."
-    ]
+    "wrongCandidates": [
+      "Venlafaxine",
+      "Desvenlafaxine",
+      "Duloxetine",
+      "Levomilnacipran",
+      "Amitriptyline",
+      "Phenelzine",
+      "Moclobemide",
+      "Tramadol"
+    ],
+    "baseExplanation": "Fluoxetine, Paroxetine, Sertraline은 SSRI로 SERT를 선택적으로 억제한다."
   },
   {
     "number": 30,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"배를 타면 멀미가 심해요.\"",
-    "dialogue": "배를 타면 멀미가 심해요.",
-    "options": [
-      "Loratadine",
-      "Famotidine",
-      "Pseudoephedrine",
-      "Montelukast",
-      "Diphenhydramine"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"SSRI 중 CYP2D6을 억제하는 약을 골라주세요.\"",
+    "dialogue": "SSRI 중 CYP2D6을 억제하는 약을 골라주세요.",
+    "correctCandidates": [
+      "Fluoxetine",
+      "Paroxetine"
     ],
-    "answer": "Diphenhydramine",
-    "core": "Motion sickness에는 BBB를 잘 통과하는 1세대 H1 antihistamine이 사용될 수 있다.",
-    "explanation": [
-      "① Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
-      "② Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
-      "③ Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
-      "④ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다.",
-      "⑤ Diphenhydramine / 정답 / 1세대 H1 antihistamine으로 BBB를 잘 통과하며 motion sickness에 사용될 수 있다."
-    ]
+    "wrongCandidates": [
+      "Sertraline",
+      "Venlafaxine",
+      "Desvenlafaxine",
+      "Duloxetine",
+      "Levomilnacipran",
+      "Amitriptyline"
+    ],
+    "baseExplanation": "정리본에서 Fluoxetine과 Paroxetine은 SSRI이면서 CYP2D6 inhibitor로 제시되어 있다."
   },
   {
     "number": 31,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"여행 갈 때 멀미약이 필요해요.\"",
-    "dialogue": "여행 갈 때 멀미약이 필요해요.",
-    "options": [
-      "Cetirizine",
-      "Dimenhydrinate",
-      "Cimetidine",
-      "Oxymetazoline",
-      "Cromolyn"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"SNRI를 주세요.\"",
+    "dialogue": "SNRI를 주세요.",
+    "correctCandidates": [
+      "Venlafaxine",
+      "Desvenlafaxine",
+      "Duloxetine",
+      "Levomilnacipran"
     ],
-    "answer": "Dimenhydrinate",
-    "core": "1세대 H1 antihistamine은 motion sickness에 쓰이며 졸림이 생길 수 있다.",
-    "explanation": [
-      "① Cetirizine / 오답 / 2세대 H1 antihistamine으로 1세대보다 CNS 부작용이 적다.",
-      "② Dimenhydrinate / 정답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다.",
-      "③ Cimetidine / 오답 / H2 blocker이며 hepatic CYP450 enzyme system의 강력한 억제가 특징이다.",
-      "④ Oxymetazoline / 오답 / Decongestant로 비강 충혈 완화와 관련된 약물이다.",
-      "⑤ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다."
-    ]
+    "wrongCandidates": [
+      "Fluoxetine",
+      "Paroxetine",
+      "Sertraline",
+      "Amitriptyline",
+      "Phenelzine",
+      "Moclobemide",
+      "Ondansetron"
+    ],
+    "baseExplanation": "Venlafaxine, Desvenlafaxine, Duloxetine, Levomilnacipran은 SNRI이다."
   },
   {
     "number": 32,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"차만 타면 어지럽고 토할 것 같아요.\"",
-    "dialogue": "차만 타면 어지럽고 토할 것 같아요.",
-    "options": [
-      "Fexofenadine",
-      "Nizatidine",
-      "Meclizine",
-      "Tetrahydrozoline",
-      "Prednisone"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"저용량과 고용량에서 재흡수 억제 성향이 달라지는 SNRI를 주세요.\"",
+    "dialogue": "저용량과 고용량에서 재흡수 억제 성향이 달라지는 SNRI를 주세요.",
+    "correctCandidates": [
+      "Venlafaxine"
     ],
-    "answer": "Meclizine",
-    "core": "Motion sickness 단서가 있으면 1세대 H1 blocker를 먼저 떠올린다.",
-    "explanation": [
-      "① Fexofenadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
-      "② Nizatidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
-      "③ Meclizine / 정답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다.",
-      "④ Tetrahydrozoline / 오답 / Decongestant로 점막/결막 충혈 완화와 관련된 약물이다.",
-      "⑤ Prednisone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
-    ]
+    "wrongCandidates": [
+      "Desvenlafaxine",
+      "Duloxetine",
+      "Levomilnacipran",
+      "Fluoxetine",
+      "Paroxetine",
+      "Amitriptyline"
+    ],
+    "baseExplanation": "Venlafaxine은 저용량에서 5-HT, 고용량에서 NE 재흡수 억제가 두드러진다."
   },
   {
     "number": 33,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"멀미 때문에 졸릴 수 있는 1세대 항히스타민제를 써도 괜찮아요.\"",
-    "dialogue": "멀미 때문에 졸릴 수 있는 1세대 항히스타민제를 써도 괜찮아요.",
-    "options": [
-      "Desloratadine",
-      "Ranitidine",
-      "Pseudoephedrine",
-      "Cyclizine",
-      "Prednisolone"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"CYP2D6 억제제로 표시된 SNRI를 주세요.\"",
+    "dialogue": "CYP2D6 억제제로 표시된 SNRI를 주세요.",
+    "correctCandidates": [
+      "Duloxetine"
     ],
-    "answer": "Cyclizine",
-    "core": "1세대 H1 blocker는 motion sickness에 쓰이고 2세대보다 진정 부작용이 크다.",
-    "explanation": [
-      "① Desloratadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
-      "② Ranitidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
-      "③ Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
-      "④ Cyclizine / 정답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다.",
-      "⑤ Prednisolone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
-    ]
+    "wrongCandidates": [
+      "Venlafaxine",
+      "Desvenlafaxine",
+      "Levomilnacipran",
+      "Fluoxetine",
+      "Paroxetine",
+      "Sertraline"
+    ],
+    "baseExplanation": "Duloxetine은 SNRI이면서 CYP2D6 inhibitor로 정리되어 있다."
   },
   {
     "number": 34,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"멀미가 너무 심해서 1세대 H1 약이 필요해요.\"",
-    "dialogue": "멀미가 너무 심해서 1세대 H1 약이 필요해요.",
-    "options": [
-      "Levocetirizine",
-      "Famotidine",
-      "Oxymetazoline",
-      "Cromolyn",
-      "Promethazine"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"CYP3A4에 의해 주로 대사되는 SNRI를 주세요.\"",
+    "dialogue": "CYP3A4에 의해 주로 대사되는 SNRI를 주세요.",
+    "correctCandidates": [
+      "Levomilnacipran"
     ],
-    "answer": "Promethazine",
-    "core": "Promethazine은 1세대 H1 antihistamine으로 motion sickness에 쓰일 수 있다.",
-    "explanation": [
-      "① Levocetirizine / 오답 / 2세대 H1 antihistamine으로 1세대보다 BBB 통과와 진정이 적다.",
-      "② Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
-      "③ Oxymetazoline / 오답 / Decongestant로 비강 충혈 완화와 관련된 약물이다.",
-      "④ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
-      "⑤ Promethazine / 정답 / 1세대 H1 antihistamine으로 motion sickness에 사용될 수 있다."
-    ]
+    "wrongCandidates": [
+      "Venlafaxine",
+      "Desvenlafaxine",
+      "Duloxetine",
+      "Fluoxetine",
+      "Paroxetine",
+      "Amitriptyline"
+    ],
+    "baseExplanation": "Levomilnacipran은 SNRI이며 대사에서 CYP3A4가 중요한 역할을 한다."
   },
   {
     "number": 35,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"가려움이 심한데 졸릴 수 있는 항히스타민제도 괜찮아요.\"",
-    "dialogue": "가려움이 심한데 졸릴 수 있는 항히스타민제도 괜찮아요.",
-    "options": [
-      "Acrivastine",
-      "Cimetidine",
-      "Tetrahydrozoline",
-      "Hydroxyzine",
-      "Montelukast"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"TCA를 주세요.\"",
+    "dialogue": "TCA를 주세요.",
+    "correctCandidates": [
+      "Amitriptyline"
     ],
-    "answer": "Hydroxyzine",
-    "core": "1세대 H1 blocker는 지용성이 높아 BBB 통과와 진정 부작용이 크다.",
-    "explanation": [
-      "① Acrivastine / 오답 / 2세대 H1 antihistamine 목록에 포함된다.",
-      "② Cimetidine / 오답 / H2 blocker이며 hepatic CYP450 enzyme system의 강력한 억제가 특징이다.",
-      "③ Tetrahydrozoline / 오답 / Decongestant로 점막/결막 충혈 완화와 관련된 약물이다.",
-      "④ Hydroxyzine / 정답 / 1세대 H1 antihistamine으로 BBB 통과와 진정 부작용이 상대적으로 크다.",
-      "⑤ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다."
-    ]
+    "wrongCandidates": [
+      "Fluoxetine",
+      "Paroxetine",
+      "Sertraline",
+      "Venlafaxine",
+      "Desvenlafaxine",
+      "Duloxetine",
+      "Levomilnacipran",
+      "Phenelzine",
+      "Moclobemide"
+    ],
+    "baseExplanation": "Amitriptyline은 TCA로 5-HT/NE 재흡수 억제와 여러 수용체 차단 작용을 가진다."
   },
   {
     "number": 36,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"감기약 먹고 졸린 성분이 H1 약이라고 들었어요.\"",
-    "dialogue": "감기약 먹고 졸린 성분이 H1 약이라고 들었어요.",
-    "options": [
-      "Loratadine",
-      "Famotidine",
-      "Pseudoephedrine",
-      "Prednisone",
-      "Chlorpheniramine"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"비가역적 MAO inhibitor라 tyramine 섭취 때 cheese reaction을 조심해야 하는 약을 주세요.\"",
+    "dialogue": "비가역적 MAO inhibitor라 tyramine 섭취 때 cheese reaction을 조심해야 하는 약을 주세요.",
+    "correctCandidates": [
+      "Phenelzine"
     ],
-    "answer": "Chlorpheniramine",
-    "core": "1세대 H1 antihistamine은 2세대보다 중추신경계 부작용이 크다.",
-    "explanation": [
-      "① Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
-      "② Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
-      "③ Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
-      "④ Prednisone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다.",
-      "⑤ Chlorpheniramine / 정답 / 1세대 H1 antihistamine으로 BBB 통과와 졸림이 문제될 수 있다."
-    ]
+    "wrongCandidates": [
+      "Moclobemide",
+      "Fluoxetine",
+      "Paroxetine",
+      "Sertraline",
+      "Venlafaxine",
+      "Desvenlafaxine",
+      "Duloxetine",
+      "Levomilnacipran",
+      "Amitriptyline",
+      "Ondansetron",
+      "Sumatriptan"
+    ],
+    "baseExplanation": "Phenelzine은 비가역적 MAO inhibitor로 tyramine 함유 음식과 병용 시 hypertensive crisis, 즉 cheese reaction 위험이 대표적이다. Moclobemide는 가역적 MAO-A inhibitor라 위험이 상대적으로 작다."
   },
   {
     "number": 37,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"밤에 먹는 졸림이 있는 감기약 성분이 궁금해요.\"",
-    "dialogue": "밤에 먹는 졸림이 있는 감기약 성분이 궁금해요.",
-    "options": [
-      "Fexofenadine",
-      "Doxylamine",
-      "Nizatidine",
-      "Oxymetazoline",
-      "Prednisolone"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"5-HT2A를 차단하는 항정신병제 계열 약을 주세요.\"",
+    "dialogue": "5-HT2A를 차단하는 항정신병제 계열 약을 주세요.",
+    "correctCandidates": [
+      "Clozapine",
+      "Olanzapine"
     ],
-    "answer": "Doxylamine",
-    "core": "Doxylamine은 1세대 H1 antihistamine 목록에 포함된다.",
-    "explanation": [
-      "① Fexofenadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
-      "② Doxylamine / 정답 / 1세대 H1 antihistamine으로 졸림이 흔한 약물군에 속한다.",
-      "③ Nizatidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
-      "④ Oxymetazoline / 오답 / Decongestant로 비강 충혈 완화와 관련된 약물이다.",
-      "⑤ Prednisolone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
-    ]
+    "wrongCandidates": [
+      "Ondansetron",
+      "Sumatriptan",
+      "Fluoxetine",
+      "Paroxetine",
+      "Amitriptyline",
+      "Bromocriptine"
+    ],
+    "baseExplanation": "Clozapine과 Olanzapine은 serotonergic drug 중 5-HT2A blocker 항정신병제로 정리되어 있다."
   },
   {
     "number": 38,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"속쓰림이 심해서 위산을 줄이는 H2 차단제가 필요해요.\"",
-    "dialogue": "속쓰림이 심해서 위산을 줄이는 H2 차단제가 필요해요.",
-    "options": [
-      "Loratadine",
-      "Pseudoephedrine",
-      "Famotidine",
-      "Montelukast",
-      "Prednisone"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"5-HT3 receptor antagonist 항구토제를 주세요.\"",
+    "dialogue": "5-HT3 receptor antagonist 항구토제를 주세요.",
+    "correctCandidates": [
+      "Ondansetron"
     ],
-    "answer": "Famotidine",
-    "core": "H2 receptor는 위점막에서 위산 분비 증가와 관련되므로 H2 blocker가 위산 억제에 쓰인다.",
-    "explanation": [
-      "① Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
-      "② Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
-      "③ Famotidine / 정답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
-      "④ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다.",
-      "⑤ Prednisone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
-    ]
+    "wrongCandidates": [
+      "Sumatriptan",
+      "Fluoxetine",
+      "Paroxetine",
+      "Clozapine",
+      "Olanzapine",
+      "Promethazine"
+    ],
+    "baseExplanation": "Ondansetron은 5-HT3 antagonist 항구토제이다."
   },
   {
     "number": 39,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"제가 먹는 위산 약이 약물상호작용이 많다고 들었어요.\"",
-    "dialogue": "제가 먹는 위산 약이 약물상호작용이 많다고 들었어요.",
-    "options": [
-      "Famotidine",
-      "Nizatidine",
-      "Ranitidine",
-      "Loratadine",
-      "Cimetidine"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"선택적 5-HT1B/1D receptor agonist인 triptan 계열 약을 주세요.\"",
+    "dialogue": "선택적 5-HT1B/1D receptor agonist인 triptan 계열 약을 주세요.",
+    "correctCandidates": [
+      "Sumatriptan"
     ],
-    "answer": "Cimetidine",
-    "core": "H2 blocker 중 CYP450 강력 억제 특징은 cimetidine에 연결한다.",
-    "explanation": [
-      "① Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
-      "② Nizatidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
-      "③ Ranitidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
-      "④ Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
-      "⑤ Cimetidine / 정답 / H2 blocker이며 hepatic CYP450 enzyme system의 강력한 억제가 특징이다."
-    ]
+    "wrongCandidates": [
+      "Ergotamine",
+      "Dihydroergotamine",
+      "Ondansetron",
+      "Fluoxetine",
+      "Amitriptyline",
+      "Bromocriptine"
+    ],
+    "baseExplanation": "Sumatriptan은 선택적 5-HT1B/1D receptor agonist인 triptan 계열 편두통 급성 치료제이다. Ergotamine 계열은 비선택적 ergot alkaloid로 구분한다."
   },
   {
     "number": 40,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"속쓰림에 쓰는 H2 차단제 중 하나를 처방받으려 해요.\"",
-    "dialogue": "속쓰림에 쓰는 H2 차단제 중 하나를 처방받으려 해요.",
-    "options": [
-      "Cetirizine",
-      "Pseudoephedrine",
-      "Cromolyn",
-      "Nizatidine",
-      "Ergotamine"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"신생아 동맥관을 열어두는 약을 주세요.\"",
+    "dialogue": "신생아 동맥관을 열어두는 약을 주세요.",
+    "correctCandidates": [
+      "Alprostadil"
     ],
-    "answer": "Nizatidine",
-    "core": "H2 blocker는 H1 antihistamine, decongestant, mast cell stabilizer와 구분한다.",
-    "explanation": [
-      "① Cetirizine / 오답 / 2세대 H1 antihistamine으로 1세대보다 CNS 부작용이 적다.",
-      "② Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
-      "③ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
-      "④ Nizatidine / 정답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
-      "⑤ Ergotamine / 오답 / Ergot alkaloid로 편두통 치료에 쓰이며 관상동맥질환/말초혈관질환에서는 주의 또는 금기이다."
-    ]
+    "wrongCandidates": [
+      "Indomethacin",
+      "Misoprostol",
+      "Dinoprostone",
+      "Carboprost",
+      "Latanoprost",
+      "Epoprostenol"
+    ],
+    "baseExplanation": "Alprostadil은 PGE1 analog로 PDA를 열어 유지하는 데 사용된다."
   },
   {
     "number": 41,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"위산 분비를 줄이는 H2 항히스타민제가 필요해요.\"",
-    "dialogue": "위산 분비를 줄이는 H2 항히스타민제가 필요해요.",
-    "options": [
-      "Levocetirizine",
-      "Oxymetazoline",
-      "Montelukast",
-      "Bromocriptine",
-      "Ranitidine"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"위 점액분비를 증가시키는 PGE1 계열 약을 주세요.\"",
+    "dialogue": "위 점액분비를 증가시키는 PGE1 계열 약을 주세요.",
+    "correctCandidates": [
+      "Misoprostol"
     ],
-    "answer": "Ranitidine",
-    "core": "H2 antihistamine은 위점막 H2 receptor를 차단한다.",
-    "explanation": [
-      "① Levocetirizine / 오답 / 2세대 H1 antihistamine으로 1세대보다 BBB 통과와 진정이 적다.",
-      "② Oxymetazoline / 오답 / Decongestant로 비강 충혈 완화와 관련된 약물이다.",
-      "③ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다.",
-      "④ Bromocriptine / 오답 / Ergot 관련 dopamine D2 receptor agonist이다.",
-      "⑤ Ranitidine / 정답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다."
-    ]
+    "wrongCandidates": [
+      "Alprostadil",
+      "Dinoprostone",
+      "Carboprost",
+      "Latanoprost",
+      "Famotidine",
+      "Cimetidine"
+    ],
+    "baseExplanation": "Misoprostol은 PGE1 analog로 위 점액분비 증가와 자궁수축 작용이 있다."
   },
   {
     "number": 42,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"코가 막혀서 충혈제거제가 필요해요.\"",
-    "dialogue": "코가 막혀서 충혈제거제가 필요해요.",
-    "options": [
-      "Loratadine",
-      "Famotidine",
-      "Pseudoephedrine",
-      "Montelukast",
-      "Prednisone"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"PGE2 계열 자궁수축 약을 주세요.\"",
+    "dialogue": "PGE2 계열 자궁수축 약을 주세요.",
+    "correctCandidates": [
+      "Dinoprostone"
     ],
-    "answer": "Pseudoephedrine",
-    "core": "Decongestant는 H1/H2 blocker나 leukotriene inhibitor와 다른 약물군이다.",
-    "explanation": [
-      "① Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
-      "② Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
-      "③ Pseudoephedrine / 정답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
-      "④ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다.",
-      "⑤ Prednisone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
-    ]
+    "wrongCandidates": [
+      "Misoprostol",
+      "Carboprost",
+      "Alprostadil",
+      "Latanoprost",
+      "Epoprostenol",
+      "Indomethacin"
+    ],
+    "baseExplanation": "Dinoprostone은 PGE2 analog로 자궁수축에 사용된다."
   },
   {
     "number": 43,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"비강 스프레이형 충혈제거제가 필요해요.\"",
-    "dialogue": "비강 스프레이형 충혈제거제가 필요해요.",
-    "options": [
-      "Fexofenadine",
-      "Cimetidine",
-      "Cromolyn",
-      "Prednisolone",
-      "Oxymetazoline"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"PGF2alpha 계열 자궁수축 약을 주세요.\"",
+    "dialogue": "PGF2alpha 계열 자궁수축 약을 주세요.",
+    "correctCandidates": [
+      "Carboprost"
     ],
-    "answer": "Oxymetazoline",
-    "core": "Oxymetazoline은 강의 자료의 decongestant 목록에 포함된다.",
-    "explanation": [
-      "① Fexofenadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
-      "② Cimetidine / 오답 / H2 blocker이며 hepatic CYP450 enzyme system의 강력한 억제가 특징이다.",
-      "③ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
-      "④ Prednisolone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다.",
-      "⑤ Oxymetazoline / 정답 / Decongestant로 비강 충혈 완화와 관련된 약물이다."
-    ]
+    "wrongCandidates": [
+      "Dinoprostone",
+      "Misoprostol",
+      "Alprostadil",
+      "Latanoprost",
+      "Epoprostenol",
+      "Celecoxib"
+    ],
+    "baseExplanation": "Carboprost는 PGF2alpha analog로 자궁수축을 유도한다."
   },
   {
     "number": 44,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"눈이 충혈됐어요. 충혈제거제가 필요해요.\"",
-    "dialogue": "눈이 충혈됐어요. 충혈제거제가 필요해요.",
-    "options": [
-      "Desloratadine",
-      "Tetrahydrozoline",
-      "Nizatidine",
-      "Montelukast",
-      "Acamprosate"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"안압을 낮추는 prostaglandin analog를 주세요.\"",
+    "dialogue": "안압을 낮추는 prostaglandin analog를 주세요.",
+    "correctCandidates": [
+      "Latanoprost"
     ],
-    "answer": "Tetrahydrozoline",
-    "core": "Tetrahydrozoline은 decongestant로 H1/H2 blocker와 구별한다.",
-    "explanation": [
-      "① Desloratadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
-      "② Tetrahydrozoline / 정답 / Decongestant로 점막/결막 충혈 완화와 관련된 약물이다.",
-      "③ Nizatidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
-      "④ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다.",
-      "⑤ Acamprosate / 오답 / mGluR5 관련 glutamate 조절 약물로 금주 유지에 쓰이며 심한 신부전에서 금기이다."
-    ]
+    "wrongCandidates": [
+      "Carboprost",
+      "Dinoprostone",
+      "Alprostadil",
+      "Epoprostenol",
+      "Tetrahydrozoline",
+      "Acetaminophen"
+    ],
+    "baseExplanation": "Latanoprost는 PGF2alpha analog로 공막 투과도 증가를 통해 안압을 낮춘다."
   },
   {
     "number": 45,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"알레르기 염증이 심해서 스테로이드가 필요하대요.\"",
-    "dialogue": "알레르기 염증이 심해서 스테로이드가 필요하대요.",
-    "options": [
-      "Loratadine",
-      "Famotidine",
-      "Cromolyn",
-      "Prednisone",
-      "Montelukast"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"반감기가 매우 짧아 지속 IV 주입이 필요한 prostacyclin(PGI2) 약을 주세요.\"",
+    "dialogue": "반감기가 매우 짧아 지속 IV 주입이 필요한 prostacyclin(PGI2) 약을 주세요.",
+    "correctCandidates": [
+      "Epoprostenol"
     ],
-    "answer": "Prednisone",
-    "core": "Corticosteroid는 염증 조절 약물이며 H1/H2 blocker나 leukotriene inhibitor와 다르다.",
-    "explanation": [
-      "① Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
-      "② Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
-      "③ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
-      "④ Prednisone / 정답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다.",
-      "⑤ Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다."
-    ]
+    "wrongCandidates": [
+      "Iloprost",
+      "Selexipag",
+      "Ozagrel",
+      "Terutroban",
+      "Bosentan"
+    ],
+    "baseExplanation": "Epoprostenol은 매우 짧은 반감기를 가진 prostacyclin(PGI2) 제제로 PAH에서 지속 IV infusion으로 투여한다."
   },
   {
     "number": 46,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"염증 조절용 corticosteroid를 처방받으려 해요.\"",
-    "dialogue": "염증 조절용 corticosteroid를 처방받으려 해요.",
-    "options": [
-      "Cetirizine",
-      "Ranitidine",
-      "Pseudoephedrine",
-      "Cromolyn",
-      "Prednisolone"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"IV 또는 피하로 투여할 수 있는 PGI2 계열 약을 주세요.\"",
+    "dialogue": "IV 또는 피하로 투여할 수 있는 PGI2 계열 약을 주세요.",
+    "correctCandidates": [
+      "Treprostinil"
     ],
-    "answer": "Prednisolone",
-    "core": "Prednisone/Prednisolone은 강의 자료의 corticosteroid 목록에 포함된다.",
-    "explanation": [
-      "① Cetirizine / 오답 / 2세대 H1 antihistamine으로 1세대보다 CNS 부작용이 적다.",
-      "② Ranitidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
-      "③ Pseudoephedrine / 오답 / Decongestant로 코막힘 같은 충혈 증상을 줄이는 약물군에 속한다.",
-      "④ Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
-      "⑤ Prednisolone / 정답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다."
-    ]
+    "wrongCandidates": [
+      "Epoprostenol",
+      "Iloprost",
+      "Selexipag",
+      "Ozagrel",
+      "Terutroban",
+      "Ambrisentan"
+    ],
+    "baseExplanation": "Treprostinil은 IV 또는 subcutaneous로 투여할 수 있는 prostacyclin 계열 약물이다."
   },
   {
     "number": 47,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"알레르기 반응이 생기기 전에 비만세포를 안정화하는 약이 필요해요.\"",
-    "dialogue": "알레르기 반응이 생기기 전에 비만세포를 안정화하는 약이 필요해요.",
-    "options": [
-      "Montelukast",
-      "Prednisone",
-      "Cromolyn",
-      "Loratadine",
-      "Famotidine"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"흡입제로 쓰는 PGI2 계열 약을 주세요.\"",
+    "dialogue": "흡입제로 쓰는 PGI2 계열 약을 주세요.",
+    "correctCandidates": [
+      "Iloprost"
     ],
-    "answer": "Cromolyn",
-    "core": "Mast cell stabilizer는 이미 분비된 histamine을 차단하는 H1 blocker와 구별한다.",
-    "explanation": [
-      "① Montelukast / 오답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다.",
-      "② Prednisone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다.",
-      "③ Cromolyn / 정답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
-      "④ Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
-      "⑤ Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다."
-    ]
+    "wrongCandidates": [
+      "Epoprostenol",
+      "Selexipag",
+      "Bosentan",
+      "Ambrisentan",
+      "Ozagrel"
+    ],
+    "baseExplanation": "Iloprost는 흡입 prostacyclin analog로 사용할 수 있다. Treprostinil도 흡입 제형이 있으므로 오답 후보에서 제외했다."
   },
   {
     "number": 48,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"천식·알레르기에서 leukotriene을 막는 약을 원해요.\"",
-    "dialogue": "천식·알레르기에서 leukotriene을 막는 약을 원해요.",
-    "options": [
-      "Cromolyn",
-      "Prednisolone",
-      "Fexofenadine",
-      "Cimetidine",
-      "Montelukast"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"경구 선택적 prostacyclin IP receptor agonist를 주세요.\"",
+    "dialogue": "경구 선택적 prostacyclin IP receptor agonist를 주세요.",
+    "correctCandidates": [
+      "Selexipag"
     ],
-    "answer": "Montelukast",
-    "core": "Leukotriene inhibitor는 mast cell stabilizer, steroid, H1/H2 blocker와 구분한다.",
-    "explanation": [
-      "① Cromolyn / 오답 / Mast cell stabilizer로 비만세포 탈과립을 예방하는 방향의 약물이다.",
-      "② Prednisolone / 오답 / Corticosteroid로 알레르기 염증 조절에 사용될 수 있다.",
-      "③ Fexofenadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
-      "④ Cimetidine / 오답 / H2 blocker이며 hepatic CYP450 enzyme system의 강력한 억제가 특징이다.",
-      "⑤ Montelukast / 정답 / Leukotriene inhibitor로 기관지수축·알레르기 반응의 leukotriene 경로를 막는다."
-    ]
+    "wrongCandidates": [
+      "Epoprostenol",
+      "Treprostinil",
+      "Iloprost",
+      "Bosentan",
+      "Macitentan",
+      "Celecoxib"
+    ],
+    "baseExplanation": "Selexipag는 경구 non-prostanoid 선택적 prostacyclin IP receptor agonist로 PAH에서 prostacyclin 경로를 활성화한다."
   },
   {
     "number": 49,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"편두통 발작에 ergot 계열 약을 쓰고 싶어요.\"",
-    "dialogue": "편두통 발작에 ergot 계열 약을 쓰고 싶어요.",
-    "options": [
-      "Bromocriptine",
-      "Cabergoline",
-      "Loratadine",
-      "Ergotamine",
-      "Famotidine"
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Thromboxane A2 synthase를 직접 억제하는 약을 주세요.\"",
+    "dialogue": "Thromboxane A2 synthase를 직접 억제하는 약을 주세요.",
+    "correctCandidates": [
+      "Ozagrel"
     ],
-    "answer": "Ergotamine",
-    "core": "편두통 치료용 ergot alkaloid와 dopamine D2 agonist ergot 유도체를 구분.",
-    "explanation": [
-      "① Bromocriptine / 오답 / Ergot 관련 dopamine D2 receptor agonist이다.",
-      "② Cabergoline / 오답 / Ergot 관련 dopamine D2 receptor agonist이다.",
-      "③ Loratadine / 오답 / 2세대 H1 antihistamine으로 BBB 통과가 적고 nonsedating 약물로 정리되어 있다.",
-      "④ Ergotamine / 정답 / Ergot alkaloid로 편두통 치료에 쓰이며 관상동맥질환/말초혈관질환에서는 주의 또는 금기이다.",
-      "⑤ Famotidine / 오답 / H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다."
-    ]
+    "wrongCandidates": [
+      "Terutroban",
+      "Aspirin",
+      "Celecoxib",
+      "Epoprostenol",
+      "Selexipag",
+      "Montelukast"
+    ],
+    "baseExplanation": "Ozagrel은 thromboxane A2 synthase inhibitor이다. Aspirin은 COX를 비가역적으로 억제해 TXA2 생성을 줄이므로 직접 TXA2 synthase inhibitor와 구분한다."
   },
   {
     "number": 50,
-    "source": "56. 히스타민 & 맥각알칼로이드 약리학",
-    "question": "환자: \"도파민 D2 작용을 하는 ergot 유도체가 필요해요.\"",
-    "dialogue": "도파민 D2 작용을 하는 ergot 유도체가 필요해요.",
-    "options": [
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Thromboxane receptor antagonist를 주세요.\"",
+    "dialogue": "Thromboxane receptor antagonist를 주세요.",
+    "correctCandidates": [
+      "Terutroban"
+    ],
+    "wrongCandidates": [
+      "Ozagrel",
+      "Aspirin",
+      "Celecoxib",
+      "Epoprostenol",
+      "Selexipag",
+      "Zileuton"
+    ],
+    "baseExplanation": "Terutroban은 selective thromboxane receptor antagonist이다."
+  },
+  {
+    "number": 51,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"비가역적으로 COX를 억제하는 NSAID를 주세요.\"",
+    "dialogue": "비가역적으로 COX를 억제하는 NSAID를 주세요.",
+    "correctCandidates": [
+      "Aspirin"
+    ],
+    "wrongCandidates": [
+      "Diclofenac",
+      "Ibuprofen",
+      "Indomethacin",
+      "Naproxen",
+      "Aceclofenac",
+      "Celecoxib"
+    ],
+    "baseExplanation": "Aspirin은 비가역적 COX 억제제이다. 다른 NSAID와 구분하는 핵심 단서이다."
+  },
+  {
+    "number": 52,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Non-selective NSAID를 주세요.\"",
+    "dialogue": "Non-selective NSAID를 주세요.",
+    "correctCandidates": [
+      "Aspirin",
+      "Diclofenac",
+      "Ibuprofen",
+      "Indomethacin",
+      "Naproxen",
+      "Aceclofenac"
+    ],
+    "wrongCandidates": [
+      "Celecoxib",
+      "Acetaminophen",
+      "Tramadol",
+      "Prednisone",
+      "Montelukast",
+      "Zileuton"
+    ],
+    "baseExplanation": "Aspirin, Diclofenac, Ibuprofen, Indomethacin, Naproxen, Aceclofenac은 non-selective NSAID로 정리되어 있다."
+  },
+  {
+    "number": 53,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"PDA closure에 쓰는 NSAID를 주세요.\"",
+    "dialogue": "PDA closure에 쓰는 NSAID를 주세요.",
+    "correctCandidates": [
+      "Indomethacin",
+      "Ibuprofen"
+    ],
+    "wrongCandidates": [
+      "Alprostadil",
+      "Aspirin",
+      "Celecoxib",
+      "Misoprostol",
+      "Dinoprostone"
+    ],
+    "baseExplanation": "PDA closure에는 prostaglandin 생성을 낮추는 NSAID인 Indomethacin 또는 Ibuprofen을 사용할 수 있다."
+  },
+  {
+    "number": 54,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Selective COX-2 inhibitor를 주세요.\"",
+    "dialogue": "Selective COX-2 inhibitor를 주세요.",
+    "correctCandidates": [
+      "Celecoxib"
+    ],
+    "wrongCandidates": [
+      "Aspirin",
+      "Diclofenac",
+      "Ibuprofen",
+      "Indomethacin",
+      "Naproxen",
+      "Aceclofenac",
+      "Acetaminophen",
+      "Tramadol"
+    ],
+    "baseExplanation": "Celecoxib은 selective COX-2 inhibitor로 less GI irritation 특징이 있다."
+  },
+  {
+    "number": 55,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"말초 항염 효과는 약하고 진통·해열 효과가 중심인 약을 주세요.\"",
+    "dialogue": "말초 항염 효과는 약하고 진통·해열 효과가 중심인 약을 주세요.",
+    "correctCandidates": [
+      "Acetaminophen"
+    ],
+    "wrongCandidates": [
+      "Aspirin",
+      "Diclofenac",
+      "Ibuprofen",
+      "Indomethacin",
+      "Naproxen",
+      "Aceclofenac",
+      "Celecoxib",
+      "Tramadol"
+    ],
+    "baseExplanation": "Acetaminophen은 진통·해열 효과가 중심이고, NSAID와 달리 말초 항염 효과는 약하다."
+  },
+  {
+    "number": 56,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"mu-opioid receptor 자극 성향이 있는 진통제를 주세요.\"",
+    "dialogue": "mu-opioid receptor 자극 성향이 있는 진통제를 주세요.",
+    "correctCandidates": [
+      "Tramadol"
+    ],
+    "wrongCandidates": [
+      "Acetaminophen",
+      "Aspirin",
+      "Celecoxib",
+      "Duloxetine",
+      "Venlafaxine",
+      "Naltrexone"
+    ],
+    "baseExplanation": "Tramadol은 5-HT/NE 재흡수 억제와 mu-opioid receptor 자극을 함께 가진다."
+  },
+  {
+    "number": 57,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Lipoxygenase를 억제해서 leukotriene 생성을 줄이는 약을 주세요.\"",
+    "dialogue": "Lipoxygenase를 억제해서 leukotriene 생성을 줄이는 약을 주세요.",
+    "correctCandidates": [
+      "Zileuton"
+    ],
+    "wrongCandidates": [
+      "Montelukast",
+      "Cromolyn",
+      "Prednisone",
+      "Celecoxib",
+      "Ozagrel",
+      "Terutroban"
+    ],
+    "baseExplanation": "Zileuton은 lipoxygenase inhibitor이고 Montelukast는 leukotriene receptor inhibitor이다."
+  },
+  {
+    "number": 58,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Phospholipase A2를 상위 단계에서 억제하는 항염증 약을 주세요.\"",
+    "dialogue": "Phospholipase A2를 상위 단계에서 억제하는 항염증 약을 주세요.",
+    "correctCandidates": [
+      "Prednisone",
+      "Prednisolone"
+    ],
+    "wrongCandidates": [
+      "Aspirin",
+      "Diclofenac",
+      "Ibuprofen",
+      "Indomethacin",
+      "Naproxen",
+      "Aceclofenac",
+      "Celecoxib",
+      "Montelukast",
+      "Zileuton"
+    ],
+    "baseExplanation": "Glucocorticoid는 lipocortin-1 합성을 증가시켜 phospholipase A2를 억제한다."
+  },
+  {
+    "number": 59,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Leukotriene 경로를 수용체 단계에서 막고 싶어요.\"",
+    "dialogue": "Leukotriene 경로를 수용체 단계에서 막고 싶어요.",
+    "correctCandidates": [
+      "Montelukast"
+    ],
+    "wrongCandidates": [
+      "Zileuton",
+      "Cromolyn",
+      "Cetirizine",
+      "Diphenhydramine",
+      "Prednisone",
+      "Ibuprofen"
+    ],
+    "baseExplanation": "Montelukast는 leukotriene receptor inhibitor이다. 생성 억제는 Zileuton이다."
+  },
+  {
+    "number": 60,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"LOX 경로 자체를 막는 약을 주세요.\"",
+    "dialogue": "LOX 경로 자체를 막는 약을 주세요.",
+    "correctCandidates": [
+      "Zileuton"
+    ],
+    "wrongCandidates": [
+      "Montelukast",
+      "Cromolyn",
+      "Prednisolone",
+      "Celecoxib",
+      "Aspirin",
+      "Terutroban"
+    ],
+    "baseExplanation": "Zileuton은 LOX inhibitor로 leukotriene 합성을 억제한다."
+  },
+  {
+    "number": 61,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"TXA2 경로를 낮추는 항혈소판 약을 주세요.\"",
+    "dialogue": "TXA2 경로를 낮추는 항혈소판 약을 주세요.",
+    "correctCandidates": [
+      "Ozagrel",
+      "Terutroban",
+      "Aspirin"
+    ],
+    "wrongCandidates": [
+      "Epoprostenol",
+      "Selexipag",
+      "Celecoxib",
+      "Acetaminophen",
+      "Zileuton",
+      "Montelukast"
+    ],
+    "baseExplanation": "Aspirin은 COX 억제로 TXA2 생성을 낮추고, Ozagrel은 합성 억제, Terutroban은 수용체 차단을 한다."
+  },
+  {
+    "number": 62,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Prostacyclin/IP receptor 경로를 활성화하는 PAH 약을 주세요.\"",
+    "dialogue": "Prostacyclin/IP receptor 경로를 활성화하는 PAH 약을 주세요.",
+    "correctCandidates": [
+      "Epoprostenol",
+      "Treprostinil",
+      "Iloprost",
+      "Selexipag"
+    ],
+    "wrongCandidates": [
+      "Bosentan",
+      "Ambrisentan",
+      "Macitentan",
+      "Ozagrel",
+      "Terutroban",
+      "Celecoxib",
+      "Latanoprost"
+    ],
+    "baseExplanation": "Epoprostenol, Treprostinil, Iloprost는 prostacyclin 계열 약물이고 Selexipag는 선택적 IP receptor agonist로, 모두 PAH에서 prostacyclin/IP receptor 경로를 활성화한다."
+  },
+  {
+    "number": 63,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"혈관확장을 유도하는 prostacyclin/IP receptor 경로 약을 주세요.\"",
+    "dialogue": "혈관확장을 유도하는 prostacyclin/IP receptor 경로 약을 주세요.",
+    "correctCandidates": [
+      "Epoprostenol",
+      "Treprostinil",
+      "Iloprost",
+      "Selexipag"
+    ],
+    "wrongCandidates": [
+      "Ozagrel",
+      "Terutroban",
+      "Aspirin",
+      "Celecoxib",
+      "Bosentan",
+      "Macitentan"
+    ],
+    "baseExplanation": "Epoprostenol, Treprostinil, Iloprost는 prostacyclin 계열 약물이고 Selexipag는 선택적 IP receptor agonist로, 모두 PAH에서 prostacyclin/IP receptor 경로를 활성화한다."
+  },
+  {
+    "number": 64,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"자궁수축을 유도하는 prostaglandin 계열 약을 주세요.\"",
+    "dialogue": "자궁수축을 유도하는 prostaglandin 계열 약을 주세요.",
+    "correctCandidates": [
+      "Misoprostol",
+      "Dinoprostone",
+      "Carboprost"
+    ],
+    "wrongCandidates": [
+      "Alprostadil",
+      "Latanoprost",
+      "Epoprostenol",
+      "Aspirin",
+      "Celecoxib",
+      "Montelukast"
+    ],
+    "baseExplanation": "Misoprostol, Dinoprostone, Carboprost는 자궁수축과 연결되는 prostaglandin 계열이다."
+  },
+  {
+    "number": 65,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"졸림이 적은 알레르기 비염 약을 주세요.\"",
+    "dialogue": "졸림이 적은 알레르기 비염 약을 주세요.",
+    "correctCandidates": [
+      "Desloratadine",
+      "Fexofenadine",
+      "Loratadine",
+      "Acrivastine",
+      "Cetirizine",
+      "Levocetirizine"
+    ],
+    "wrongCandidates": [
+      "Cyclizine",
+      "Diphenhydramine",
+      "Dimenhydrinate",
+      "Hydroxyzine",
+      "Meclizine",
+      "Promethazine",
+      "Brompheniramine",
+      "Chlorpheniramine",
+      "Clemastine",
+      "Cyproheptadine",
+      "Doxylamine",
+      "Ranitidine",
+      "Famotidine",
+      "Nizatidine",
+      "Cimetidine",
+      "Pseudoephedrine",
+      "Cromolyn"
+    ],
+    "baseExplanation": "2세대 H1 blocker는 1세대보다 BBB 통과가 적어 졸림이 적다."
+  },
+  {
+    "number": 66,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"졸릴 수 있지만 콧물·가려움 완화에 쓰는 항히스타민제를 주세요.\"",
+    "dialogue": "졸릴 수 있지만 콧물·가려움 완화에 쓰는 항히스타민제를 주세요.",
+    "correctCandidates": [
+      "Cyclizine",
+      "Diphenhydramine",
+      "Dimenhydrinate",
+      "Hydroxyzine",
+      "Meclizine",
+      "Promethazine",
+      "Brompheniramine",
+      "Chlorpheniramine",
+      "Clemastine",
+      "Cyproheptadine",
+      "Doxylamine"
+    ],
+    "wrongCandidates": [
+      "Desloratadine",
+      "Fexofenadine",
+      "Loratadine",
+      "Acrivastine",
+      "Cetirizine",
+      "Levocetirizine",
+      "Ranitidine",
+      "Famotidine",
+      "Nizatidine",
+      "Cimetidine",
+      "Pseudoephedrine",
+      "Montelukast"
+    ],
+    "baseExplanation": "1세대 H1 blocker는 H1 inverse agonist이며 중추 진정 부작용이 상대적으로 크다."
+  },
+  {
+    "number": 67,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"위산 분비를 줄이는 H2 blocker를 주세요.\"",
+    "dialogue": "위산 분비를 줄이는 H2 blocker를 주세요.",
+    "correctCandidates": [
+      "Ranitidine",
+      "Famotidine",
+      "Nizatidine",
+      "Cimetidine"
+    ],
+    "wrongCandidates": [
+      "Cyclizine",
+      "Diphenhydramine",
+      "Dimenhydrinate",
+      "Hydroxyzine",
+      "Meclizine",
+      "Promethazine",
+      "Desloratadine",
+      "Fexofenadine",
+      "Loratadine",
+      "Acrivastine",
+      "Misoprostol",
+      "Prednisone"
+    ],
+    "baseExplanation": "H2 blocker는 위점막 H2 receptor의 Gs-cAMP 경로를 차단해 위산 분비를 감소시킨다."
+  },
+  {
+    "number": 68,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"알레르기 매개세포를 안정화하는 약을 주세요.\"",
+    "dialogue": "알레르기 매개세포를 안정화하는 약을 주세요.",
+    "correctCandidates": [
+      "Cromolyn"
+    ],
+    "wrongCandidates": [
+      "Cyclizine",
+      "Diphenhydramine",
+      "Dimenhydrinate",
+      "Hydroxyzine",
+      "Desloratadine",
+      "Fexofenadine",
+      "Loratadine",
+      "Ranitidine",
+      "Famotidine",
+      "Nizatidine",
+      "Cimetidine",
+      "Montelukast"
+    ],
+    "baseExplanation": "Cromolyn은 receptor blocker가 아니라 mast cell stabilizer이다."
+  },
+  {
+    "number": 69,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"항히스타민제가 아닌 코막힘 완화 약을 주세요.\"",
+    "dialogue": "항히스타민제가 아닌 코막힘 완화 약을 주세요.",
+    "correctCandidates": [
+      "Pseudoephedrine",
+      "Oxymetazoline"
+    ],
+    "wrongCandidates": [
+      "Cyclizine",
+      "Diphenhydramine",
+      "Dimenhydrinate",
+      "Hydroxyzine",
+      "Meclizine",
+      "Desloratadine",
+      "Fexofenadine",
+      "Loratadine",
+      "Acrivastine",
+      "Cetirizine",
+      "Ranitidine",
+      "Famotidine",
+      "Nizatidine",
+      "Cimetidine"
+    ],
+    "baseExplanation": "Pseudoephedrine과 Oxymetazoline은 비점막 혈관수축을 통해 코막힘 완화에 쓰는 decongestant이다. Tetrahydrozoline은 주로 안구 충혈 완화제로 구분한다."
+  },
+  {
+    "number": 70,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Serotonin syndrome을 조심해야 하는 항우울제를 주세요.\"",
+    "dialogue": "Serotonin syndrome을 조심해야 하는 항우울제를 주세요.",
+    "correctCandidates": [
+      "Fluoxetine",
+      "Paroxetine",
+      "Sertraline",
+      "Venlafaxine",
+      "Desvenlafaxine",
+      "Duloxetine",
+      "Levomilnacipran",
+      "Amitriptyline",
+      "Phenelzine",
+      "Moclobemide"
+    ],
+    "wrongCandidates": [
+      "Ondansetron",
+      "Clozapine",
+      "Olanzapine",
+      "Naltrexone",
+      "Acamprosate",
+      "Celecoxib"
+    ],
+    "baseExplanation": "SSRI, SNRI, TCA, MAO inhibitor는 세로토닌 신호를 증가시킬 수 있어 serotonin syndrome 위험 맥락에서 중요하다."
+  },
+  {
+    "number": 71,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"5-HT3 receptor antagonist 항구토제를 주세요.\"",
+    "dialogue": "5-HT3 receptor antagonist 항구토제를 주세요.",
+    "correctCandidates": [
+      "Ondansetron"
+    ],
+    "wrongCandidates": [
+      "Fluoxetine",
+      "Paroxetine",
+      "Sertraline",
+      "Venlafaxine",
+      "Desvenlafaxine",
+      "Sumatriptan",
+      "Clozapine",
+      "Olanzapine"
+    ],
+    "baseExplanation": "Ondansetron은 5-HT3 receptor antagonist로 항구토제로 사용된다. Olanzapine은 항정신병제이며 일부 항구토 용도가 있어, 일반적인 5-HT3 항구토제와 구분해야 한다."
+  },
+  {
+    "number": 72,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"세로토닌 관련 약 중 triptan 계열 항편두통제를 주세요.\"",
+    "dialogue": "세로토닌 관련 약 중 triptan 계열 항편두통제를 주세요.",
+    "correctCandidates": [
+      "Sumatriptan"
+    ],
+    "wrongCandidates": [
       "Ergotamine",
       "Dihydroergotamine",
-      "Fexofenadine",
-      "Ranitidine",
-      "Bromocriptine"
+      "Ondansetron",
+      "Fluoxetine",
+      "Paroxetine",
+      "Sertraline"
     ],
-    "answer": "Bromocriptine",
-    "core": "D2 agonist ergot 유도체는 편두통 치료용 ergot alkaloid와 구별한다.",
-    "explanation": [
-      "① Ergotamine / 오답 / Ergot alkaloid로 편두통 치료에 쓰이며 관상동맥질환/말초혈관질환에서는 주의 또는 금기이다.",
-      "② Dihydroergotamine / 오답 / Ergot alkaloid로 편두통 치료와 관련된다.",
-      "③ Fexofenadine / 오답 / 2세대 nonsedating H1 antihistamine이다.",
-      "④ Ranitidine / 오답 / H2 antihistamine 목록에 포함되어 위산 분비 억제와 관련된다.",
-      "⑤ Bromocriptine / 정답 / Ergot 관련 dopamine D2 receptor agonist이다."
-    ]
+    "baseExplanation": "Sumatriptan은 선택적 5-HT1B/1D agonist인 triptan 계열 항편두통제이다. Ergotamine과 Dihydroergotamine도 편두통 치료에 쓰이지만 triptan 계열은 아니다."
+  },
+  {
+    "number": 73,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"5-HT2A 차단 항정신병제를 주세요.\"",
+    "dialogue": "5-HT2A 차단 항정신병제를 주세요.",
+    "correctCandidates": [
+      "Clozapine",
+      "Olanzapine"
+    ],
+    "wrongCandidates": [
+      "Ondansetron",
+      "Sumatriptan",
+      "Fluoxetine",
+      "Paroxetine",
+      "Amitriptyline",
+      "Phenelzine"
+    ],
+    "baseExplanation": "Clozapine과 Olanzapine은 5-HT2A 차단 항정신병제로 정리되어 있다."
+  },
+  {
+    "number": 74,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"5-HT와 NE 재흡수를 억제하는 항우울제를 주세요.\"",
+    "dialogue": "5-HT와 NE 재흡수를 억제하는 항우울제를 주세요.",
+    "correctCandidates": [
+      "Venlafaxine",
+      "Desvenlafaxine",
+      "Duloxetine",
+      "Levomilnacipran",
+      "Amitriptyline"
+    ],
+    "wrongCandidates": [
+      "Fluoxetine",
+      "Paroxetine",
+      "Sertraline",
+      "Phenelzine",
+      "Moclobemide",
+      "Ondansetron",
+      "Sumatriptan"
+    ],
+    "baseExplanation": "SNRI와 TCA는 5-HT 및 NE 재흡수 억제와 관련된다. 문제에 따라 SNRI만 원하면 Amitriptyline은 보기에서 제외해야 한다."
+  },
+  {
+    "number": 75,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Monoamine oxidase inhibitor를 주세요.\"",
+    "dialogue": "Monoamine oxidase inhibitor를 주세요.",
+    "correctCandidates": [
+      "Phenelzine",
+      "Moclobemide"
+    ],
+    "wrongCandidates": [
+      "Fluoxetine",
+      "Paroxetine",
+      "Sertraline",
+      "Venlafaxine",
+      "Desvenlafaxine",
+      "Duloxetine",
+      "Levomilnacipran",
+      "Amitriptyline",
+      "Ondansetron"
+    ],
+    "baseExplanation": "Phenelzine과 Moclobemide는 MAO inhibitor로 monoamine 분해를 억제한다."
+  },
+  {
+    "number": 76,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"ACE inhibitor와 같이 쓰면 혈관부종 위험이 커지는 ARNI 성분을 주세요.\"",
+    "dialogue": "ACE inhibitor와 같이 쓰면 혈관부종 위험이 커지는 ARNI 성분을 주세요.",
+    "correctCandidates": [
+      "Sacubitril"
+    ],
+    "wrongCandidates": [
+      "Captopril",
+      "Enalapril",
+      "Lisinopril",
+      "Ramipril",
+      "Trandolapril",
+      "Candesartan",
+      "Losartan",
+      "Valsartan",
+      "Aliskiren",
+      "Desmopressin"
+    ],
+    "baseExplanation": "Sacubitril은 neprilysin inhibitor로 ACE inhibitor와 병용 시 bradykinin 관련 angioedema risk가 증가할 수 있다."
+  },
+  {
+    "number": 77,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"V2 receptor를 자극하는 약을 주세요.\"",
+    "dialogue": "V2 receptor를 자극하는 약을 주세요.",
+    "correctCandidates": [
+      "Desmopressin"
+    ],
+    "wrongCandidates": [
+      "Conivaptan",
+      "Tolvaptan",
+      "Aliskiren",
+      "Losartan",
+      "Captopril",
+      "Bosentan"
+    ],
+    "baseExplanation": "Desmopressin은 V2 receptor agonist이고 Conivaptan/Tolvaptan은 ADH antagonist이다."
+  },
+  {
+    "number": 78,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Vasopressin 작용을 반대로 막는 약을 골라주세요.\"",
+    "dialogue": "Vasopressin 작용을 반대로 막는 약을 골라주세요.",
+    "correctCandidates": [
+      "Conivaptan",
+      "Tolvaptan"
+    ],
+    "wrongCandidates": [
+      "Desmopressin",
+      "Aliskiren",
+      "Candesartan",
+      "Valsartan",
+      "Sacubitril",
+      "Fomepizole"
+    ],
+    "baseExplanation": "Conivaptan과 Tolvaptan은 ADH antagonist로 Desmopressin과 반대 방향이다."
+  },
+  {
+    "number": 79,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"ET-1 관련 혈관수축 신호를 줄이는 약을 주세요.\"",
+    "dialogue": "ET-1 관련 혈관수축 신호를 줄이는 약을 주세요.",
+    "correctCandidates": [
+      "Aprocitentan",
+      "Atrasentan",
+      "Bosentan",
+      "Ambrisentan",
+      "Macitentan"
+    ],
+    "wrongCandidates": [
+      "Candesartan",
+      "Losartan",
+      "Valsartan",
+      "Captopril",
+      "Enalapril",
+      "Lisinopril",
+      "Desmopressin",
+      "Epoprostenol"
+    ],
+    "baseExplanation": "Endothelin receptor antagonist는 endothelin 매개 혈관수축 경로를 차단한다."
+  },
+  {
+    "number": 80,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Natriuretic peptide가 더 오래 작용하게 하는 약을 주세요.\"",
+    "dialogue": "Natriuretic peptide가 더 오래 작용하게 하는 약을 주세요.",
+    "correctCandidates": [
+      "Sacubitril"
+    ],
+    "wrongCandidates": [
+      "Valsartan",
+      "Aliskiren",
+      "Captopril",
+      "Losartan",
+      "Bosentan",
+      "Tolvaptan"
+    ],
+    "baseExplanation": "Neprilysin은 ANP, BNP 등을 분해하므로 Sacubitril이 이를 억제한다."
+  },
+  {
+    "number": 81,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"ACE를 억제해 Angiotensin II 생성을 줄이는 약을 주세요.\"",
+    "dialogue": "ACE를 억제해 Angiotensin II 생성을 줄이는 약을 주세요.",
+    "correctCandidates": [
+      "Captopril",
+      "Enalapril",
+      "Lisinopril",
+      "Ramipril",
+      "Trandolapril"
+    ],
+    "wrongCandidates": [
+      "Candesartan",
+      "Losartan",
+      "Valsartan",
+      "Aliskiren",
+      "Sacubitril",
+      "Bosentan",
+      "Desmopressin"
+    ],
+    "baseExplanation": "Captopril, Enalapril, Lisinopril, Ramipril, Trandolapril은 ACE inhibitor로 angiotensin I이 angiotensin II로 전환되는 단계를 억제한다. Aliskiren도 Ang II를 간접적으로 낮출 수 있으므로 ACE 억제라는 단서를 넣어 구분한다."
+  },
+  {
+    "number": 82,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Angiotensin II가 AT1 receptor에 작용하지 못하게 하는 약을 주세요.\"",
+    "dialogue": "Angiotensin II가 AT1 receptor에 작용하지 못하게 하는 약을 주세요.",
+    "correctCandidates": [
+      "Candesartan",
+      "Losartan",
+      "Valsartan"
+    ],
+    "wrongCandidates": [
+      "Captopril",
+      "Enalapril",
+      "Lisinopril",
+      "Ramipril",
+      "Trandolapril",
+      "Aliskiren",
+      "Sacubitril",
+      "Bosentan",
+      "Ambrisentan"
+    ],
+    "baseExplanation": "ARB는 angiotensin II type 1 receptor를 경쟁적으로 억제한다."
+  },
+  {
+    "number": 83,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"폐혈관 문제에 쓰는 prostacyclin/IP receptor 경로 약을 주세요.\"",
+    "dialogue": "폐혈관 문제에 쓰는 prostacyclin/IP receptor 경로 약을 주세요.",
+    "correctCandidates": [
+      "Epoprostenol",
+      "Treprostinil",
+      "Iloprost",
+      "Selexipag"
+    ],
+    "wrongCandidates": [
+      "Ozagrel",
+      "Terutroban",
+      "Aspirin",
+      "Celecoxib",
+      "Bosentan",
+      "Macitentan"
+    ],
+    "baseExplanation": "Epoprostenol, Treprostinil, Iloprost는 prostacyclin 계열 약물이고 Selexipag는 선택적 IP receptor agonist로, 모두 PAH에서 prostacyclin/IP receptor 경로를 활성화한다."
+  },
+  {
+    "number": 84,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"COX-2 선택성이 있는 진통소염제를 주세요.\"",
+    "dialogue": "COX-2 선택성이 있는 진통소염제를 주세요.",
+    "correctCandidates": [
+      "Celecoxib"
+    ],
+    "wrongCandidates": [
+      "Aspirin",
+      "Diclofenac",
+      "Ibuprofen",
+      "Indomethacin",
+      "Naproxen",
+      "Aceclofenac",
+      "Acetaminophen",
+      "Tramadol"
+    ],
+    "baseExplanation": "Celecoxib은 selective COX-2 inhibitor이다."
+  },
+  {
+    "number": 85,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"COX-2 선택약이 아닌 NSAID를 주세요.\"",
+    "dialogue": "COX-2 선택약이 아닌 NSAID를 주세요.",
+    "correctCandidates": [
+      "Aspirin",
+      "Diclofenac",
+      "Ibuprofen",
+      "Indomethacin",
+      "Naproxen",
+      "Aceclofenac"
+    ],
+    "wrongCandidates": [
+      "Celecoxib",
+      "Acetaminophen",
+      "Tramadol",
+      "Prednisone",
+      "Misoprostol"
+    ],
+    "baseExplanation": "Non-selective NSAID 후보는 Aspirin, Diclofenac, Ibuprofen, Indomethacin, Naproxen, Aceclofenac이다."
+  },
+  {
+    "number": 86,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"자궁수축 약 중 PGE1 계열을 골라주세요.\"",
+    "dialogue": "자궁수축 약 중 PGE1 계열을 골라주세요.",
+    "correctCandidates": [
+      "Misoprostol"
+    ],
+    "wrongCandidates": [
+      "Dinoprostone",
+      "Carboprost",
+      "Alprostadil",
+      "Latanoprost",
+      "Epoprostenol",
+      "Indomethacin"
+    ],
+    "baseExplanation": "Misoprostol은 PGE1 analog이면서 자궁수축 작용이 있다. Alprostadil도 PGE1이지만 PDA opening 단서가 더 핵심이다."
+  },
+  {
+    "number": 87,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"자궁수축 약 중 PGE2 계열을 골라주세요.\"",
+    "dialogue": "자궁수축 약 중 PGE2 계열을 골라주세요.",
+    "correctCandidates": [
+      "Dinoprostone"
+    ],
+    "wrongCandidates": [
+      "Misoprostol",
+      "Carboprost",
+      "Alprostadil",
+      "Latanoprost",
+      "Celecoxib",
+      "Aspirin"
+    ],
+    "baseExplanation": "Dinoprostone은 PGE2 analog로 자궁수축을 유도한다."
+  },
+  {
+    "number": 88,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"자궁수축 약 중 PGF2alpha 계열을 골라주세요.\"",
+    "dialogue": "자궁수축 약 중 PGF2alpha 계열을 골라주세요.",
+    "correctCandidates": [
+      "Carboprost"
+    ],
+    "wrongCandidates": [
+      "Dinoprostone",
+      "Misoprostol",
+      "Alprostadil",
+      "Latanoprost",
+      "Epoprostenol",
+      "Ibuprofen"
+    ],
+    "baseExplanation": "Carboprost는 PGF2alpha analog로 자궁수축에 사용된다."
+  },
+  {
+    "number": 89,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"PDA를 열어두는 prostaglandin을 주세요.\"",
+    "dialogue": "PDA를 열어두는 prostaglandin을 주세요.",
+    "correctCandidates": [
+      "Alprostadil"
+    ],
+    "wrongCandidates": [
+      "Indomethacin",
+      "Ibuprofen",
+      "Aspirin",
+      "Misoprostol",
+      "Dinoprostone",
+      "Carboprost"
+    ],
+    "baseExplanation": "Alprostadil은 PDA opening, Indomethacin은 PDA closure와 연결된다."
+  },
+  {
+    "number": 90,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"PDA를 닫는 NSAID를 주세요.\"",
+    "dialogue": "PDA를 닫는 NSAID를 주세요.",
+    "correctCandidates": [
+      "Indomethacin",
+      "Ibuprofen"
+    ],
+    "wrongCandidates": [
+      "Alprostadil",
+      "Misoprostol",
+      "Dinoprostone",
+      "Carboprost",
+      "Celecoxib",
+      "Acetaminophen"
+    ],
+    "baseExplanation": "PDA closure에는 prostaglandin 생성을 낮추는 NSAID인 Indomethacin 또는 Ibuprofen을 사용할 수 있다."
+  },
+  {
+    "number": 91,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"안압을 낮추는 prostaglandin 계열 녹내장 약을 주세요.\"",
+    "dialogue": "안압을 낮추는 prostaglandin 계열 녹내장 약을 주세요.",
+    "correctCandidates": [
+      "Latanoprost"
+    ],
+    "wrongCandidates": [
+      "Carboprost",
+      "Dinoprostone",
+      "Alprostadil",
+      "Tetrahydrozoline",
+      "Oxymetazoline",
+      "Ondansetron"
+    ],
+    "baseExplanation": "Latanoprost는 공막 투과도 증가를 통해 녹내장에 사용된다."
+  },
+  {
+    "number": 92,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"PAH에서 prostacyclin/IP receptor 경로를 활성화하는 약을 주세요.\"",
+    "dialogue": "PAH에서 prostacyclin/IP receptor 경로를 활성화하는 약을 주세요.",
+    "correctCandidates": [
+      "Epoprostenol",
+      "Treprostinil",
+      "Iloprost",
+      "Selexipag"
+    ],
+    "wrongCandidates": [
+      "Bosentan",
+      "Ambrisentan",
+      "Macitentan",
+      "Ozagrel",
+      "Terutroban",
+      "Celecoxib"
+    ],
+    "baseExplanation": "Epoprostenol, Treprostinil, Iloprost는 prostacyclin 계열 약물이고 Selexipag는 선택적 IP receptor agonist로, 모두 PAH에서 prostacyclin/IP receptor 경로를 활성화한다."
+  },
+  {
+    "number": 93,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"심한 신부전이면 피해야 하는 금주 유지 약을 주세요.\"",
+    "dialogue": "심한 신부전이면 피해야 하는 금주 유지 약을 주세요.",
+    "correctCandidates": [
+      "Acamprosate"
+    ],
+    "wrongCandidates": [
+      "Disulfiram",
+      "Naltrexone",
+      "Topiramate",
+      "Fomepizole",
+      "Phenelzine",
+      "Duloxetine"
+    ],
+    "baseExplanation": "Acamprosate는 심한 신부전 환자에서 금기로 정리되어 있다."
+  },
+  {
+    "number": 94,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Acetaldehyde가 쌓이게 만드는 금주 유지 약을 주세요.\"",
+    "dialogue": "Acetaldehyde가 쌓이게 만드는 금주 유지 약을 주세요.",
+    "correctCandidates": [
+      "Disulfiram"
+    ],
+    "wrongCandidates": [
+      "Naltrexone",
+      "Acamprosate",
+      "Topiramate",
+      "Fomepizole",
+      "Ondansetron",
+      "Cimetidine"
+    ],
+    "baseExplanation": "Disulfiram은 ALDH 억제제라 acetaldehyde 축적을 유도한다."
+  },
+  {
+    "number": 95,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"ALDH를 억제하는 금주 유지 약을 주세요.\"",
+    "dialogue": "ALDH를 억제하는 금주 유지 약을 주세요.",
+    "correctCandidates": [
+      "Disulfiram"
+    ],
+    "wrongCandidates": [
+      "Fomepizole",
+      "Naltrexone",
+      "Acamprosate",
+      "Topiramate",
+      "Phenelzine",
+      "Moclobemide"
+    ],
+    "baseExplanation": "Disulfiram은 ALDH 억제로 acetaldehyde 축적을 유도한다. Fomepizole은 ADH 억제제이다."
+  },
+  {
+    "number": 96,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Alcohol dehydrogenase를 경쟁적으로 막는 약을 주세요.\"",
+    "dialogue": "Alcohol dehydrogenase를 경쟁적으로 막는 약을 주세요.",
+    "correctCandidates": [
+      "Fomepizole"
+    ],
+    "wrongCandidates": [
+      "Disulfiram",
+      "Naltrexone",
+      "Acamprosate",
+      "Topiramate",
+      "Cimetidine",
+      "Aspirin"
+    ],
+    "baseExplanation": "Fomepizole은 ADH 경쟁적 저해제로 독성 알코올 대사산물 생성을 줄인다."
+  },
+  {
+    "number": 97,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"CYP2D6을 억제하는 SSRI를 주세요.\"",
+    "dialogue": "CYP2D6을 억제하는 SSRI를 주세요.",
+    "correctCandidates": [
+      "Fluoxetine",
+      "Paroxetine"
+    ],
+    "wrongCandidates": [
+      "Sertraline",
+      "Venlafaxine",
+      "Desvenlafaxine",
+      "Duloxetine",
+      "Levomilnacipran",
+      "Amitriptyline"
+    ],
+    "baseExplanation": "정리본에서 Fluoxetine과 Paroxetine은 SSRI이면서 CYP2D6 inhibitor로 제시되어 있다."
+  },
+  {
+    "number": 98,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Hepatic CYP450 enzyme system을 강하게 억제하는 H2 blocker를 주세요.\"",
+    "dialogue": "Hepatic CYP450 enzyme system을 강하게 억제하는 H2 blocker를 주세요.",
+    "correctCandidates": [
+      "Cimetidine"
+    ],
+    "wrongCandidates": [
+      "Ranitidine",
+      "Famotidine",
+      "Nizatidine",
+      "Loratadine",
+      "Diphenhydramine",
+      "Fluoxetine"
+    ],
+    "baseExplanation": "Cimetidine은 H2 blocker 중 hepatic CYP450 enzyme system의 potent inhibitor로 정리되어 있다."
+  },
+  {
+    "number": 99,
+    "source": "약물 게임 제작용 자료: 54-58강",
+    "question": "환자 대사: \"Selective thromboxane receptor antagonist를 주세요.\"",
+    "dialogue": "Selective thromboxane receptor antagonist를 주세요.",
+    "correctCandidates": [
+      "Terutroban"
+    ],
+    "wrongCandidates": [
+      "Ozagrel",
+      "Aspirin",
+      "Celecoxib",
+      "Epoprostenol",
+      "Selexipag",
+      "Zileuton"
+    ],
+    "baseExplanation": "Terutroban은 selective thromboxane receptor antagonist이고 Ozagrel은 TXA2 synthesis inhibitor이다."
   }
 ];
+
+    const DRUG_INFO = {
+  "Disulfiram": "ALDH를 억제하여 음주 시 acetaldehyde 축적에 의한 불쾌반응을 일으켜 금주 유지에 사용된다.",
+  "Fomepizole": "Alcohol dehydrogenase를 경쟁적으로 억제하여 독성 알코올 대사산물 생성을 줄인다.",
+  "Naltrexone": "mu-opioid receptor antagonist로 알코올 보상효과와 craving을 줄이는 데 사용된다.",
+  "Acamprosate": "Alcohol dependence에서 금주 유지에 사용되며, 정확한 기전은 완전히 확립되지 않았지만 glutamatergic/NMDA 관련 신경전달 조절과 관련된다. 심한 신부전에서는 금기이다.",
+  "Topiramate": "전압의존성 Na+ channel을 차단하고 알코올 사용장애 치료 보조에 쓰이며 체중감소가 나타날 수 있다.",
+  "Aliskiren": "직접 renin inhibitor로 angiotensin I 생성을 줄여 RAAS 활성을 낮춘다.",
+  "Captopril": "ACE inhibitor로 angiotensin II 생성을 줄이고 bradykinin을 증가시켜 마른기침과 혈관부종이 생길 수 있다.",
+  "Enalapril": "ACE inhibitor로 RAAS를 억제하여 혈압과 aldosterone 작용을 낮춘다.",
+  "Lisinopril": "ACE inhibitor로 angiotensin II 감소와 bradykinin 증가를 유발한다.",
+  "Ramipril": "ACE inhibitor로 고혈압 및 심혈관 보호 목적으로 사용되는 -pril 계열 약물이다.",
+  "Trandolapril": "ACE inhibitor로 angiotensin II 생성을 억제하는 RAAS 억제제이다.",
+  "Candesartan": "ARB로 AT1 receptor를 경쟁적으로 차단하여 angiotensin II 작용을 억제한다.",
+  "Losartan": "ARB로 AT1 receptor 차단을 통해 혈관수축과 aldosterone 분비를 줄인다.",
+  "Valsartan": "ARB로 AT1 receptor를 차단하며 sacubitril과 병합되어 ARNI 구성 성분으로 쓰인다.",
+  "Sacubitril": "Neprilysin inhibitor로 ANP, BNP 같은 natriuretic peptide 분해를 억제하며 valsartan과 병합된다.",
+  "Desmopressin": "Long-acting V2 receptor agonist로 수분 재흡수를 증가시켜 요붕증 치료에 사용된다.",
+  "Conivaptan": "ADH receptor antagonist로 vasopressin 작용을 차단하여 수분 저류 상태를 교정하는 데 사용된다.",
+  "Tolvaptan": "ADH receptor antagonist로 V2 작용을 차단하여 aquaresis를 유도한다.",
+  "Aprocitentan": "Endothelin receptor antagonist로 endothelin 매개 혈관수축 경로를 억제한다.",
+  "Atrasentan": "Endothelin receptor antagonist로 endothelin 수용체 신호를 차단한다.",
+  "Bosentan": "Endothelin receptor antagonist로 폐동맥고혈압 치료에 사용된다.",
+  "Ambrisentan": "Endothelin receptor antagonist로 폐동맥고혈압 치료에 사용된다.",
+  "Macitentan": "Endothelin receptor antagonist로 폐동맥고혈압 치료에 사용된다.",
+  "Cyclizine": "1세대 H1 antihistamine으로 BBB를 통과하며 motion sickness에 사용할 수 있다.",
+  "Diphenhydramine": "1세대 H1 antihistamine으로 진정작용이 크고 motion sickness에도 사용할 수 있다.",
+  "Dimenhydrinate": "1세대 H1 antihistamine으로 멀미와 구역 완화에 사용된다.",
+  "Hydroxyzine": "1세대 H1 antihistamine으로 알레르기 증상 완화, 진정, 항구토 성향이 있다.",
+  "Meclizine": "1세대 H1 antihistamine으로 motion sickness에 사용된다.",
+  "Promethazine": "1세대 H1 antihistamine으로 진정 및 항구토 성향이 있고 motion sickness에 사용될 수 있다.",
+  "Brompheniramine": "1세대 H1 antihistamine으로 알레르기 증상 완화에 사용된다.",
+  "Chlorpheniramine": "1세대 H1 antihistamine으로 알레르기 비염 등에 사용되며 졸림이 생길 수 있다.",
+  "Clemastine": "1세대 H1 antihistamine으로 진정성 부작용이 비교적 잘 나타날 수 있다.",
+  "Cyproheptadine": "1세대 H1 antihistamine으로 항히스타민 작용과 진정작용을 가진다.",
+  "Doxylamine": "1세대 H1 antihistamine으로 진정작용이 있어 수면 보조 성격으로도 쓰인다.",
+  "Desloratadine": "2세대 H1 antihistamine으로 BBB 통과가 적어 중추신경계 부작용이 상대적으로 적다.",
+  "Fexofenadine": "2세대 H1 antihistamine으로 nonsedating 성향이 강한 알레르기 치료제이다.",
+  "Loratadine": "2세대 H1 antihistamine으로 졸림이 적은 알레르기 비염 치료제이다.",
+  "Acrivastine": "2세대 H1 antihistamine으로 알레르기 증상 완화에 사용된다.",
+  "Cetirizine": "2세대 H1 antihistamine으로 1세대보다 CNS 부작용이 적다.",
+  "Levocetirizine": "2세대 H1 antihistamine으로 알레르기 증상 완화에 사용된다.",
+  "Ranitidine": "H2 antihistamine으로 위산 분비를 감소시키는 약물이다.",
+  "Famotidine": "H2 antihistamine으로 위점막 H2 receptor를 차단해 위산 분비를 줄인다.",
+  "Nizatidine": "H2 antihistamine으로 위산 분비 억제에 사용된다.",
+  "Cimetidine": "H2 antihistamine이며 hepatic CYP450 enzyme system을 강하게 억제할 수 있다.",
+  "Pseudoephedrine": "Decongestant로 교감신경 작용을 통해 비점막 혈관수축을 유도해 코막힘을 완화한다.",
+  "Oxymetazoline": "Decongestant로 국소 혈관수축을 통해 비충혈을 완화한다.",
+  "Tetrahydrozoline": "주로 안구 충혈 완화에 쓰는 국소 alpha-adrenergic decongestant이다.",
+  "Prednisone": "Corticosteroid로 염증성 매개물질 생성을 억제해 알레르기 및 염증반응을 줄인다.",
+  "Prednisolone": "Corticosteroid로 강한 항염증 작용을 통해 면역·알레르기 반응을 억제한다.",
+  "Cromolyn": "Mast cell stabilizer로 비만세포 탈과립과 히스타민 방출을 억제한다.",
+  "Montelukast": "Leukotriene receptor inhibitor로 기관지수축, 점액분비, 염증반응을 낮춘다.",
+  "Ergotamine": "Ergot alkaloid로 편두통 치료에 사용되지만 관상동맥질환이나 말초혈관질환에서는 주의가 필요하다.",
+  "Dihydroergotamine": "Ergot alkaloid로 편두통 치료에 사용되며 혈관질환 환자에서 주의한다.",
+  "Bromocriptine": "Ergot 계열 dopamine D2 receptor agonist이다.",
+  "Cabergoline": "Ergot 계열 dopamine D2 receptor agonist이다.",
+  "Clozapine": "5-HT2A 차단 성격을 가지는 항정신병제로 serotonergic drug 범주에 포함된다.",
+  "Olanzapine": "5-HT2A 차단 성격을 가지는 항정신병제로 serotonergic drug 범주에 포함된다.",
+  "Ondansetron": "5-HT3 receptor antagonist로 항구토제로 사용된다.",
+  "Sumatriptan": "5-HT1B/1D receptor agonist로 편두통 급성 치료에 사용된다.",
+  "Fluoxetine": "SSRI로 SERT를 억제해 시냅스 세로토닌 농도를 증가시키며 CYP2D6 억제 작용이 있다.",
+  "Paroxetine": "SSRI로 SERT를 억제하며 CYP2D6 억제 작용이 있다.",
+  "Sertraline": "SSRI로 선택적으로 세로토닌 재흡수를 억제한다.",
+  "Venlafaxine": "SNRI로 저용량에서는 세로토닌, 고용량에서는 노르에피네프린 재흡수 억제가 두드러진다.",
+  "Desvenlafaxine": "SNRI로 세로토닌과 노르에피네프린 재흡수를 억제한다.",
+  "Duloxetine": "SNRI로 세로토닌·노르에피네프린 재흡수를 억제하며 CYP2D6 억제제이다.",
+  "Levomilnacipran": "SNRI로 세로토닌·노르에피네프린 재흡수를 억제하며 대사에서 CYP3A4가 중요한 역할을 한다.",
+  "Amitriptyline": "TCA로 5-HT와 NE 재흡수를 억제하고 H1, muscarinic, alpha-adrenergic receptor도 차단한다.",
+  "Phenelzine": "MAO inhibitor로 monoamine 분해를 억제하며 tyramine 축적에 의한 cheese reaction 위험이 있다.",
+  "Moclobemide": "가역적 MAO-A inhibitor로 monoamine 분해 억제를 통해 항우울 효과를 나타내며, 비가역적 MAOI보다 tyramine 관련 위험은 상대적으로 작다.",
+  "Alprostadil": "PGE1 analog로 평활근 이완과 혈관확장을 유도하며 PDA를 열어 유지할 수 있다.",
+  "Misoprostol": "PGE1 analog로 위 점액분비를 증가시키고 자궁수축을 유도할 수 있다.",
+  "Dinoprostone": "PGE2 analog로 자궁수축을 유도한다.",
+  "Carboprost": "PGF2alpha analog로 자궁수축을 유도한다.",
+  "Latanoprost": "PGF2alpha analog로 공막 투과도를 증가시켜 안압을 낮추는 녹내장 치료제이다.",
+  "Epoprostenol": "Prostacyclin(PGI2) 제제로 혈소판 응집 억제와 혈관확장을 유도하며 반감기가 매우 짧아 지속 IV 주입한다.",
+  "Treprostinil": "Prostacyclin(PGI2) analog로 혈관확장을 유도하며 IV, 피하, 흡입, 경구 제형이 있다.",
+  "Iloprost": "PGI2 계열 약물로 흡입제로 사용할 수 있다.",
+  "Selexipag": "경구 non-prostanoid 선택적 prostacyclin IP receptor agonist로 PAH에서 prostacyclin 경로를 활성화한다.",
+  "Ozagrel": "Thromboxane A2 synthase inhibitor로 TXA2 생성을 낮춰 항혈소판 작용을 나타낸다.",
+  "Terutroban": "Selective thromboxane receptor antagonist로 항혈소판 작용을 나타낸다.",
+  "Aspirin": "비가역적으로 COX를 억제하는 non-selective NSAID이며 혈소판 TXA2 생성을 감소시킨다.",
+  "Diclofenac": "Non-selective NSAID로 COX 억제를 통해 통증, 염증, 발열을 줄인다.",
+  "Ibuprofen": "Non-selective NSAID로 COX 억제를 통해 진통·해열·항염 효과를 내며 PDA closure에도 사용할 수 있다.",
+  "Indomethacin": "Non-selective NSAID로 COX를 억제하며 PDA closure에 사용할 수 있다.",
+  "Naproxen": "Non-selective NSAID로 COX 억제를 통해 진통·항염 효과를 낸다.",
+  "Aceclofenac": "Non-selective NSAID로 COX 억제를 통해 염증과 통증을 완화한다.",
+  "Celecoxib": "Selective COX-2 inhibitor로 위장관 자극이 상대적으로 적다.",
+  "Acetaminophen": "비마약성 진통·해열제로 NSAID와 달리 말초 항염 효과는 약하다.",
+  "Tramadol": "Serotonin·norepinephrine 재흡수 억제와 mu-opioid receptor 자극을 통해 진통작용을 낸다.",
+  "Zileuton": "Lipoxygenase inhibitor로 leukotriene 생성을 억제한다."
+};
 
     const totalRounds = QUESTIONS.length;
     const CORRECT_ICON = "image/correct_icon.png";
@@ -1618,11 +2646,13 @@
       "image/customers/customer_08.png",
       "image/customers/customer_09.png"
     ];
+
     const stage = document.getElementById("stage");
     const scoreEl = document.getElementById("score");
     const roundEl = document.getElementById("round");
     const totalEl = document.getElementById("total");
     const totalRoundEl = document.getElementById("totalRound");
+    const finalTotalEl = document.getElementById("finalTotal");
     const speechText = document.getElementById("speechText");
     const judge = document.getElementById("judge");
     const customerImg = document.getElementById("customerImg");
@@ -1654,6 +2684,7 @@
     let score = 0;
     let locked = false;
     let currentOptions = [];
+    let currentRound = null;
     let answered = new Set();
     let lastCustomerIndex = -1;
 
@@ -1666,6 +2697,7 @@
 
     totalEl.textContent = totalRounds;
     totalRoundEl.textContent = totalRounds;
+    if (finalTotalEl) finalTotalEl.textContent = totalRounds;
 
     function shuffle(array) {
       const copy = [...array];
@@ -1674,6 +2706,42 @@
         [copy[i], copy[j]] = [copy[j], copy[i]];
       }
       return copy;
+    }
+
+    function uniqueList(array) {
+      const result = [];
+      const seen = new Set();
+      array.forEach(item => {
+        if (item && !seen.has(item)) {
+          seen.add(item);
+          result.push(item);
+        }
+      });
+      return result;
+    }
+
+    function pickOne(array) {
+      const clean = uniqueList(array);
+      return clean[Math.floor(Math.random() * clean.length)];
+    }
+
+    function pickWrongOptions(question, answer, count) {
+      const blocked = new Set([answer, ...question.correctCandidates]);
+      let wrongs = shuffle(uniqueList(question.wrongCandidates).filter(drug => !blocked.has(drug))).slice(0, count);
+
+      if (wrongs.length < count) {
+        const fallback = shuffle(Object.keys(DRUG_INFO).filter(drug => !blocked.has(drug) && !wrongs.includes(drug)));
+        wrongs = wrongs.concat(fallback.slice(0, count - wrongs.length));
+      }
+
+      return wrongs;
+    }
+
+    function buildRound(question) {
+      const answer = pickOne(question.correctCandidates);
+      const wrongs = pickWrongOptions(question, answer, 4);
+      const options = shuffle([answer, ...wrongs]);
+      return { ...question, answer, options };
     }
 
     function setButtonsEnabled(enabled) {
@@ -1707,39 +2775,28 @@
       return CUSTOMER_IMAGES[idx];
     }
 
-    function fitTextToBox(el, maxPx, minPx, step = 1) {
-      el.style.fontSize = maxPx + "px";
-      el.style.lineHeight = "1.28";
-      let size = maxPx;
+    function fitTextToBox(el, maxSize, minSize, step) {
+      if (!el) return;
+      el.style.fontSize = maxSize + "px";
+      el.style.transform = "none";
 
-      const fits = () => {
-        return el.scrollHeight <= el.clientHeight + 1 && el.scrollWidth <= el.clientWidth + 1;
-      };
-
-      while (!fits() && size > minPx) {
+      let size = maxSize;
+      const fits = () => el.scrollWidth <= el.clientWidth + 1 && el.scrollHeight <= el.clientHeight + 1;
+      while (size > minSize && !fits()) {
         size -= step;
-        el.style.fontSize = size + "px";
-      }
-
-      if (!fits() && minPx > 8) {
-        el.style.lineHeight = "1.16";
-        size = Math.max(8, minPx - 2);
         el.style.fontSize = size + "px";
       }
     }
 
-    function fitLabelText(label, span, maxPx, minPx) {
-      span.style.fontSize = maxPx + "px";
-      span.style.transform = "scaleX(1)";
-      span.style.letterSpacing = "-0.055em";
-      span.style.lineHeight = "1.02";
-      let size = maxPx;
+    function fitLabelText(label, span, maxSize, minSize) {
+      if (!label || !span) return;
+      span.style.fontSize = maxSize + "px";
+      span.style.transform = "none";
 
-      const fits = () => {
-        return span.scrollWidth <= label.clientWidth + 1 && span.scrollHeight <= label.clientHeight + 1;
-      };
+      let size = maxSize;
+      const fits = () => span.scrollWidth <= label.clientWidth + 1 && span.scrollHeight <= label.clientHeight + 1;
 
-      while (!fits() && size > minPx) {
+      while (size > minSize && !fits()) {
         size -= 0.5;
         span.style.fontSize = size + "px";
       }
@@ -1754,11 +2811,9 @@
     function fitAllText() {
       const stageWidth = stage.clientWidth || 1400;
 
-      // 말풍선: 긴 대화는 10px 근처까지 자동 축소
       const speechMax = Math.min(32, Math.max(18, stageWidth * 0.021));
       fitTextToBox(speechText, speechMax, 10, 1);
 
-      // 약 이름: 한 줄 유지, 작은 화면에서는 축소 + 가로 압축으로 잘림 방지
       labelEls.forEach((label, idx) => {
         const span = labelSpans[idx];
         const labelMax = Math.min(22, Math.max(9, stageWidth * 0.0145));
@@ -1768,13 +2823,12 @@
     }
 
     function loadRound() {
-      const current = gameList[currentIndex];
-
-      // 문항 순서는 무작위, 선택지 위치도 매 문제마다 무작위
-      currentOptions = shuffle([...current.options]);
+      const baseQuestion = gameList[currentIndex];
+      currentRound = buildRound(baseQuestion);
+      currentOptions = [...currentRound.options];
       customerImg.src = pickRandomCustomer();
 
-      speechText.textContent = current.dialogue || current.question;
+      speechText.textContent = currentRound.dialogue || currentRound.question;
       roundEl.textContent = currentIndex + 1;
 
       currentOptions.forEach((option, idx) => {
@@ -1783,7 +2837,7 @@
         hitButtons[idx].setAttribute("aria-label", option);
       });
 
-      locked = answered.has(current.number);
+      locked = answered.has(currentRound.number);
       hideJudge();
       setButtonsEnabled(!locked);
 
@@ -1794,6 +2848,7 @@
       currentIndex += 1;
       if (currentIndex >= totalRounds) {
         finalScore.textContent = score;
+        if (finalTotalEl) finalTotalEl.textContent = totalRounds;
         endPanel.classList.add("show");
         setButtonsEnabled(false);
         return;
@@ -1802,14 +2857,13 @@
     }
 
     function selectMedicine(slotIndex) {
-      if (locked) return;
+      if (locked || !currentRound) return;
 
-      const current = gameList[currentIndex];
       const picked = currentOptions[slotIndex];
 
-      if (picked === current.answer) {
+      if (picked === currentRound.answer) {
         locked = true;
-        answered.add(current.number);
+        answered.add(currentRound.number);
         score += 1;
         scoreEl.textContent = score;
         showJudge("correct");
@@ -1819,38 +2873,29 @@
       }
     }
 
-    function renumberExplanationLine(line, displayIndex) {
+    function getOptionExplanation(option, displayIndex, current) {
       const circledNumbers = ["①", "②", "③", "④", "⑤"];
       const numberMark = circledNumbers[displayIndex] || `${displayIndex + 1}.`;
-      return String(line || "").replace(/^[①②③④⑤]\s*/, `${numberMark} `);
-    }
-
-    function getExplanationInBottleOrder(current) {
-      const explanationByOption = new Map();
-
-      current.options.forEach((option, idx) => {
-        explanationByOption.set(option, current.explanation[idx] || option);
-      });
-
-      return currentOptions.map((option, displayIndex) => {
-        const originalLine = explanationByOption.get(option) || option;
-        return renumberExplanationLine(originalLine, displayIndex);
-      });
+      const judgement = option === current.answer ? "정답" : "오답";
+      const desc = DRUG_INFO[option] || "Word 파일의 약물 설명 표에서 설명을 찾지 못했습니다.";
+      return `${numberMark} ${option} / ${judgement} / ${desc}`;
     }
 
     function openExplanation() {
-      const current = gameList[currentIndex];
+      const current = currentRound;
+      if (!current) return;
+
       popupTitle.textContent = `문항 ${current.number} 해설`;
-      popupSource.textContent = current.source ? `출처: ${current.source}` : "";
+      popupSource.textContent = "";
       popupQuestion.textContent = current.question;
-      popupCore.textContent = current.core ? `핵심 개념: ${current.core}` : "";
-      popupCore.style.display = current.core ? "block" : "none";
-      popupAnswer.textContent = `정답: ${current.answer}`;
+      popupCore.textContent = current.baseExplanation ? `문제 해설: ${current.baseExplanation}` : "";
+      popupCore.style.display = current.baseExplanation ? "block" : "none";
+      popupAnswer.textContent = `이번 정답: ${current.answer}`;
       popupExplanation.innerHTML = "";
 
-      getExplanationInBottleOrder(current).forEach(line => {
+      currentOptions.forEach((option, displayIndex) => {
         const li = document.createElement("li");
-        li.textContent = line;
+        li.textContent = getOptionExplanation(option, displayIndex, current);
         popupExplanation.appendChild(li);
       });
 
@@ -1866,8 +2911,12 @@
       currentIndex = 0;
       score = 0;
       locked = false;
+      currentRound = null;
       answered = new Set();
       scoreEl.textContent = "0";
+      totalEl.textContent = totalRounds;
+      totalRoundEl.textContent = totalRounds;
+      if (finalTotalEl) finalTotalEl.textContent = totalRounds;
       endPanel.classList.remove("show");
       closeExplanation();
       loadRound();
