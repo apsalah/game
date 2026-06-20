@@ -94,18 +94,30 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1.0% 1.6%;
+      padding: 0.72% 1.15%;
       text-align: center;
       font-weight: 900;
-      font-size: clamp(14px, 1.7vw, 30px);
-      line-height: 1.28;
+      font-size: clamp(7px, 1.45cqw, 30px);
+      line-height: 1.16;
       color: #5a3a29;
-      word-break: keep-all;
+      word-break: normal;
       overflow-wrap: anywhere;
       white-space: pre-line;
       pointer-events: none;
       text-shadow: 0 1px 0 rgba(255,255,255,0.55);
       overflow: hidden;
+    }
+
+    .speech-text-inner {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      line-height: 1.16;
+      transform-origin: center center;
+      will-change: transform, font-size;
+      white-space: pre-line;
+      word-break: normal;
+      overflow-wrap: anywhere;
     }
 
     .med-name {
@@ -421,6 +433,18 @@
       font-size: 52px;
       font-weight: 1000;
       color: #249a67;
+    }
+
+
+
+    @media (max-width: 520px) {
+      .speech-text {
+        padding: 0.48% 0.78%;
+        line-height: 1.08;
+      }
+      .speech-text-inner {
+        line-height: 1.08;
+      }
     }
 
     @media (max-width: 900px) {
@@ -2688,6 +2712,10 @@
     let answered = new Set();
     let lastCustomerIndex = -1;
 
+    const speechSpan = document.createElement("span");
+    speechSpan.className = "speech-text-inner";
+    speechText.appendChild(speechSpan);
+
     const labelSpans = labelEls.map(label => {
       const span = document.createElement("span");
       span.className = "med-name-inner";
@@ -2775,16 +2803,32 @@
       return CUSTOMER_IMAGES[idx];
     }
 
-    function fitTextToBox(el, maxSize, minSize, step) {
-      if (!el) return;
-      el.style.fontSize = maxSize + "px";
-      el.style.transform = "none";
+    function fitTextToBox(box, span, maxSize, minSize) {
+      if (!box || !span) return;
 
-      let size = maxSize;
-      const fits = () => el.scrollWidth <= el.clientWidth + 1 && el.scrollHeight <= el.clientHeight + 1;
-      while (size > minSize && !fits()) {
-        size -= step;
-        el.style.fontSize = size + "px";
+      span.style.fontSize = maxSize + "px";
+      span.style.lineHeight = "1.16";
+      span.style.transform = "none";
+
+      const availableWidth = Math.max(1, box.clientWidth - 2);
+      const availableHeight = Math.max(1, box.clientHeight - 2);
+      const fits = () => span.scrollWidth <= availableWidth + 1 && span.scrollHeight <= availableHeight + 1;
+
+      let low = minSize;
+      let high = maxSize;
+      for (let i = 0; i < 14; i++) {
+        const mid = (low + high) / 2;
+        span.style.fontSize = mid + "px";
+        if (fits()) low = mid;
+        else high = mid;
+      }
+      span.style.fontSize = low + "px";
+
+      if (!fits()) {
+        const scaleX = availableWidth / Math.max(1, span.scrollWidth);
+        const scaleY = availableHeight / Math.max(1, span.scrollHeight);
+        const scale = Math.min(1, scaleX, scaleY);
+        span.style.transform = `scale(${scale})`;
       }
     }
 
@@ -2811,8 +2855,9 @@
     function fitAllText() {
       const stageWidth = stage.clientWidth || 1400;
 
-      const speechMax = Math.min(32, Math.max(18, stageWidth * 0.021));
-      fitTextToBox(speechText, speechMax, 10, 1);
+      const speechMax = Math.min(30, Math.max(11, stageWidth * 0.0195));
+      const speechMin = stageWidth < 430 ? 4.8 : stageWidth < 700 ? 6.2 : 8;
+      fitTextToBox(speechText, speechSpan, speechMax, speechMin);
 
       labelEls.forEach((label, idx) => {
         const span = labelSpans[idx];
@@ -2828,7 +2873,7 @@
       currentOptions = [...currentRound.options];
       customerImg.src = pickRandomCustomer();
 
-      speechText.textContent = currentRound.dialogue || currentRound.question;
+      speechSpan.textContent = currentRound.dialogue || currentRound.question;
       roundEl.textContent = currentIndex + 1;
 
       currentOptions.forEach((option, idx) => {
@@ -2841,7 +2886,10 @@
       hideJudge();
       setButtonsEnabled(!locked);
 
-      requestAnimationFrame(fitAllText);
+      requestAnimationFrame(() => {
+        fitAllText();
+        requestAnimationFrame(fitAllText);
+      });
     }
 
     function nextRound() {
